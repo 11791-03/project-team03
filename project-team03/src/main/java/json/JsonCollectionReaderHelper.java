@@ -30,17 +30,19 @@ public class JsonCollectionReaderHelper {
     inputs = Lists.newArrayList();
 
     InputStream stream = getClass().getResourceAsStream(filePath);
-		try {
-			System.out.println("stream " + stream.read());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+    try {
+      System.out.println("stream " + stream.read());
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
 
     if (String.class.isAssignableFrom(filePath.getClass())) {
-      inputs = TestSet
+      List<? extends TestQuestion> gsonQuestions = TestSet
               .load(getClass().getResourceAsStream(
-                      String.class.cast(filePath))).stream()
-              .collect(toList());
+                      String.class.cast(filePath)));
+      for (TestQuestion q : gsonQuestions) {
+        inputs.add(q);
+      }
     } else if (String[].class.isAssignableFrom(filePath.getClass())) {
       inputs = Arrays
               .stream(String[].class.cast(filePath))
@@ -48,7 +50,7 @@ public class JsonCollectionReaderHelper {
                       path -> TestSet.load(
                               getClass().getResourceAsStream(path))
                               .stream()).collect(toList());
-    }  /*
+    }
     // trim question texts
     inputs.stream()
             .filter(input -> input.getBody() != null)
@@ -57,7 +59,6 @@ public class JsonCollectionReaderHelper {
                             .replaceAll("\\s+", " ")));
     System.out.println("concepts");
     System.out.println(inputs.get(0).getConcepts());
-*/
   }
 
   public static void addQuestionToIndex(Question input, String source,
