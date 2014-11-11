@@ -7,13 +7,10 @@ import org.apache.uima.jcas.cas.StringList;
 import org.apache.uima.jcas.cas.TOP;
 import org.apache.uima.jcas.cas.TOP_Type;
 
-/**
- * A query operator in the abstract search query model.
- * Updated by JCasGen Sat Oct 18 19:40:19 EDT 2014
- * XML source: /home/mog/dev/11791/project/project-team03-archetype/src/main/resources/type/OAQATypes.xml
- *
- * @generated
- */
+/** A query operator in the abstract search query model.
+ * Updated by JCasGen Mon Nov 10 20:23:30 EST 2014
+ * XML source: /home/gowayyed/workspace/11791/project-team03/src/main/resources/type/OAQATypes.xml
+ * @generated */
 public class QueryOperator extends TOP {
   /**
    * @generated
@@ -34,17 +31,15 @@ public class QueryOperator extends TOP {
    * @generated
    */
   @Override
-  public int getTypeIndexID() {
-    return typeIndexID;
-  }
-
+  public int getTypeIndexID() {return typeIndexID;}
+ 
   /**
    * Never called.  Disable default constructor
    *
    * @generated
    */
   protected QueryOperator() {/* intentionally empty block */}
-
+    
   /**
    * Internal - constructor used by generator
    *
@@ -56,22 +51,22 @@ public class QueryOperator extends TOP {
     super(addr, type);
     readObject();
   }
-
+  
   /**
    * @param jcas JCas to which this Feature Structure belongs
    * @generated
    */
   public QueryOperator(JCas jcas) {
     super(jcas);
-    readObject();
-  }
+    readObject();   
+  } 
 
-  /**
+  /** 
    * <!-- begin-user-doc -->
    * Write your own initialization here
    * <!-- end-user-doc -->
    *
-   * @generated modifiable
+   * @generated modifiable 
    */
   private void readObject() {/*default - does nothing empty block */}
 
@@ -85,12 +80,10 @@ public class QueryOperator extends TOP {
    * @generated
    */
   public String getName() {
-    if (QueryOperator_Type.featOkTst && ((QueryOperator_Type) jcasType).casFeat_name == null)
+    if (QueryOperator_Type.featOkTst && ((QueryOperator_Type)jcasType).casFeat_name == null)
       jcasType.jcas.throwFeatMissing("name", "edu.cmu.lti.oaqa.type.retrieval.QueryOperator");
-    return jcasType.ll_cas
-            .ll_getStringValue(addr, ((QueryOperator_Type) jcasType).casFeatCode_name);
-  }
-
+    return jcasType.ll_cas.ll_getStringValue(addr, ((QueryOperator_Type)jcasType).casFeatCode_name);}
+    
   /**
    * setter for name - sets The name (kind) of the operator.
    *
@@ -98,11 +91,11 @@ public class QueryOperator extends TOP {
    * @generated
    */
   public void setName(String v) {
-    if (QueryOperator_Type.featOkTst && ((QueryOperator_Type) jcasType).casFeat_name == null)
+    if (QueryOperator_Type.featOkTst && ((QueryOperator_Type)jcasType).casFeat_name == null)
       jcasType.jcas.throwFeatMissing("name", "edu.cmu.lti.oaqa.type.retrieval.QueryOperator");
-    jcasType.ll_cas.ll_setStringValue(addr, ((QueryOperator_Type) jcasType).casFeatCode_name, v);
-  }
-
+    jcasType.ll_cas.ll_setStringValue(addr, ((QueryOperator_Type)jcasType).casFeatCode_name, v);}    
+   
+    
   //*--------------*
   //* Feature: args
 
@@ -113,12 +106,10 @@ public class QueryOperator extends TOP {
    * @generated
    */
   public StringList getArgs() {
-    if (QueryOperator_Type.featOkTst && ((QueryOperator_Type) jcasType).casFeat_args == null)
+    if (QueryOperator_Type.featOkTst && ((QueryOperator_Type)jcasType).casFeat_args == null)
       jcasType.jcas.throwFeatMissing("args", "edu.cmu.lti.oaqa.type.retrieval.QueryOperator");
-    return (StringList) (jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas
-            .ll_getRefValue(addr, ((QueryOperator_Type) jcasType).casFeatCode_args)));
-  }
-
+    return (StringList)(jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas.ll_getRefValue(addr, ((QueryOperator_Type)jcasType).casFeatCode_args)));}
+    
   /**
    * setter for args - sets The arguments for the operator.
    *
@@ -126,11 +117,9 @@ public class QueryOperator extends TOP {
    * @generated
    */
   public void setArgs(StringList v) {
-    if (QueryOperator_Type.featOkTst && ((QueryOperator_Type) jcasType).casFeat_args == null)
+    if (QueryOperator_Type.featOkTst && ((QueryOperator_Type)jcasType).casFeat_args == null)
       jcasType.jcas.throwFeatMissing("args", "edu.cmu.lti.oaqa.type.retrieval.QueryOperator");
-    jcasType.ll_cas.ll_setRefValue(addr, ((QueryOperator_Type) jcasType).casFeatCode_args,
-            jcasType.ll_cas.ll_getFSRef(v));
+    jcasType.ll_cas.ll_setRefValue(addr, ((QueryOperator_Type)jcasType).casFeatCode_args, jcasType.ll_cas.ll_getFSRef(v));}    
   }
-}
 
     

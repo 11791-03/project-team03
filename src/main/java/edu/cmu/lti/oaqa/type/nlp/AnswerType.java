@@ -6,13 +6,10 @@ import org.apache.uima.jcas.JCasRegistry;
 import org.apache.uima.jcas.cas.TOP_Type;
 import org.apache.uima.jcas.tcas.Annotation;
 
-/**
- * A Named Entity type that represents the type of the answer being sought.
- * Updated by JCasGen Sat Oct 18 19:40:19 EDT 2014
- * XML source: /home/mog/dev/11791/project/project-team03-archetype/src/main/resources/type/OAQATypes.xml
- *
- * @generated
- */
+/** A Named Entity type that represents the type of the answer being sought.
+ * Updated by JCasGen Mon Nov 10 20:23:30 EST 2014
+ * XML source: /home/gowayyed/workspace/11791/project-team03/src/main/resources/type/OAQATypes.xml
+ * @generated */
 public class AnswerType extends Annotation {
   /**
    * @generated
@@ -33,17 +30,15 @@ public class AnswerType extends Annotation {
    * @generated
    */
   @Override
-  public int getTypeIndexID() {
-    return typeIndexID;
-  }
-
+  public int getTypeIndexID() {return typeIndexID;}
+ 
   /**
    * Never called.  Disable default constructor
    *
    * @generated
    */
   protected AnswerType() {/* intentionally empty block */}
-
+    
   /**
    * Internal - constructor used by generator
    *
@@ -55,15 +50,15 @@ public class AnswerType extends Annotation {
     super(addr, type);
     readObject();
   }
-
+  
   /**
    * @param jcas JCas to which this Feature Structure belongs
    * @generated
    */
   public AnswerType(JCas jcas) {
     super(jcas);
-    readObject();
-  }
+    readObject();   
+  } 
 
   /**
    * @param jcas  JCas to which this Feature Structure belongs
@@ -76,14 +71,14 @@ public class AnswerType extends Annotation {
     setBegin(begin);
     setEnd(end);
     readObject();
-  }
+  }   
 
-  /**
+  /** 
    * <!-- begin-user-doc -->
    * Write your own initialization here
    * <!-- end-user-doc -->
    *
-   * @generated modifiable
+   * @generated modifiable 
    */
   private void readObject() {/*default - does nothing empty block */}
 
@@ -97,11 +92,10 @@ public class AnswerType extends Annotation {
    * @generated
    */
   public String getLabel() {
-    if (AnswerType_Type.featOkTst && ((AnswerType_Type) jcasType).casFeat_label == null)
+    if (AnswerType_Type.featOkTst && ((AnswerType_Type)jcasType).casFeat_label == null)
       jcasType.jcas.throwFeatMissing("label", "edu.cmu.lti.oaqa.type.nlp.AnswerType");
-    return jcasType.ll_cas.ll_getStringValue(addr, ((AnswerType_Type) jcasType).casFeatCode_label);
-  }
-
+    return jcasType.ll_cas.ll_getStringValue(addr, ((AnswerType_Type)jcasType).casFeatCode_label);}
+    
   /**
    * setter for label - sets An answer type identified for the question.
    *
@@ -109,11 +103,11 @@ public class AnswerType extends Annotation {
    * @generated
    */
   public void setLabel(String v) {
-    if (AnswerType_Type.featOkTst && ((AnswerType_Type) jcasType).casFeat_label == null)
+    if (AnswerType_Type.featOkTst && ((AnswerType_Type)jcasType).casFeat_label == null)
       jcasType.jcas.throwFeatMissing("label", "edu.cmu.lti.oaqa.type.nlp.AnswerType");
-    jcasType.ll_cas.ll_setStringValue(addr, ((AnswerType_Type) jcasType).casFeatCode_label, v);
-  }
-
+    jcasType.ll_cas.ll_setStringValue(addr, ((AnswerType_Type)jcasType).casFeatCode_label, v);}    
+   
+    
   //*--------------*
   //* Feature: targetType
 
@@ -124,12 +118,10 @@ public class AnswerType extends Annotation {
    * @generated
    */
   public Annotation getTargetType() {
-    if (AnswerType_Type.featOkTst && ((AnswerType_Type) jcasType).casFeat_targetType == null)
+    if (AnswerType_Type.featOkTst && ((AnswerType_Type)jcasType).casFeat_targetType == null)
       jcasType.jcas.throwFeatMissing("targetType", "edu.cmu.lti.oaqa.type.nlp.AnswerType");
-    return (Annotation) (jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas
-            .ll_getRefValue(addr, ((AnswerType_Type) jcasType).casFeatCode_targetType)));
-  }
-
+    return (Annotation)(jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas.ll_getRefValue(addr, ((AnswerType_Type)jcasType).casFeatCode_targetType)));}
+    
   /**
    * setter for targetType - sets The actual target type annotation.
    *
@@ -137,11 +129,9 @@ public class AnswerType extends Annotation {
    * @generated
    */
   public void setTargetType(Annotation v) {
-    if (AnswerType_Type.featOkTst && ((AnswerType_Type) jcasType).casFeat_targetType == null)
+    if (AnswerType_Type.featOkTst && ((AnswerType_Type)jcasType).casFeat_targetType == null)
       jcasType.jcas.throwFeatMissing("targetType", "edu.cmu.lti.oaqa.type.nlp.AnswerType");
-    jcasType.ll_cas.ll_setRefValue(addr, ((AnswerType_Type) jcasType).casFeatCode_targetType,
-            jcasType.ll_cas.ll_getFSRef(v));
+    jcasType.ll_cas.ll_setRefValue(addr, ((AnswerType_Type)jcasType).casFeatCode_targetType, jcasType.ll_cas.ll_getFSRef(v));}    
   }
-}
 
     

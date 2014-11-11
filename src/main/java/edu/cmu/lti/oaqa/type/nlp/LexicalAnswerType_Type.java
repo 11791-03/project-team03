@@ -12,41 +12,34 @@ import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.JCasRegistry;
 import org.apache.uima.jcas.tcas.Annotation_Type;
 
-/**
- * The lexical answer type found in the question.
- * Updated by JCasGen Sat Oct 18 19:40:19 EDT 2014
- *
- * @generated
- */
+/** The lexical answer type found in the question.
+ * Updated by JCasGen Mon Nov 10 20:23:30 EST 2014
+ * @generated */
 public class LexicalAnswerType_Type extends Annotation_Type {
   /**
    * @return the generator for this type
    * @generated
    */
   @Override
-  protected FSGenerator getFSGenerator() {
-    return fsGenerator;
-  }
-
+  protected FSGenerator getFSGenerator() {return fsGenerator;}
   /**
    * @generated
    */
-  private final FSGenerator fsGenerator =
-          new FSGenerator() {
-            public FeatureStructure createFS(int addr, CASImpl cas) {
-              if (LexicalAnswerType_Type.this.useExistingInstance) {
-                // Return eq fs instance if already created
-                FeatureStructure fs = LexicalAnswerType_Type.this.jcas.getJfsFromCaddr(addr);
-                if (null == fs) {
-                  fs = new LexicalAnswerType(addr, LexicalAnswerType_Type.this);
-                  LexicalAnswerType_Type.this.jcas.putJfsFromCaddr(addr, fs);
-                  return fs;
-                }
-                return fs;
-              } else
-                return new LexicalAnswerType(addr, LexicalAnswerType_Type.this);
-            }
-          };
+  private final FSGenerator fsGenerator = 
+    new FSGenerator() {
+      public FeatureStructure createFS(int addr, CASImpl cas) {
+  			 if (LexicalAnswerType_Type.this.useExistingInstance) {
+  			   // Return eq fs instance if already created
+  		     FeatureStructure fs = LexicalAnswerType_Type.this.jcas.getJfsFromCaddr(addr);
+  		     if (null == fs) {
+  		       fs = new LexicalAnswerType(addr, LexicalAnswerType_Type.this);
+  			   LexicalAnswerType_Type.this.jcas.putJfsFromCaddr(addr, fs);
+  			   return fs;
+  		     }
+  		     return fs;
+        } else return new LexicalAnswerType(addr, LexicalAnswerType_Type.this);
+  	  }
+    };
 
   /**
    * @generated
@@ -59,8 +52,7 @@ public class LexicalAnswerType_Type extends Annotation_Type {
    * @modifiable
    */
   @SuppressWarnings("hiding")
-  public final static boolean featOkTst = JCasRegistry
-          .getFeatOkTst("edu.cmu.lti.oaqa.type.nlp.LexicalAnswerType");
+  public final static boolean featOkTst = JCasRegistry.getFeatOkTst("edu.cmu.lti.oaqa.type.nlp.LexicalAnswerType");
 
   /**
    * @generated
@@ -78,22 +70,22 @@ public class LexicalAnswerType_Type extends Annotation_Type {
    * @generated
    */
   public int getToken(int addr) {
-    if (featOkTst && casFeat_token == null)
+        if (featOkTst && casFeat_token == null)
       jcas.throwFeatMissing("token", "edu.cmu.lti.oaqa.type.nlp.LexicalAnswerType");
     return ll_cas.ll_getRefValue(addr, casFeatCode_token);
   }
-
   /**
    * @param addr low level Feature Structure reference
    * @param v    value to set
    * @generated
    */
   public void setToken(int addr, int v) {
-    if (featOkTst && casFeat_token == null)
+        if (featOkTst && casFeat_token == null)
       jcas.throwFeatMissing("token", "edu.cmu.lti.oaqa.type.nlp.LexicalAnswerType");
-    ll_cas.ll_setRefValue(addr, casFeatCode_token, v);
-  }
-
+    ll_cas.ll_setRefValue(addr, casFeatCode_token, v);}
+    
+  
+ 
   /**
    * @generated
    */
@@ -110,21 +102,23 @@ public class LexicalAnswerType_Type extends Annotation_Type {
    * @generated
    */
   public String getLabel(int addr) {
-    if (featOkTst && casFeat_label == null)
+        if (featOkTst && casFeat_label == null)
       jcas.throwFeatMissing("label", "edu.cmu.lti.oaqa.type.nlp.LexicalAnswerType");
     return ll_cas.ll_getStringValue(addr, casFeatCode_label);
   }
-
   /**
    * @param addr low level Feature Structure reference
    * @param v    value to set
    * @generated
    */
   public void setLabel(int addr, String v) {
-    if (featOkTst && casFeat_label == null)
+        if (featOkTst && casFeat_label == null)
       jcas.throwFeatMissing("label", "edu.cmu.lti.oaqa.type.nlp.LexicalAnswerType");
-    ll_cas.ll_setStringValue(addr, casFeatCode_label, v);
-  }
+    ll_cas.ll_setStringValue(addr, casFeatCode_label, v);}
+    
+  
+
+
 
   /**
    * initialize variables to correspond with Cas Type and Features
@@ -135,18 +129,15 @@ public class LexicalAnswerType_Type extends Annotation_Type {
    */
   public LexicalAnswerType_Type(JCas jcas, Type casType) {
     super(jcas, casType);
-    casImpl.getFSClassRegistry().addGeneratorForType((TypeImpl) this.casType, getFSGenerator());
+    casImpl.getFSClassRegistry().addGeneratorForType((TypeImpl)this.casType, getFSGenerator());
 
-    casFeat_token = jcas
-            .getRequiredFeatureDE(casType, "token", "edu.cmu.lti.oaqa.type.nlp.Token", featOkTst);
-    casFeatCode_token = (null == casFeat_token) ?
-            JCas.INVALID_FEATURE_CODE :
-            ((FeatureImpl) casFeat_token).getCode();
+ 
+    casFeat_token = jcas.getRequiredFeatureDE(casType, "token", "edu.cmu.lti.oaqa.type.nlp.Token", featOkTst);
+    casFeatCode_token  = (null == casFeat_token) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_token).getCode();
 
+ 
     casFeat_label = jcas.getRequiredFeatureDE(casType, "label", "uima.cas.String", featOkTst);
-    casFeatCode_label = (null == casFeat_label) ?
-            JCas.INVALID_FEATURE_CODE :
-            ((FeatureImpl) casFeat_label).getCode();
+    casFeatCode_label  = (null == casFeat_label) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_label).getCode();
 
   }
 }

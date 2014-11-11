@@ -5,13 +5,10 @@ import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.JCasRegistry;
 import org.apache.uima.jcas.cas.TOP_Type;
 
-/**
- * A passage search result.
- * Updated by JCasGen Sat Oct 18 19:40:19 EDT 2014
- * XML source: /home/mog/dev/11791/project/project-team03-archetype/src/main/resources/type/OAQATypes.xml
- *
- * @generated
- */
+/** A passage search result.
+ * Updated by JCasGen Mon Nov 10 20:23:30 EST 2014
+ * XML source: /home/gowayyed/workspace/11791/project-team03/src/main/resources/type/OAQATypes.xml
+ * @generated */
 public class Passage extends SearchResult {
   /**
    * @generated
@@ -32,17 +29,15 @@ public class Passage extends SearchResult {
    * @generated
    */
   @Override
-  public int getTypeIndexID() {
-    return typeIndexID;
-  }
-
+  public int getTypeIndexID() {return typeIndexID;}
+ 
   /**
    * Never called.  Disable default constructor
    *
    * @generated
    */
   protected Passage() {/* intentionally empty block */}
-
+    
   /**
    * Internal - constructor used by generator
    *
@@ -54,22 +49,22 @@ public class Passage extends SearchResult {
     super(addr, type);
     readObject();
   }
-
+  
   /**
    * @param jcas JCas to which this Feature Structure belongs
    * @generated
    */
   public Passage(JCas jcas) {
     super(jcas);
-    readObject();
-  }
+    readObject();   
+  } 
 
-  /**
+  /** 
    * <!-- begin-user-doc -->
    * Write your own initialization here
    * <!-- end-user-doc -->
    *
-   * @generated modifiable
+   * @generated modifiable 
    */
   private void readObject() {/*default - does nothing empty block */}
 
@@ -83,11 +78,10 @@ public class Passage extends SearchResult {
    * @generated
    */
   public String getTitle() {
-    if (Passage_Type.featOkTst && ((Passage_Type) jcasType).casFeat_title == null)
+    if (Passage_Type.featOkTst && ((Passage_Type)jcasType).casFeat_title == null)
       jcasType.jcas.throwFeatMissing("title", "edu.cmu.lti.oaqa.type.retrieval.Passage");
-    return jcasType.ll_cas.ll_getStringValue(addr, ((Passage_Type) jcasType).casFeatCode_title);
-  }
-
+    return jcasType.ll_cas.ll_getStringValue(addr, ((Passage_Type)jcasType).casFeatCode_title);}
+    
   /**
    * setter for title - sets The title of the document that contains this passage.
    *
@@ -95,11 +89,11 @@ public class Passage extends SearchResult {
    * @generated
    */
   public void setTitle(String v) {
-    if (Passage_Type.featOkTst && ((Passage_Type) jcasType).casFeat_title == null)
+    if (Passage_Type.featOkTst && ((Passage_Type)jcasType).casFeat_title == null)
       jcasType.jcas.throwFeatMissing("title", "edu.cmu.lti.oaqa.type.retrieval.Passage");
-    jcasType.ll_cas.ll_setStringValue(addr, ((Passage_Type) jcasType).casFeatCode_title, v);
-  }
-
+    jcasType.ll_cas.ll_setStringValue(addr, ((Passage_Type)jcasType).casFeatCode_title, v);}    
+   
+    
   //*--------------*
   //* Feature: docId
 
@@ -110,11 +104,10 @@ public class Passage extends SearchResult {
    * @generated
    */
   public String getDocId() {
-    if (Passage_Type.featOkTst && ((Passage_Type) jcasType).casFeat_docId == null)
+    if (Passage_Type.featOkTst && ((Passage_Type)jcasType).casFeat_docId == null)
       jcasType.jcas.throwFeatMissing("docId", "edu.cmu.lti.oaqa.type.retrieval.Passage");
-    return jcasType.ll_cas.ll_getStringValue(addr, ((Passage_Type) jcasType).casFeatCode_docId);
-  }
-
+    return jcasType.ll_cas.ll_getStringValue(addr, ((Passage_Type)jcasType).casFeatCode_docId);}
+    
   /**
    * setter for docId - sets A unique identifier for the document that conatins this passage.
    *
@@ -122,11 +115,11 @@ public class Passage extends SearchResult {
    * @generated
    */
   public void setDocId(String v) {
-    if (Passage_Type.featOkTst && ((Passage_Type) jcasType).casFeat_docId == null)
+    if (Passage_Type.featOkTst && ((Passage_Type)jcasType).casFeat_docId == null)
       jcasType.jcas.throwFeatMissing("docId", "edu.cmu.lti.oaqa.type.retrieval.Passage");
-    jcasType.ll_cas.ll_setStringValue(addr, ((Passage_Type) jcasType).casFeatCode_docId, v);
-  }
-
+    jcasType.ll_cas.ll_setStringValue(addr, ((Passage_Type)jcasType).casFeatCode_docId, v);}    
+   
+    
   //*--------------*
   //* Feature: offsetInBeginSection
 
@@ -137,13 +130,10 @@ public class Passage extends SearchResult {
    * @generated
    */
   public int getOffsetInBeginSection() {
-    if (Passage_Type.featOkTst && ((Passage_Type) jcasType).casFeat_offsetInBeginSection == null)
-      jcasType.jcas
-              .throwFeatMissing("offsetInBeginSection", "edu.cmu.lti.oaqa.type.retrieval.Passage");
-    return jcasType.ll_cas
-            .ll_getIntValue(addr, ((Passage_Type) jcasType).casFeatCode_offsetInBeginSection);
-  }
-
+    if (Passage_Type.featOkTst && ((Passage_Type)jcasType).casFeat_offsetInBeginSection == null)
+      jcasType.jcas.throwFeatMissing("offsetInBeginSection", "edu.cmu.lti.oaqa.type.retrieval.Passage");
+    return jcasType.ll_cas.ll_getIntValue(addr, ((Passage_Type)jcasType).casFeatCode_offsetInBeginSection);}
+    
   /**
    * setter for offsetInBeginSection - sets Character offset of the start of this passage within the section that contains this passage.
    *
@@ -151,13 +141,11 @@ public class Passage extends SearchResult {
    * @generated
    */
   public void setOffsetInBeginSection(int v) {
-    if (Passage_Type.featOkTst && ((Passage_Type) jcasType).casFeat_offsetInBeginSection == null)
-      jcasType.jcas
-              .throwFeatMissing("offsetInBeginSection", "edu.cmu.lti.oaqa.type.retrieval.Passage");
-    jcasType.ll_cas
-            .ll_setIntValue(addr, ((Passage_Type) jcasType).casFeatCode_offsetInBeginSection, v);
-  }
-
+    if (Passage_Type.featOkTst && ((Passage_Type)jcasType).casFeat_offsetInBeginSection == null)
+      jcasType.jcas.throwFeatMissing("offsetInBeginSection", "edu.cmu.lti.oaqa.type.retrieval.Passage");
+    jcasType.ll_cas.ll_setIntValue(addr, ((Passage_Type)jcasType).casFeatCode_offsetInBeginSection, v);}    
+   
+    
   //*--------------*
   //* Feature: offsetInEndSection
 
@@ -168,13 +156,10 @@ public class Passage extends SearchResult {
    * @generated
    */
   public int getOffsetInEndSection() {
-    if (Passage_Type.featOkTst && ((Passage_Type) jcasType).casFeat_offsetInEndSection == null)
-      jcasType.jcas
-              .throwFeatMissing("offsetInEndSection", "edu.cmu.lti.oaqa.type.retrieval.Passage");
-    return jcasType.ll_cas
-            .ll_getIntValue(addr, ((Passage_Type) jcasType).casFeatCode_offsetInEndSection);
-  }
-
+    if (Passage_Type.featOkTst && ((Passage_Type)jcasType).casFeat_offsetInEndSection == null)
+      jcasType.jcas.throwFeatMissing("offsetInEndSection", "edu.cmu.lti.oaqa.type.retrieval.Passage");
+    return jcasType.ll_cas.ll_getIntValue(addr, ((Passage_Type)jcasType).casFeatCode_offsetInEndSection);}
+    
   /**
    * setter for offsetInEndSection - sets Character offset of the end of this passage within the section that contains this passage.
    *
@@ -182,13 +167,11 @@ public class Passage extends SearchResult {
    * @generated
    */
   public void setOffsetInEndSection(int v) {
-    if (Passage_Type.featOkTst && ((Passage_Type) jcasType).casFeat_offsetInEndSection == null)
-      jcasType.jcas
-              .throwFeatMissing("offsetInEndSection", "edu.cmu.lti.oaqa.type.retrieval.Passage");
-    jcasType.ll_cas
-            .ll_setIntValue(addr, ((Passage_Type) jcasType).casFeatCode_offsetInEndSection, v);
-  }
-
+    if (Passage_Type.featOkTst && ((Passage_Type)jcasType).casFeat_offsetInEndSection == null)
+      jcasType.jcas.throwFeatMissing("offsetInEndSection", "edu.cmu.lti.oaqa.type.retrieval.Passage");
+    jcasType.ll_cas.ll_setIntValue(addr, ((Passage_Type)jcasType).casFeatCode_offsetInEndSection, v);}    
+   
+    
   //*--------------*
   //* Feature: beginSection
 
@@ -199,12 +182,10 @@ public class Passage extends SearchResult {
    * @generated
    */
   public String getBeginSection() {
-    if (Passage_Type.featOkTst && ((Passage_Type) jcasType).casFeat_beginSection == null)
+    if (Passage_Type.featOkTst && ((Passage_Type)jcasType).casFeat_beginSection == null)
       jcasType.jcas.throwFeatMissing("beginSection", "edu.cmu.lti.oaqa.type.retrieval.Passage");
-    return jcasType.ll_cas
-            .ll_getStringValue(addr, ((Passage_Type) jcasType).casFeatCode_beginSection);
-  }
-
+    return jcasType.ll_cas.ll_getStringValue(addr, ((Passage_Type)jcasType).casFeatCode_beginSection);}
+    
   /**
    * setter for beginSection - sets The start section of this passage within the document that contains this passage.
    *
@@ -212,11 +193,11 @@ public class Passage extends SearchResult {
    * @generated
    */
   public void setBeginSection(String v) {
-    if (Passage_Type.featOkTst && ((Passage_Type) jcasType).casFeat_beginSection == null)
+    if (Passage_Type.featOkTst && ((Passage_Type)jcasType).casFeat_beginSection == null)
       jcasType.jcas.throwFeatMissing("beginSection", "edu.cmu.lti.oaqa.type.retrieval.Passage");
-    jcasType.ll_cas.ll_setStringValue(addr, ((Passage_Type) jcasType).casFeatCode_beginSection, v);
-  }
-
+    jcasType.ll_cas.ll_setStringValue(addr, ((Passage_Type)jcasType).casFeatCode_beginSection, v);}    
+   
+    
   //*--------------*
   //* Feature: endSection
 
@@ -227,12 +208,10 @@ public class Passage extends SearchResult {
    * @generated
    */
   public String getEndSection() {
-    if (Passage_Type.featOkTst && ((Passage_Type) jcasType).casFeat_endSection == null)
+    if (Passage_Type.featOkTst && ((Passage_Type)jcasType).casFeat_endSection == null)
       jcasType.jcas.throwFeatMissing("endSection", "edu.cmu.lti.oaqa.type.retrieval.Passage");
-    return jcasType.ll_cas
-            .ll_getStringValue(addr, ((Passage_Type) jcasType).casFeatCode_endSection);
-  }
-
+    return jcasType.ll_cas.ll_getStringValue(addr, ((Passage_Type)jcasType).casFeatCode_endSection);}
+    
   /**
    * setter for endSection - sets The end section of this passage within the document that contains this passage.
    *
@@ -240,11 +219,11 @@ public class Passage extends SearchResult {
    * @generated
    */
   public void setEndSection(String v) {
-    if (Passage_Type.featOkTst && ((Passage_Type) jcasType).casFeat_endSection == null)
+    if (Passage_Type.featOkTst && ((Passage_Type)jcasType).casFeat_endSection == null)
       jcasType.jcas.throwFeatMissing("endSection", "edu.cmu.lti.oaqa.type.retrieval.Passage");
-    jcasType.ll_cas.ll_setStringValue(addr, ((Passage_Type) jcasType).casFeatCode_endSection, v);
-  }
-
+    jcasType.ll_cas.ll_setStringValue(addr, ((Passage_Type)jcasType).casFeatCode_endSection, v);}    
+   
+    
   //*--------------*
   //* Feature: aspects
 
@@ -255,11 +234,10 @@ public class Passage extends SearchResult {
    * @generated
    */
   public String getAspects() {
-    if (Passage_Type.featOkTst && ((Passage_Type) jcasType).casFeat_aspects == null)
+    if (Passage_Type.featOkTst && ((Passage_Type)jcasType).casFeat_aspects == null)
       jcasType.jcas.throwFeatMissing("aspects", "edu.cmu.lti.oaqa.type.retrieval.Passage");
-    return jcasType.ll_cas.ll_getStringValue(addr, ((Passage_Type) jcasType).casFeatCode_aspects);
-  }
-
+    return jcasType.ll_cas.ll_getStringValue(addr, ((Passage_Type)jcasType).casFeatCode_aspects);}
+    
   /**
    * setter for aspects - sets Aspects of the gold standard passage.
    *
@@ -267,10 +245,9 @@ public class Passage extends SearchResult {
    * @generated
    */
   public void setAspects(String v) {
-    if (Passage_Type.featOkTst && ((Passage_Type) jcasType).casFeat_aspects == null)
+    if (Passage_Type.featOkTst && ((Passage_Type)jcasType).casFeat_aspects == null)
       jcasType.jcas.throwFeatMissing("aspects", "edu.cmu.lti.oaqa.type.retrieval.Passage");
-    jcasType.ll_cas.ll_setStringValue(addr, ((Passage_Type) jcasType).casFeatCode_aspects, v);
+    jcasType.ll_cas.ll_setStringValue(addr, ((Passage_Type)jcasType).casFeatCode_aspects, v);}    
   }
-}
 
     

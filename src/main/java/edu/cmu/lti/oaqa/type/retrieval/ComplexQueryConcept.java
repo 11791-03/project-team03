@@ -6,13 +6,10 @@ import org.apache.uima.jcas.JCasRegistry;
 import org.apache.uima.jcas.cas.FSList;
 import org.apache.uima.jcas.cas.TOP_Type;
 
-/**
- * A hierarchical query concept represented by a query operation on a list of concepts
- * Updated by JCasGen Sat Oct 18 19:40:19 EDT 2014
- * XML source: /home/mog/dev/11791/project/project-team03-archetype/src/main/resources/type/OAQATypes.xml
- *
- * @generated
- */
+/** A hierarchical query concept represented by a query operation on a list of concepts
+ * Updated by JCasGen Mon Nov 10 20:23:30 EST 2014
+ * XML source: /home/gowayyed/workspace/11791/project-team03/src/main/resources/type/OAQATypes.xml
+ * @generated */
 public class ComplexQueryConcept extends QueryConcept {
   /**
    * @generated
@@ -33,17 +30,15 @@ public class ComplexQueryConcept extends QueryConcept {
    * @generated
    */
   @Override
-  public int getTypeIndexID() {
-    return typeIndexID;
-  }
-
+  public int getTypeIndexID() {return typeIndexID;}
+ 
   /**
    * Never called.  Disable default constructor
    *
    * @generated
    */
   protected ComplexQueryConcept() {/* intentionally empty block */}
-
+    
   /**
    * Internal - constructor used by generator
    *
@@ -55,22 +50,22 @@ public class ComplexQueryConcept extends QueryConcept {
     super(addr, type);
     readObject();
   }
-
+  
   /**
    * @param jcas JCas to which this Feature Structure belongs
    * @generated
    */
   public ComplexQueryConcept(JCas jcas) {
     super(jcas);
-    readObject();
-  }
+    readObject();   
+  } 
 
-  /**
+  /** 
    * <!-- begin-user-doc -->
    * Write your own initialization here
    * <!-- end-user-doc -->
    *
-   * @generated modifiable
+   * @generated modifiable 
    */
   private void readObject() {/*default - does nothing empty block */}
 
@@ -84,14 +79,10 @@ public class ComplexQueryConcept extends QueryConcept {
    * @generated
    */
   public QueryOperator getOperator() {
-    if (ComplexQueryConcept_Type.featOkTst &&
-            ((ComplexQueryConcept_Type) jcasType).casFeat_operator == null)
-      jcasType.jcas
-              .throwFeatMissing("operator", "edu.cmu.lti.oaqa.type.retrieval.ComplexQueryConcept");
-    return (QueryOperator) (jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas
-            .ll_getRefValue(addr, ((ComplexQueryConcept_Type) jcasType).casFeatCode_operator)));
-  }
-
+    if (ComplexQueryConcept_Type.featOkTst && ((ComplexQueryConcept_Type)jcasType).casFeat_operator == null)
+      jcasType.jcas.throwFeatMissing("operator", "edu.cmu.lti.oaqa.type.retrieval.ComplexQueryConcept");
+    return (QueryOperator)(jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas.ll_getRefValue(addr, ((ComplexQueryConcept_Type)jcasType).casFeatCode_operator)));}
+    
   /**
    * setter for operator - sets The operator associated with this concept.
    *
@@ -99,14 +90,11 @@ public class ComplexQueryConcept extends QueryConcept {
    * @generated
    */
   public void setOperator(QueryOperator v) {
-    if (ComplexQueryConcept_Type.featOkTst &&
-            ((ComplexQueryConcept_Type) jcasType).casFeat_operator == null)
-      jcasType.jcas
-              .throwFeatMissing("operator", "edu.cmu.lti.oaqa.type.retrieval.ComplexQueryConcept");
-    jcasType.ll_cas.ll_setRefValue(addr, ((ComplexQueryConcept_Type) jcasType).casFeatCode_operator,
-            jcasType.ll_cas.ll_getFSRef(v));
-  }
-
+    if (ComplexQueryConcept_Type.featOkTst && ((ComplexQueryConcept_Type)jcasType).casFeat_operator == null)
+      jcasType.jcas.throwFeatMissing("operator", "edu.cmu.lti.oaqa.type.retrieval.ComplexQueryConcept");
+    jcasType.ll_cas.ll_setRefValue(addr, ((ComplexQueryConcept_Type)jcasType).casFeatCode_operator, jcasType.ll_cas.ll_getFSRef(v));}    
+   
+    
   //*--------------*
   //* Feature: operatorArgs
 
@@ -117,14 +105,10 @@ public class ComplexQueryConcept extends QueryConcept {
    * @generated
    */
   public FSList getOperatorArgs() {
-    if (ComplexQueryConcept_Type.featOkTst &&
-            ((ComplexQueryConcept_Type) jcasType).casFeat_operatorArgs == null)
-      jcasType.jcas.throwFeatMissing("operatorArgs",
-              "edu.cmu.lti.oaqa.type.retrieval.ComplexQueryConcept");
-    return (FSList) (jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas
-            .ll_getRefValue(addr, ((ComplexQueryConcept_Type) jcasType).casFeatCode_operatorArgs)));
-  }
-
+    if (ComplexQueryConcept_Type.featOkTst && ((ComplexQueryConcept_Type)jcasType).casFeat_operatorArgs == null)
+      jcasType.jcas.throwFeatMissing("operatorArgs", "edu.cmu.lti.oaqa.type.retrieval.ComplexQueryConcept");
+    return (FSList)(jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas.ll_getRefValue(addr, ((ComplexQueryConcept_Type)jcasType).casFeatCode_operatorArgs)));}
+    
   /**
    * setter for operatorArgs - sets The operator arguments in a complex query concept.
    *
@@ -132,14 +116,9 @@ public class ComplexQueryConcept extends QueryConcept {
    * @generated
    */
   public void setOperatorArgs(FSList v) {
-    if (ComplexQueryConcept_Type.featOkTst &&
-            ((ComplexQueryConcept_Type) jcasType).casFeat_operatorArgs == null)
-      jcasType.jcas.throwFeatMissing("operatorArgs",
-              "edu.cmu.lti.oaqa.type.retrieval.ComplexQueryConcept");
-    jcasType.ll_cas
-            .ll_setRefValue(addr, ((ComplexQueryConcept_Type) jcasType).casFeatCode_operatorArgs,
-                    jcasType.ll_cas.ll_getFSRef(v));
+    if (ComplexQueryConcept_Type.featOkTst && ((ComplexQueryConcept_Type)jcasType).casFeat_operatorArgs == null)
+      jcasType.jcas.throwFeatMissing("operatorArgs", "edu.cmu.lti.oaqa.type.retrieval.ComplexQueryConcept");
+    jcasType.ll_cas.ll_setRefValue(addr, ((ComplexQueryConcept_Type)jcasType).casFeatCode_operatorArgs, jcasType.ll_cas.ll_getFSRef(v));}    
   }
-}
 
     

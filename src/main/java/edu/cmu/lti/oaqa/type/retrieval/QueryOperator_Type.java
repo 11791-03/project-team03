@@ -12,41 +12,34 @@ import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.JCasRegistry;
 import org.apache.uima.jcas.cas.TOP_Type;
 
-/**
- * A query operator in the abstract search query model.
- * Updated by JCasGen Sat Oct 18 19:40:19 EDT 2014
- *
- * @generated
- */
+/** A query operator in the abstract search query model.
+ * Updated by JCasGen Mon Nov 10 20:23:30 EST 2014
+ * @generated */
 public class QueryOperator_Type extends TOP_Type {
   /**
    * @return the generator for this type
    * @generated
    */
   @Override
-  protected FSGenerator getFSGenerator() {
-    return fsGenerator;
-  }
-
+  protected FSGenerator getFSGenerator() {return fsGenerator;}
   /**
    * @generated
    */
-  private final FSGenerator fsGenerator =
-          new FSGenerator() {
-            public FeatureStructure createFS(int addr, CASImpl cas) {
-              if (QueryOperator_Type.this.useExistingInstance) {
-                // Return eq fs instance if already created
-                FeatureStructure fs = QueryOperator_Type.this.jcas.getJfsFromCaddr(addr);
-                if (null == fs) {
-                  fs = new QueryOperator(addr, QueryOperator_Type.this);
-                  QueryOperator_Type.this.jcas.putJfsFromCaddr(addr, fs);
-                  return fs;
-                }
-                return fs;
-              } else
-                return new QueryOperator(addr, QueryOperator_Type.this);
-            }
-          };
+  private final FSGenerator fsGenerator = 
+    new FSGenerator() {
+      public FeatureStructure createFS(int addr, CASImpl cas) {
+  			 if (QueryOperator_Type.this.useExistingInstance) {
+  			   // Return eq fs instance if already created
+  		     FeatureStructure fs = QueryOperator_Type.this.jcas.getJfsFromCaddr(addr);
+  		     if (null == fs) {
+  		       fs = new QueryOperator(addr, QueryOperator_Type.this);
+  			   QueryOperator_Type.this.jcas.putJfsFromCaddr(addr, fs);
+  			   return fs;
+  		     }
+  		     return fs;
+        } else return new QueryOperator(addr, QueryOperator_Type.this);
+  	  }
+    };
 
   /**
    * @generated
@@ -59,8 +52,7 @@ public class QueryOperator_Type extends TOP_Type {
    * @modifiable
    */
   @SuppressWarnings("hiding")
-  public final static boolean featOkTst = JCasRegistry
-          .getFeatOkTst("edu.cmu.lti.oaqa.type.retrieval.QueryOperator");
+  public final static boolean featOkTst = JCasRegistry.getFeatOkTst("edu.cmu.lti.oaqa.type.retrieval.QueryOperator");
 
   /**
    * @generated
@@ -78,22 +70,22 @@ public class QueryOperator_Type extends TOP_Type {
    * @generated
    */
   public String getName(int addr) {
-    if (featOkTst && casFeat_name == null)
+        if (featOkTst && casFeat_name == null)
       jcas.throwFeatMissing("name", "edu.cmu.lti.oaqa.type.retrieval.QueryOperator");
     return ll_cas.ll_getStringValue(addr, casFeatCode_name);
   }
-
   /**
    * @param addr low level Feature Structure reference
    * @param v    value to set
    * @generated
    */
   public void setName(int addr, String v) {
-    if (featOkTst && casFeat_name == null)
+        if (featOkTst && casFeat_name == null)
       jcas.throwFeatMissing("name", "edu.cmu.lti.oaqa.type.retrieval.QueryOperator");
-    ll_cas.ll_setStringValue(addr, casFeatCode_name, v);
-  }
-
+    ll_cas.ll_setStringValue(addr, casFeatCode_name, v);}
+    
+  
+ 
   /**
    * @generated
    */
@@ -110,21 +102,23 @@ public class QueryOperator_Type extends TOP_Type {
    * @generated
    */
   public int getArgs(int addr) {
-    if (featOkTst && casFeat_args == null)
+        if (featOkTst && casFeat_args == null)
       jcas.throwFeatMissing("args", "edu.cmu.lti.oaqa.type.retrieval.QueryOperator");
     return ll_cas.ll_getRefValue(addr, casFeatCode_args);
   }
-
   /**
    * @param addr low level Feature Structure reference
    * @param v    value to set
    * @generated
    */
   public void setArgs(int addr, int v) {
-    if (featOkTst && casFeat_args == null)
+        if (featOkTst && casFeat_args == null)
       jcas.throwFeatMissing("args", "edu.cmu.lti.oaqa.type.retrieval.QueryOperator");
-    ll_cas.ll_setRefValue(addr, casFeatCode_args, v);
-  }
+    ll_cas.ll_setRefValue(addr, casFeatCode_args, v);}
+    
+  
+
+
 
   /**
    * initialize variables to correspond with Cas Type and Features
@@ -135,18 +129,15 @@ public class QueryOperator_Type extends TOP_Type {
    */
   public QueryOperator_Type(JCas jcas, Type casType) {
     super(jcas, casType);
-    casImpl.getFSClassRegistry().addGeneratorForType((TypeImpl) this.casType, getFSGenerator());
+    casImpl.getFSClassRegistry().addGeneratorForType((TypeImpl)this.casType, getFSGenerator());
 
-    casFeat_name = jcas.getRequiredFeatureDE(casType, "name",
-            "edu.cmu.lti.oaqa.type.retrieval.QueryOperatorName", featOkTst);
-    casFeatCode_name = (null == casFeat_name) ?
-            JCas.INVALID_FEATURE_CODE :
-            ((FeatureImpl) casFeat_name).getCode();
+ 
+    casFeat_name = jcas.getRequiredFeatureDE(casType, "name", "edu.cmu.lti.oaqa.type.retrieval.QueryOperatorName", featOkTst);
+    casFeatCode_name  = (null == casFeat_name) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_name).getCode();
 
+ 
     casFeat_args = jcas.getRequiredFeatureDE(casType, "args", "uima.cas.StringList", featOkTst);
-    casFeatCode_args = (null == casFeat_args) ?
-            JCas.INVALID_FEATURE_CODE :
-            ((FeatureImpl) casFeat_args).getCode();
+    casFeatCode_args  = (null == casFeat_args) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_args).getCode();
 
   }
 }

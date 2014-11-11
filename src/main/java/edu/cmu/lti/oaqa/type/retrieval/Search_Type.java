@@ -12,41 +12,34 @@ import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.JCasRegistry;
 import org.apache.uima.jcas.cas.TOP_Type;
 
-/**
- * An object that holds a query and results for a search (text search, fact search, KB search, etc.)
- * Updated by JCasGen Sat Oct 18 19:40:19 EDT 2014
- *
- * @generated
- */
+/** An object that holds a query and results for a search (text search, fact search, KB search, etc.)
+ * Updated by JCasGen Mon Nov 10 20:23:30 EST 2014
+ * @generated */
 public class Search_Type extends TOP_Type {
   /**
    * @return the generator for this type
    * @generated
    */
   @Override
-  protected FSGenerator getFSGenerator() {
-    return fsGenerator;
-  }
-
+  protected FSGenerator getFSGenerator() {return fsGenerator;}
   /**
    * @generated
    */
-  private final FSGenerator fsGenerator =
-          new FSGenerator() {
-            public FeatureStructure createFS(int addr, CASImpl cas) {
-              if (Search_Type.this.useExistingInstance) {
-                // Return eq fs instance if already created
-                FeatureStructure fs = Search_Type.this.jcas.getJfsFromCaddr(addr);
-                if (null == fs) {
-                  fs = new Search(addr, Search_Type.this);
-                  Search_Type.this.jcas.putJfsFromCaddr(addr, fs);
-                  return fs;
-                }
-                return fs;
-              } else
-                return new Search(addr, Search_Type.this);
-            }
-          };
+  private final FSGenerator fsGenerator = 
+    new FSGenerator() {
+      public FeatureStructure createFS(int addr, CASImpl cas) {
+  			 if (Search_Type.this.useExistingInstance) {
+  			   // Return eq fs instance if already created
+  		     FeatureStructure fs = Search_Type.this.jcas.getJfsFromCaddr(addr);
+  		     if (null == fs) {
+  		       fs = new Search(addr, Search_Type.this);
+  			   Search_Type.this.jcas.putJfsFromCaddr(addr, fs);
+  			   return fs;
+  		     }
+  		     return fs;
+        } else return new Search(addr, Search_Type.this);
+  	  }
+    };
 
   /**
    * @generated
@@ -59,8 +52,7 @@ public class Search_Type extends TOP_Type {
    * @modifiable
    */
   @SuppressWarnings("hiding")
-  public final static boolean featOkTst = JCasRegistry
-          .getFeatOkTst("edu.cmu.lti.oaqa.type.retrieval.Search");
+  public final static boolean featOkTst = JCasRegistry.getFeatOkTst("edu.cmu.lti.oaqa.type.retrieval.Search");
 
   /**
    * @generated
@@ -78,22 +70,22 @@ public class Search_Type extends TOP_Type {
    * @generated
    */
   public String getQuery(int addr) {
-    if (featOkTst && casFeat_query == null)
+        if (featOkTst && casFeat_query == null)
       jcas.throwFeatMissing("query", "edu.cmu.lti.oaqa.type.retrieval.Search");
     return ll_cas.ll_getStringValue(addr, casFeatCode_query);
   }
-
   /**
    * @param addr low level Feature Structure reference
    * @param v    value to set
    * @generated
    */
   public void setQuery(int addr, String v) {
-    if (featOkTst && casFeat_query == null)
+        if (featOkTst && casFeat_query == null)
       jcas.throwFeatMissing("query", "edu.cmu.lti.oaqa.type.retrieval.Search");
-    ll_cas.ll_setStringValue(addr, casFeatCode_query, v);
-  }
-
+    ll_cas.ll_setStringValue(addr, casFeatCode_query, v);}
+    
+  
+ 
   /**
    * @generated
    */
@@ -110,22 +102,20 @@ public class Search_Type extends TOP_Type {
    * @generated
    */
   public int getHitList(int addr) {
-    if (featOkTst && casFeat_hitList == null)
+        if (featOkTst && casFeat_hitList == null)
       jcas.throwFeatMissing("hitList", "edu.cmu.lti.oaqa.type.retrieval.Search");
     return ll_cas.ll_getRefValue(addr, casFeatCode_hitList);
   }
-
   /**
    * @param addr low level Feature Structure reference
    * @param v    value to set
    * @generated
    */
   public void setHitList(int addr, int v) {
-    if (featOkTst && casFeat_hitList == null)
+        if (featOkTst && casFeat_hitList == null)
       jcas.throwFeatMissing("hitList", "edu.cmu.lti.oaqa.type.retrieval.Search");
-    ll_cas.ll_setRefValue(addr, casFeatCode_hitList, v);
-  }
-
+    ll_cas.ll_setRefValue(addr, casFeatCode_hitList, v);}
+    
   /**
    * @param addr low level Feature Structure reference
    * @param i    index of item in the array
@@ -133,14 +123,14 @@ public class Search_Type extends TOP_Type {
    * @generated
    */
   public int getHitList(int addr, int i) {
-    if (featOkTst && casFeat_hitList == null)
+        if (featOkTst && casFeat_hitList == null)
       jcas.throwFeatMissing("hitList", "edu.cmu.lti.oaqa.type.retrieval.Search");
     if (lowLevelTypeChecks)
       return ll_cas.ll_getRefArrayValue(ll_cas.ll_getRefValue(addr, casFeatCode_hitList), i, true);
     jcas.checkArrayBounds(ll_cas.ll_getRefValue(addr, casFeatCode_hitList), i);
-    return ll_cas.ll_getRefArrayValue(ll_cas.ll_getRefValue(addr, casFeatCode_hitList), i);
+  return ll_cas.ll_getRefArrayValue(ll_cas.ll_getRefValue(addr, casFeatCode_hitList), i);
   }
-
+   
   /**
    * @param addr low level Feature Structure reference
    * @param i    index of item in the array
@@ -148,14 +138,15 @@ public class Search_Type extends TOP_Type {
    * @generated
    */
   public void setHitList(int addr, int i, int v) {
-    if (featOkTst && casFeat_hitList == null)
+        if (featOkTst && casFeat_hitList == null)
       jcas.throwFeatMissing("hitList", "edu.cmu.lti.oaqa.type.retrieval.Search");
     if (lowLevelTypeChecks)
       ll_cas.ll_setRefArrayValue(ll_cas.ll_getRefValue(addr, casFeatCode_hitList), i, v, true);
     jcas.checkArrayBounds(ll_cas.ll_getRefValue(addr, casFeatCode_hitList), i);
     ll_cas.ll_setRefArrayValue(ll_cas.ll_getRefValue(addr, casFeatCode_hitList), i, v);
   }
-
+ 
+ 
   /**
    * @generated
    */
@@ -172,22 +163,22 @@ public class Search_Type extends TOP_Type {
    * @generated
    */
   public int getAbstractQuery(int addr) {
-    if (featOkTst && casFeat_abstractQuery == null)
+        if (featOkTst && casFeat_abstractQuery == null)
       jcas.throwFeatMissing("abstractQuery", "edu.cmu.lti.oaqa.type.retrieval.Search");
     return ll_cas.ll_getRefValue(addr, casFeatCode_abstractQuery);
   }
-
   /**
    * @param addr low level Feature Structure reference
    * @param v    value to set
    * @generated
    */
   public void setAbstractQuery(int addr, int v) {
-    if (featOkTst && casFeat_abstractQuery == null)
+        if (featOkTst && casFeat_abstractQuery == null)
       jcas.throwFeatMissing("abstractQuery", "edu.cmu.lti.oaqa.type.retrieval.Search");
-    ll_cas.ll_setRefValue(addr, casFeatCode_abstractQuery, v);
-  }
-
+    ll_cas.ll_setRefValue(addr, casFeatCode_abstractQuery, v);}
+    
+  
+ 
   /**
    * @generated
    */
@@ -204,21 +195,23 @@ public class Search_Type extends TOP_Type {
    * @generated
    */
   public String getSearchId(int addr) {
-    if (featOkTst && casFeat_searchId == null)
+        if (featOkTst && casFeat_searchId == null)
       jcas.throwFeatMissing("searchId", "edu.cmu.lti.oaqa.type.retrieval.Search");
     return ll_cas.ll_getStringValue(addr, casFeatCode_searchId);
   }
-
   /**
    * @param addr low level Feature Structure reference
    * @param v    value to set
    * @generated
    */
   public void setSearchId(int addr, String v) {
-    if (featOkTst && casFeat_searchId == null)
+        if (featOkTst && casFeat_searchId == null)
       jcas.throwFeatMissing("searchId", "edu.cmu.lti.oaqa.type.retrieval.Search");
-    ll_cas.ll_setStringValue(addr, casFeatCode_searchId, v);
-  }
+    ll_cas.ll_setStringValue(addr, casFeatCode_searchId, v);}
+    
+  
+
+
 
   /**
    * initialize variables to correspond with Cas Type and Features
@@ -229,28 +222,23 @@ public class Search_Type extends TOP_Type {
    */
   public Search_Type(JCas jcas, Type casType) {
     super(jcas, casType);
-    casImpl.getFSClassRegistry().addGeneratorForType((TypeImpl) this.casType, getFSGenerator());
+    casImpl.getFSClassRegistry().addGeneratorForType((TypeImpl)this.casType, getFSGenerator());
 
+ 
     casFeat_query = jcas.getRequiredFeatureDE(casType, "query", "uima.cas.String", featOkTst);
-    casFeatCode_query = (null == casFeat_query) ?
-            JCas.INVALID_FEATURE_CODE :
-            ((FeatureImpl) casFeat_query).getCode();
+    casFeatCode_query  = (null == casFeat_query) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_query).getCode();
 
+ 
     casFeat_hitList = jcas.getRequiredFeatureDE(casType, "hitList", "uima.cas.FSArray", featOkTst);
-    casFeatCode_hitList = (null == casFeat_hitList) ?
-            JCas.INVALID_FEATURE_CODE :
-            ((FeatureImpl) casFeat_hitList).getCode();
+    casFeatCode_hitList  = (null == casFeat_hitList) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_hitList).getCode();
 
-    casFeat_abstractQuery = jcas.getRequiredFeatureDE(casType, "abstractQuery",
-            "edu.cmu.lti.oaqa.type.retrieval.AbstractQuery", featOkTst);
-    casFeatCode_abstractQuery = (null == casFeat_abstractQuery) ?
-            JCas.INVALID_FEATURE_CODE :
-            ((FeatureImpl) casFeat_abstractQuery).getCode();
+ 
+    casFeat_abstractQuery = jcas.getRequiredFeatureDE(casType, "abstractQuery", "edu.cmu.lti.oaqa.type.retrieval.AbstractQuery", featOkTst);
+    casFeatCode_abstractQuery  = (null == casFeat_abstractQuery) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_abstractQuery).getCode();
 
+ 
     casFeat_searchId = jcas.getRequiredFeatureDE(casType, "searchId", "uima.cas.String", featOkTst);
-    casFeatCode_searchId = (null == casFeat_searchId) ?
-            JCas.INVALID_FEATURE_CODE :
-            ((FeatureImpl) casFeat_searchId).getCode();
+    casFeatCode_searchId  = (null == casFeat_searchId) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_searchId).getCode();
 
   }
 }

@@ -11,41 +11,34 @@ import org.apache.uima.cas.impl.TypeImpl;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.JCasRegistry;
 
-/**
- * A passage search result that was the result of a search from the subject and object of a triple
- * Updated by JCasGen Sat Oct 18 19:40:19 EDT 2014
- *
- * @generated
- */
+/** A passage search result that was the result of a search from the subject and object of a triple
+ * Updated by JCasGen Mon Nov 10 20:23:30 EST 2014
+ * @generated */
 public class PassageFromRelation_Type extends Passage_Type {
   /**
    * @return the generator for this type
    * @generated
    */
   @Override
-  protected FSGenerator getFSGenerator() {
-    return fsGenerator;
-  }
-
+  protected FSGenerator getFSGenerator() {return fsGenerator;}
   /**
    * @generated
    */
-  private final FSGenerator fsGenerator =
-          new FSGenerator() {
-            public FeatureStructure createFS(int addr, CASImpl cas) {
-              if (PassageFromRelation_Type.this.useExistingInstance) {
-                // Return eq fs instance if already created
-                FeatureStructure fs = PassageFromRelation_Type.this.jcas.getJfsFromCaddr(addr);
-                if (null == fs) {
-                  fs = new PassageFromRelation(addr, PassageFromRelation_Type.this);
-                  PassageFromRelation_Type.this.jcas.putJfsFromCaddr(addr, fs);
-                  return fs;
-                }
-                return fs;
-              } else
-                return new PassageFromRelation(addr, PassageFromRelation_Type.this);
-            }
-          };
+  private final FSGenerator fsGenerator = 
+    new FSGenerator() {
+      public FeatureStructure createFS(int addr, CASImpl cas) {
+  			 if (PassageFromRelation_Type.this.useExistingInstance) {
+  			   // Return eq fs instance if already created
+  		     FeatureStructure fs = PassageFromRelation_Type.this.jcas.getJfsFromCaddr(addr);
+  		     if (null == fs) {
+  		       fs = new PassageFromRelation(addr, PassageFromRelation_Type.this);
+  			   PassageFromRelation_Type.this.jcas.putJfsFromCaddr(addr, fs);
+  			   return fs;
+  		     }
+  		     return fs;
+        } else return new PassageFromRelation(addr, PassageFromRelation_Type.this);
+  	  }
+    };
 
   /**
    * @generated
@@ -58,8 +51,7 @@ public class PassageFromRelation_Type extends Passage_Type {
    * @modifiable
    */
   @SuppressWarnings("hiding")
-  public final static boolean featOkTst = JCasRegistry
-          .getFeatOkTst("edu.cmu.lti.oaqa.type.retrieval.PassageFromRelation");
+  public final static boolean featOkTst = JCasRegistry.getFeatOkTst("edu.cmu.lti.oaqa.type.retrieval.PassageFromRelation");
 
   /**
    * @generated
@@ -77,23 +69,23 @@ public class PassageFromRelation_Type extends Passage_Type {
    * @generated
    */
   public int getSourceRelation(int addr) {
-    if (featOkTst && casFeat_sourceRelation == null)
-      jcas.throwFeatMissing("sourceRelation",
-              "edu.cmu.lti.oaqa.type.retrieval.PassageFromRelation");
+        if (featOkTst && casFeat_sourceRelation == null)
+      jcas.throwFeatMissing("sourceRelation", "edu.cmu.lti.oaqa.type.retrieval.PassageFromRelation");
     return ll_cas.ll_getRefValue(addr, casFeatCode_sourceRelation);
   }
-
   /**
    * @param addr low level Feature Structure reference
    * @param v    value to set
    * @generated
    */
   public void setSourceRelation(int addr, int v) {
-    if (featOkTst && casFeat_sourceRelation == null)
-      jcas.throwFeatMissing("sourceRelation",
-              "edu.cmu.lti.oaqa.type.retrieval.PassageFromRelation");
-    ll_cas.ll_setRefValue(addr, casFeatCode_sourceRelation, v);
-  }
+        if (featOkTst && casFeat_sourceRelation == null)
+      jcas.throwFeatMissing("sourceRelation", "edu.cmu.lti.oaqa.type.retrieval.PassageFromRelation");
+    ll_cas.ll_setRefValue(addr, casFeatCode_sourceRelation, v);}
+    
+  
+
+
 
   /**
    * initialize variables to correspond with Cas Type and Features
@@ -104,14 +96,11 @@ public class PassageFromRelation_Type extends Passage_Type {
    */
   public PassageFromRelation_Type(JCas jcas, Type casType) {
     super(jcas, casType);
-    casImpl.getFSClassRegistry().addGeneratorForType((TypeImpl) this.casType, getFSGenerator());
+    casImpl.getFSClassRegistry().addGeneratorForType((TypeImpl)this.casType, getFSGenerator());
 
-    casFeat_sourceRelation = jcas
-            .getRequiredFeatureDE(casType, "sourceRelation", "edu.cmu.lti.oaqa.type.kb.Triple",
-                    featOkTst);
-    casFeatCode_sourceRelation = (null == casFeat_sourceRelation) ?
-            JCas.INVALID_FEATURE_CODE :
-            ((FeatureImpl) casFeat_sourceRelation).getCode();
+ 
+    casFeat_sourceRelation = jcas.getRequiredFeatureDE(casType, "sourceRelation", "edu.cmu.lti.oaqa.type.kb.Triple", featOkTst);
+    casFeatCode_sourceRelation  = (null == casFeat_sourceRelation) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_sourceRelation).getCode();
 
   }
 }

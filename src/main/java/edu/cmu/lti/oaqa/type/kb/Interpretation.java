@@ -7,13 +7,10 @@ import org.apache.uima.jcas.cas.FSList;
 import org.apache.uima.jcas.cas.TOP;
 import org.apache.uima.jcas.cas.TOP_Type;
 
-/**
- * A container that integrates Concepts and ConceptMentions.
- * Updated by JCasGen Sat Oct 18 19:40:19 EDT 2014
- * XML source: /home/mog/dev/11791/project/project-team03-archetype/src/main/resources/type/OAQATypes.xml
- *
- * @generated
- */
+/** A container that integrates Concepts and ConceptMentions.
+ * Updated by JCasGen Mon Nov 10 20:23:30 EST 2014
+ * XML source: /home/gowayyed/workspace/11791/project-team03/src/main/resources/type/OAQATypes.xml
+ * @generated */
 public class Interpretation extends TOP {
   /**
    * @generated
@@ -34,17 +31,15 @@ public class Interpretation extends TOP {
    * @generated
    */
   @Override
-  public int getTypeIndexID() {
-    return typeIndexID;
-  }
-
+  public int getTypeIndexID() {return typeIndexID;}
+ 
   /**
    * Never called.  Disable default constructor
    *
    * @generated
    */
   protected Interpretation() {/* intentionally empty block */}
-
+    
   /**
    * Internal - constructor used by generator
    *
@@ -56,22 +51,22 @@ public class Interpretation extends TOP {
     super(addr, type);
     readObject();
   }
-
+  
   /**
    * @param jcas JCas to which this Feature Structure belongs
    * @generated
    */
   public Interpretation(JCas jcas) {
     super(jcas);
-    readObject();
-  }
+    readObject();   
+  } 
 
-  /**
+  /** 
    * <!-- begin-user-doc -->
    * Write your own initialization here
    * <!-- end-user-doc -->
    *
-   * @generated modifiable
+   * @generated modifiable 
    */
   private void readObject() {/*default - does nothing empty block */}
 
@@ -85,12 +80,10 @@ public class Interpretation extends TOP {
    * @generated
    */
   public FSList getConcepts() {
-    if (Interpretation_Type.featOkTst && ((Interpretation_Type) jcasType).casFeat_concepts == null)
+    if (Interpretation_Type.featOkTst && ((Interpretation_Type)jcasType).casFeat_concepts == null)
       jcasType.jcas.throwFeatMissing("concepts", "edu.cmu.lti.oaqa.type.kb.Interpretation");
-    return (FSList) (jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas
-            .ll_getRefValue(addr, ((Interpretation_Type) jcasType).casFeatCode_concepts)));
-  }
-
+    return (FSList)(jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas.ll_getRefValue(addr, ((Interpretation_Type)jcasType).casFeatCode_concepts)));}
+    
   /**
    * setter for concepts - sets A list of all concepts mentioned in the corresponding text.
    *
@@ -98,12 +91,11 @@ public class Interpretation extends TOP {
    * @generated
    */
   public void setConcepts(FSList v) {
-    if (Interpretation_Type.featOkTst && ((Interpretation_Type) jcasType).casFeat_concepts == null)
+    if (Interpretation_Type.featOkTst && ((Interpretation_Type)jcasType).casFeat_concepts == null)
       jcasType.jcas.throwFeatMissing("concepts", "edu.cmu.lti.oaqa.type.kb.Interpretation");
-    jcasType.ll_cas.ll_setRefValue(addr, ((Interpretation_Type) jcasType).casFeatCode_concepts,
-            jcasType.ll_cas.ll_getFSRef(v));
-  }
-
+    jcasType.ll_cas.ll_setRefValue(addr, ((Interpretation_Type)jcasType).casFeatCode_concepts, jcasType.ll_cas.ll_getFSRef(v));}    
+   
+    
   //*--------------*
   //* Feature: mentions
 
@@ -114,12 +106,10 @@ public class Interpretation extends TOP {
    * @generated
    */
   public FSList getMentions() {
-    if (Interpretation_Type.featOkTst && ((Interpretation_Type) jcasType).casFeat_mentions == null)
+    if (Interpretation_Type.featOkTst && ((Interpretation_Type)jcasType).casFeat_mentions == null)
       jcasType.jcas.throwFeatMissing("mentions", "edu.cmu.lti.oaqa.type.kb.Interpretation");
-    return (FSList) (jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas
-            .ll_getRefValue(addr, ((Interpretation_Type) jcasType).casFeatCode_mentions)));
-  }
-
+    return (FSList)(jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas.ll_getRefValue(addr, ((Interpretation_Type)jcasType).casFeatCode_mentions)));}
+    
   /**
    * setter for mentions - sets A list of all mentions in the text.
    *
@@ -127,11 +117,9 @@ public class Interpretation extends TOP {
    * @generated
    */
   public void setMentions(FSList v) {
-    if (Interpretation_Type.featOkTst && ((Interpretation_Type) jcasType).casFeat_mentions == null)
+    if (Interpretation_Type.featOkTst && ((Interpretation_Type)jcasType).casFeat_mentions == null)
       jcasType.jcas.throwFeatMissing("mentions", "edu.cmu.lti.oaqa.type.kb.Interpretation");
-    jcasType.ll_cas.ll_setRefValue(addr, ((Interpretation_Type) jcasType).casFeatCode_mentions,
-            jcasType.ll_cas.ll_getFSRef(v));
+    jcasType.ll_cas.ll_setRefValue(addr, ((Interpretation_Type)jcasType).casFeatCode_mentions, jcasType.ll_cas.ll_getFSRef(v));}    
   }
-}
 
     

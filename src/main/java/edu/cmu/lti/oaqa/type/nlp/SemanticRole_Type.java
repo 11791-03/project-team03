@@ -12,41 +12,34 @@ import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.JCasRegistry;
 import org.apache.uima.jcas.tcas.Annotation_Type;
 
-/**
- * A semantic role label.
- * Updated by JCasGen Sat Oct 18 19:40:19 EDT 2014
- *
- * @generated
- */
+/** A semantic role label.
+ * Updated by JCasGen Mon Nov 10 20:23:30 EST 2014
+ * @generated */
 public class SemanticRole_Type extends Annotation_Type {
   /**
    * @return the generator for this type
    * @generated
    */
   @Override
-  protected FSGenerator getFSGenerator() {
-    return fsGenerator;
-  }
-
+  protected FSGenerator getFSGenerator() {return fsGenerator;}
   /**
    * @generated
    */
-  private final FSGenerator fsGenerator =
-          new FSGenerator() {
-            public FeatureStructure createFS(int addr, CASImpl cas) {
-              if (SemanticRole_Type.this.useExistingInstance) {
-                // Return eq fs instance if already created
-                FeatureStructure fs = SemanticRole_Type.this.jcas.getJfsFromCaddr(addr);
-                if (null == fs) {
-                  fs = new SemanticRole(addr, SemanticRole_Type.this);
-                  SemanticRole_Type.this.jcas.putJfsFromCaddr(addr, fs);
-                  return fs;
-                }
-                return fs;
-              } else
-                return new SemanticRole(addr, SemanticRole_Type.this);
-            }
-          };
+  private final FSGenerator fsGenerator = 
+    new FSGenerator() {
+      public FeatureStructure createFS(int addr, CASImpl cas) {
+  			 if (SemanticRole_Type.this.useExistingInstance) {
+  			   // Return eq fs instance if already created
+  		     FeatureStructure fs = SemanticRole_Type.this.jcas.getJfsFromCaddr(addr);
+  		     if (null == fs) {
+  		       fs = new SemanticRole(addr, SemanticRole_Type.this);
+  			   SemanticRole_Type.this.jcas.putJfsFromCaddr(addr, fs);
+  			   return fs;
+  		     }
+  		     return fs;
+        } else return new SemanticRole(addr, SemanticRole_Type.this);
+  	  }
+    };
 
   /**
    * @generated
@@ -59,8 +52,7 @@ public class SemanticRole_Type extends Annotation_Type {
    * @modifiable
    */
   @SuppressWarnings("hiding")
-  public final static boolean featOkTst = JCasRegistry
-          .getFeatOkTst("edu.cmu.lti.oaqa.type.nlp.SemanticRole");
+  public final static boolean featOkTst = JCasRegistry.getFeatOkTst("edu.cmu.lti.oaqa.type.nlp.SemanticRole");
 
   /**
    * @generated
@@ -78,21 +70,23 @@ public class SemanticRole_Type extends Annotation_Type {
    * @generated
    */
   public String getLabel(int addr) {
-    if (featOkTst && casFeat_label == null)
+        if (featOkTst && casFeat_label == null)
       jcas.throwFeatMissing("label", "edu.cmu.lti.oaqa.type.nlp.SemanticRole");
     return ll_cas.ll_getStringValue(addr, casFeatCode_label);
   }
-
   /**
    * @param addr low level Feature Structure reference
    * @param v    value to set
    * @generated
    */
   public void setLabel(int addr, String v) {
-    if (featOkTst && casFeat_label == null)
+        if (featOkTst && casFeat_label == null)
       jcas.throwFeatMissing("label", "edu.cmu.lti.oaqa.type.nlp.SemanticRole");
-    ll_cas.ll_setStringValue(addr, casFeatCode_label, v);
-  }
+    ll_cas.ll_setStringValue(addr, casFeatCode_label, v);}
+    
+  
+
+
 
   /**
    * initialize variables to correspond with Cas Type and Features
@@ -103,12 +97,11 @@ public class SemanticRole_Type extends Annotation_Type {
    */
   public SemanticRole_Type(JCas jcas, Type casType) {
     super(jcas, casType);
-    casImpl.getFSClassRegistry().addGeneratorForType((TypeImpl) this.casType, getFSGenerator());
+    casImpl.getFSClassRegistry().addGeneratorForType((TypeImpl)this.casType, getFSGenerator());
 
+ 
     casFeat_label = jcas.getRequiredFeatureDE(casType, "label", "uima.cas.String", featOkTst);
-    casFeatCode_label = (null == casFeat_label) ?
-            JCas.INVALID_FEATURE_CODE :
-            ((FeatureImpl) casFeat_label).getCode();
+    casFeatCode_label  = (null == casFeat_label) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_label).getCode();
 
   }
 }

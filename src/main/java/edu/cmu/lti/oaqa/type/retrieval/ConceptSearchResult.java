@@ -6,13 +6,10 @@ import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.JCasRegistry;
 import org.apache.uima.jcas.cas.TOP_Type;
 
-/**
- * A search result from an ontology.
- * Updated by JCasGen Sat Oct 18 19:40:19 EDT 2014
- * XML source: /home/mog/dev/11791/project/project-team03-archetype/src/main/resources/type/OAQATypes.xml
- *
- * @generated
- */
+/** A search result from an ontology.
+ * Updated by JCasGen Mon Nov 10 20:23:30 EST 2014
+ * XML source: /home/gowayyed/workspace/11791/project-team03/src/main/resources/type/OAQATypes.xml
+ * @generated */
 public class ConceptSearchResult extends AnswerSearchResult {
   /**
    * @generated
@@ -33,17 +30,15 @@ public class ConceptSearchResult extends AnswerSearchResult {
    * @generated
    */
   @Override
-  public int getTypeIndexID() {
-    return typeIndexID;
-  }
-
+  public int getTypeIndexID() {return typeIndexID;}
+ 
   /**
    * Never called.  Disable default constructor
    *
    * @generated
    */
   protected ConceptSearchResult() {/* intentionally empty block */}
-
+    
   /**
    * Internal - constructor used by generator
    *
@@ -55,22 +50,22 @@ public class ConceptSearchResult extends AnswerSearchResult {
     super(addr, type);
     readObject();
   }
-
+  
   /**
    * @param jcas JCas to which this Feature Structure belongs
    * @generated
    */
   public ConceptSearchResult(JCas jcas) {
     super(jcas);
-    readObject();
-  }
+    readObject();   
+  } 
 
-  /**
+  /** 
    * <!-- begin-user-doc -->
    * Write your own initialization here
    * <!-- end-user-doc -->
    *
-   * @generated modifiable
+   * @generated modifiable 
    */
   private void readObject() {/*default - does nothing empty block */}
 
@@ -84,14 +79,10 @@ public class ConceptSearchResult extends AnswerSearchResult {
    * @generated
    */
   public Concept getConcept() {
-    if (ConceptSearchResult_Type.featOkTst &&
-            ((ConceptSearchResult_Type) jcasType).casFeat_concept == null)
-      jcasType.jcas
-              .throwFeatMissing("concept", "edu.cmu.lti.oaqa.type.retrieval.ConceptSearchResult");
-    return (Concept) (jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas
-            .ll_getRefValue(addr, ((ConceptSearchResult_Type) jcasType).casFeatCode_concept)));
-  }
-
+    if (ConceptSearchResult_Type.featOkTst && ((ConceptSearchResult_Type)jcasType).casFeat_concept == null)
+      jcasType.jcas.throwFeatMissing("concept", "edu.cmu.lti.oaqa.type.retrieval.ConceptSearchResult");
+    return (Concept)(jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas.ll_getRefValue(addr, ((ConceptSearchResult_Type)jcasType).casFeatCode_concept)));}
+    
   /**
    * setter for concept - sets The relevant concept searched in the ontology.
    *
@@ -99,13 +90,9 @@ public class ConceptSearchResult extends AnswerSearchResult {
    * @generated
    */
   public void setConcept(Concept v) {
-    if (ConceptSearchResult_Type.featOkTst &&
-            ((ConceptSearchResult_Type) jcasType).casFeat_concept == null)
-      jcasType.jcas
-              .throwFeatMissing("concept", "edu.cmu.lti.oaqa.type.retrieval.ConceptSearchResult");
-    jcasType.ll_cas.ll_setRefValue(addr, ((ConceptSearchResult_Type) jcasType).casFeatCode_concept,
-            jcasType.ll_cas.ll_getFSRef(v));
+    if (ConceptSearchResult_Type.featOkTst && ((ConceptSearchResult_Type)jcasType).casFeat_concept == null)
+      jcasType.jcas.throwFeatMissing("concept", "edu.cmu.lti.oaqa.type.retrieval.ConceptSearchResult");
+    jcasType.ll_cas.ll_setRefValue(addr, ((ConceptSearchResult_Type)jcasType).casFeatCode_concept, jcasType.ll_cas.ll_getFSRef(v));}    
   }
-}
 
     

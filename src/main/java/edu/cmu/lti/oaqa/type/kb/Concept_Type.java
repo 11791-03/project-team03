@@ -12,41 +12,34 @@ import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.JCasRegistry;
 import org.apache.uima.jcas.cas.TOP_Type;
 
-/**
- * A superclass for EntityConcept and RelationConcept.
- * Updated by JCasGen Sat Oct 18 19:40:19 EDT 2014
- *
- * @generated
- */
+/** A superclass for EntityConcept and RelationConcept.
+ * Updated by JCasGen Mon Nov 10 20:23:29 EST 2014
+ * @generated */
 public class Concept_Type extends TOP_Type {
   /**
    * @return the generator for this type
    * @generated
    */
   @Override
-  protected FSGenerator getFSGenerator() {
-    return fsGenerator;
-  }
-
+  protected FSGenerator getFSGenerator() {return fsGenerator;}
   /**
    * @generated
    */
-  private final FSGenerator fsGenerator =
-          new FSGenerator() {
-            public FeatureStructure createFS(int addr, CASImpl cas) {
-              if (Concept_Type.this.useExistingInstance) {
-                // Return eq fs instance if already created
-                FeatureStructure fs = Concept_Type.this.jcas.getJfsFromCaddr(addr);
-                if (null == fs) {
-                  fs = new Concept(addr, Concept_Type.this);
-                  Concept_Type.this.jcas.putJfsFromCaddr(addr, fs);
-                  return fs;
-                }
-                return fs;
-              } else
-                return new Concept(addr, Concept_Type.this);
-            }
-          };
+  private final FSGenerator fsGenerator = 
+    new FSGenerator() {
+      public FeatureStructure createFS(int addr, CASImpl cas) {
+  			 if (Concept_Type.this.useExistingInstance) {
+  			   // Return eq fs instance if already created
+  		     FeatureStructure fs = Concept_Type.this.jcas.getJfsFromCaddr(addr);
+  		     if (null == fs) {
+  		       fs = new Concept(addr, Concept_Type.this);
+  			   Concept_Type.this.jcas.putJfsFromCaddr(addr, fs);
+  			   return fs;
+  		     }
+  		     return fs;
+        } else return new Concept(addr, Concept_Type.this);
+  	  }
+    };
 
   /**
    * @generated
@@ -59,8 +52,7 @@ public class Concept_Type extends TOP_Type {
    * @modifiable
    */
   @SuppressWarnings("hiding")
-  public final static boolean featOkTst = JCasRegistry
-          .getFeatOkTst("edu.cmu.lti.oaqa.type.kb.Concept");
+  public final static boolean featOkTst = JCasRegistry.getFeatOkTst("edu.cmu.lti.oaqa.type.kb.Concept");
 
   /**
    * @generated
@@ -78,22 +70,22 @@ public class Concept_Type extends TOP_Type {
    * @generated
    */
   public String getName(int addr) {
-    if (featOkTst && casFeat_name == null)
+        if (featOkTst && casFeat_name == null)
       jcas.throwFeatMissing("name", "edu.cmu.lti.oaqa.type.kb.Concept");
     return ll_cas.ll_getStringValue(addr, casFeatCode_name);
   }
-
   /**
    * @param addr low level Feature Structure reference
    * @param v    value to set
    * @generated
    */
   public void setName(int addr, String v) {
-    if (featOkTst && casFeat_name == null)
+        if (featOkTst && casFeat_name == null)
       jcas.throwFeatMissing("name", "edu.cmu.lti.oaqa.type.kb.Concept");
-    ll_cas.ll_setStringValue(addr, casFeatCode_name, v);
-  }
-
+    ll_cas.ll_setStringValue(addr, casFeatCode_name, v);}
+    
+  
+ 
   /**
    * @generated
    */
@@ -110,22 +102,22 @@ public class Concept_Type extends TOP_Type {
    * @generated
    */
   public int getUris(int addr) {
-    if (featOkTst && casFeat_uris == null)
+        if (featOkTst && casFeat_uris == null)
       jcas.throwFeatMissing("uris", "edu.cmu.lti.oaqa.type.kb.Concept");
     return ll_cas.ll_getRefValue(addr, casFeatCode_uris);
   }
-
   /**
    * @param addr low level Feature Structure reference
    * @param v    value to set
    * @generated
    */
   public void setUris(int addr, int v) {
-    if (featOkTst && casFeat_uris == null)
+        if (featOkTst && casFeat_uris == null)
       jcas.throwFeatMissing("uris", "edu.cmu.lti.oaqa.type.kb.Concept");
-    ll_cas.ll_setRefValue(addr, casFeatCode_uris, v);
-  }
-
+    ll_cas.ll_setRefValue(addr, casFeatCode_uris, v);}
+    
+  
+ 
   /**
    * @generated
    */
@@ -142,21 +134,23 @@ public class Concept_Type extends TOP_Type {
    * @generated
    */
   public int getMentions(int addr) {
-    if (featOkTst && casFeat_mentions == null)
+        if (featOkTst && casFeat_mentions == null)
       jcas.throwFeatMissing("mentions", "edu.cmu.lti.oaqa.type.kb.Concept");
     return ll_cas.ll_getRefValue(addr, casFeatCode_mentions);
   }
-
   /**
    * @param addr low level Feature Structure reference
    * @param v    value to set
    * @generated
    */
   public void setMentions(int addr, int v) {
-    if (featOkTst && casFeat_mentions == null)
+        if (featOkTst && casFeat_mentions == null)
       jcas.throwFeatMissing("mentions", "edu.cmu.lti.oaqa.type.kb.Concept");
-    ll_cas.ll_setRefValue(addr, casFeatCode_mentions, v);
-  }
+    ll_cas.ll_setRefValue(addr, casFeatCode_mentions, v);}
+    
+  
+
+
 
   /**
    * initialize variables to correspond with Cas Type and Features
@@ -167,22 +161,19 @@ public class Concept_Type extends TOP_Type {
    */
   public Concept_Type(JCas jcas, Type casType) {
     super(jcas, casType);
-    casImpl.getFSClassRegistry().addGeneratorForType((TypeImpl) this.casType, getFSGenerator());
+    casImpl.getFSClassRegistry().addGeneratorForType((TypeImpl)this.casType, getFSGenerator());
 
+ 
     casFeat_name = jcas.getRequiredFeatureDE(casType, "name", "uima.cas.String", featOkTst);
-    casFeatCode_name = (null == casFeat_name) ?
-            JCas.INVALID_FEATURE_CODE :
-            ((FeatureImpl) casFeat_name).getCode();
+    casFeatCode_name  = (null == casFeat_name) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_name).getCode();
 
+ 
     casFeat_uris = jcas.getRequiredFeatureDE(casType, "uris", "uima.cas.StringList", featOkTst);
-    casFeatCode_uris = (null == casFeat_uris) ?
-            JCas.INVALID_FEATURE_CODE :
-            ((FeatureImpl) casFeat_uris).getCode();
+    casFeatCode_uris  = (null == casFeat_uris) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_uris).getCode();
 
+ 
     casFeat_mentions = jcas.getRequiredFeatureDE(casType, "mentions", "uima.cas.FSList", featOkTst);
-    casFeatCode_mentions = (null == casFeat_mentions) ?
-            JCas.INVALID_FEATURE_CODE :
-            ((FeatureImpl) casFeat_mentions).getCode();
+    casFeatCode_mentions  = (null == casFeat_mentions) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_mentions).getCode();
 
   }
 }

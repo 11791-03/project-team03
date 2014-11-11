@@ -7,13 +7,10 @@ import org.apache.uima.jcas.cas.FSList;
 import org.apache.uima.jcas.cas.TOP;
 import org.apache.uima.jcas.cas.TOP_Type;
 
-/**
- * A data structure that represents various NLP annotations from a parser, e.g. lists of tokens, semantic roles, etc.
- * Updated by JCasGen Sat Oct 18 19:40:19 EDT 2014
- * XML source: /home/mog/dev/11791/project/project-team03-archetype/src/main/resources/type/OAQATypes.xml
- *
- * @generated
- */
+/** A data structure that represents various NLP annotations from a parser, e.g. lists of tokens, semantic roles, etc.
+ * Updated by JCasGen Mon Nov 10 20:23:30 EST 2014
+ * XML source: /home/gowayyed/workspace/11791/project-team03/src/main/resources/type/OAQATypes.xml
+ * @generated */
 public class Parse extends TOP {
   /**
    * @generated
@@ -34,17 +31,15 @@ public class Parse extends TOP {
    * @generated
    */
   @Override
-  public int getTypeIndexID() {
-    return typeIndexID;
-  }
-
+  public int getTypeIndexID() {return typeIndexID;}
+ 
   /**
    * Never called.  Disable default constructor
    *
    * @generated
    */
   protected Parse() {/* intentionally empty block */}
-
+    
   /**
    * Internal - constructor used by generator
    *
@@ -56,22 +51,22 @@ public class Parse extends TOP {
     super(addr, type);
     readObject();
   }
-
+  
   /**
    * @param jcas JCas to which this Feature Structure belongs
    * @generated
    */
   public Parse(JCas jcas) {
     super(jcas);
-    readObject();
-  }
+    readObject();   
+  } 
 
-  /**
+  /** 
    * <!-- begin-user-doc -->
    * Write your own initialization here
    * <!-- end-user-doc -->
    *
-   * @generated modifiable
+   * @generated modifiable 
    */
   private void readObject() {/*default - does nothing empty block */}
 
@@ -85,12 +80,10 @@ public class Parse extends TOP {
    * @generated
    */
   public FSList getTokens() {
-    if (Parse_Type.featOkTst && ((Parse_Type) jcasType).casFeat_tokens == null)
+    if (Parse_Type.featOkTst && ((Parse_Type)jcasType).casFeat_tokens == null)
       jcasType.jcas.throwFeatMissing("tokens", "edu.cmu.lti.oaqa.type.nlp.Parse");
-    return (FSList) (jcasType.ll_cas.ll_getFSForRef(
-            jcasType.ll_cas.ll_getRefValue(addr, ((Parse_Type) jcasType).casFeatCode_tokens)));
-  }
-
+    return (FSList)(jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas.ll_getRefValue(addr, ((Parse_Type)jcasType).casFeatCode_tokens)));}
+    
   /**
    * setter for tokens - sets A list of tokens.
    *
@@ -98,12 +91,11 @@ public class Parse extends TOP {
    * @generated
    */
   public void setTokens(FSList v) {
-    if (Parse_Type.featOkTst && ((Parse_Type) jcasType).casFeat_tokens == null)
+    if (Parse_Type.featOkTst && ((Parse_Type)jcasType).casFeat_tokens == null)
       jcasType.jcas.throwFeatMissing("tokens", "edu.cmu.lti.oaqa.type.nlp.Parse");
-    jcasType.ll_cas.ll_setRefValue(addr, ((Parse_Type) jcasType).casFeatCode_tokens,
-            jcasType.ll_cas.ll_getFSRef(v));
-  }
-
+    jcasType.ll_cas.ll_setRefValue(addr, ((Parse_Type)jcasType).casFeatCode_tokens, jcasType.ll_cas.ll_getFSRef(v));}    
+   
+    
   //*--------------*
   //* Feature: semanticRoles
 
@@ -114,12 +106,10 @@ public class Parse extends TOP {
    * @generated
    */
   public FSList getSemanticRoles() {
-    if (Parse_Type.featOkTst && ((Parse_Type) jcasType).casFeat_semanticRoles == null)
+    if (Parse_Type.featOkTst && ((Parse_Type)jcasType).casFeat_semanticRoles == null)
       jcasType.jcas.throwFeatMissing("semanticRoles", "edu.cmu.lti.oaqa.type.nlp.Parse");
-    return (FSList) (jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas
-            .ll_getRefValue(addr, ((Parse_Type) jcasType).casFeatCode_semanticRoles)));
-  }
-
+    return (FSList)(jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas.ll_getRefValue(addr, ((Parse_Type)jcasType).casFeatCode_semanticRoles)));}
+    
   /**
    * setter for semanticRoles - sets A list of semantic roles.
    *
@@ -127,11 +117,9 @@ public class Parse extends TOP {
    * @generated
    */
   public void setSemanticRoles(FSList v) {
-    if (Parse_Type.featOkTst && ((Parse_Type) jcasType).casFeat_semanticRoles == null)
+    if (Parse_Type.featOkTst && ((Parse_Type)jcasType).casFeat_semanticRoles == null)
       jcasType.jcas.throwFeatMissing("semanticRoles", "edu.cmu.lti.oaqa.type.nlp.Parse");
-    jcasType.ll_cas.ll_setRefValue(addr, ((Parse_Type) jcasType).casFeatCode_semanticRoles,
-            jcasType.ll_cas.ll_getFSRef(v));
+    jcasType.ll_cas.ll_setRefValue(addr, ((Parse_Type)jcasType).casFeatCode_semanticRoles, jcasType.ll_cas.ll_getFSRef(v));}    
   }
-}
 
     

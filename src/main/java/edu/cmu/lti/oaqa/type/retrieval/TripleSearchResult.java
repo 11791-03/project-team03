@@ -6,13 +6,10 @@ import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.JCasRegistry;
 import org.apache.uima.jcas.cas.TOP_Type;
 
-/**
- * A search result from a triple store, e.g., an RDF store.
- * Updated by JCasGen Sat Oct 18 19:40:19 EDT 2014
- * XML source: /home/mog/dev/11791/project/project-team03-archetype/src/main/resources/type/OAQATypes.xml
- *
- * @generated
- */
+/** A search result from a triple store, e.g., an RDF store.
+ * Updated by JCasGen Mon Nov 10 20:23:30 EST 2014
+ * XML source: /home/gowayyed/workspace/11791/project-team03/src/main/resources/type/OAQATypes.xml
+ * @generated */
 public class TripleSearchResult extends AnswerSearchResult {
   /**
    * @generated
@@ -33,17 +30,15 @@ public class TripleSearchResult extends AnswerSearchResult {
    * @generated
    */
   @Override
-  public int getTypeIndexID() {
-    return typeIndexID;
-  }
-
+  public int getTypeIndexID() {return typeIndexID;}
+ 
   /**
    * Never called.  Disable default constructor
    *
    * @generated
    */
   protected TripleSearchResult() {/* intentionally empty block */}
-
+    
   /**
    * Internal - constructor used by generator
    *
@@ -55,22 +50,22 @@ public class TripleSearchResult extends AnswerSearchResult {
     super(addr, type);
     readObject();
   }
-
+  
   /**
    * @param jcas JCas to which this Feature Structure belongs
    * @generated
    */
   public TripleSearchResult(JCas jcas) {
     super(jcas);
-    readObject();
-  }
+    readObject();   
+  } 
 
-  /**
+  /** 
    * <!-- begin-user-doc -->
    * Write your own initialization here
    * <!-- end-user-doc -->
    *
-   * @generated modifiable
+   * @generated modifiable 
    */
   private void readObject() {/*default - does nothing empty block */}
 
@@ -84,14 +79,10 @@ public class TripleSearchResult extends AnswerSearchResult {
    * @generated
    */
   public Triple getTriple() {
-    if (TripleSearchResult_Type.featOkTst &&
-            ((TripleSearchResult_Type) jcasType).casFeat_triple == null)
-      jcasType.jcas
-              .throwFeatMissing("triple", "edu.cmu.lti.oaqa.type.retrieval.TripleSearchResult");
-    return (Triple) (jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas
-            .ll_getRefValue(addr, ((TripleSearchResult_Type) jcasType).casFeatCode_triple)));
-  }
-
+    if (TripleSearchResult_Type.featOkTst && ((TripleSearchResult_Type)jcasType).casFeat_triple == null)
+      jcasType.jcas.throwFeatMissing("triple", "edu.cmu.lti.oaqa.type.retrieval.TripleSearchResult");
+    return (Triple)(jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas.ll_getRefValue(addr, ((TripleSearchResult_Type)jcasType).casFeatCode_triple)));}
+    
   /**
    * setter for triple - sets The relevant triple searched in the RDF store.
    *
@@ -99,13 +90,9 @@ public class TripleSearchResult extends AnswerSearchResult {
    * @generated
    */
   public void setTriple(Triple v) {
-    if (TripleSearchResult_Type.featOkTst &&
-            ((TripleSearchResult_Type) jcasType).casFeat_triple == null)
-      jcasType.jcas
-              .throwFeatMissing("triple", "edu.cmu.lti.oaqa.type.retrieval.TripleSearchResult");
-    jcasType.ll_cas.ll_setRefValue(addr, ((TripleSearchResult_Type) jcasType).casFeatCode_triple,
-            jcasType.ll_cas.ll_getFSRef(v));
+    if (TripleSearchResult_Type.featOkTst && ((TripleSearchResult_Type)jcasType).casFeat_triple == null)
+      jcasType.jcas.throwFeatMissing("triple", "edu.cmu.lti.oaqa.type.retrieval.TripleSearchResult");
+    jcasType.ll_cas.ll_setRefValue(addr, ((TripleSearchResult_Type)jcasType).casFeatCode_triple, jcasType.ll_cas.ll_getFSRef(v));}    
   }
-}
 
     

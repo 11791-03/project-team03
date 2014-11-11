@@ -11,41 +11,34 @@ import org.apache.uima.cas.impl.TypeImpl;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.JCasRegistry;
 
-/**
- * A search result from a triple store, e.g., an RDF store.
- * Updated by JCasGen Sat Oct 18 19:40:19 EDT 2014
- *
- * @generated
- */
+/** A search result from a triple store, e.g., an RDF store.
+ * Updated by JCasGen Mon Nov 10 20:23:30 EST 2014
+ * @generated */
 public class TripleSearchResult_Type extends AnswerSearchResult_Type {
   /**
    * @return the generator for this type
    * @generated
    */
   @Override
-  protected FSGenerator getFSGenerator() {
-    return fsGenerator;
-  }
-
+  protected FSGenerator getFSGenerator() {return fsGenerator;}
   /**
    * @generated
    */
-  private final FSGenerator fsGenerator =
-          new FSGenerator() {
-            public FeatureStructure createFS(int addr, CASImpl cas) {
-              if (TripleSearchResult_Type.this.useExistingInstance) {
-                // Return eq fs instance if already created
-                FeatureStructure fs = TripleSearchResult_Type.this.jcas.getJfsFromCaddr(addr);
-                if (null == fs) {
-                  fs = new TripleSearchResult(addr, TripleSearchResult_Type.this);
-                  TripleSearchResult_Type.this.jcas.putJfsFromCaddr(addr, fs);
-                  return fs;
-                }
-                return fs;
-              } else
-                return new TripleSearchResult(addr, TripleSearchResult_Type.this);
-            }
-          };
+  private final FSGenerator fsGenerator = 
+    new FSGenerator() {
+      public FeatureStructure createFS(int addr, CASImpl cas) {
+  			 if (TripleSearchResult_Type.this.useExistingInstance) {
+  			   // Return eq fs instance if already created
+  		     FeatureStructure fs = TripleSearchResult_Type.this.jcas.getJfsFromCaddr(addr);
+  		     if (null == fs) {
+  		       fs = new TripleSearchResult(addr, TripleSearchResult_Type.this);
+  			   TripleSearchResult_Type.this.jcas.putJfsFromCaddr(addr, fs);
+  			   return fs;
+  		     }
+  		     return fs;
+        } else return new TripleSearchResult(addr, TripleSearchResult_Type.this);
+  	  }
+    };
 
   /**
    * @generated
@@ -58,8 +51,7 @@ public class TripleSearchResult_Type extends AnswerSearchResult_Type {
    * @modifiable
    */
   @SuppressWarnings("hiding")
-  public final static boolean featOkTst = JCasRegistry
-          .getFeatOkTst("edu.cmu.lti.oaqa.type.retrieval.TripleSearchResult");
+  public final static boolean featOkTst = JCasRegistry.getFeatOkTst("edu.cmu.lti.oaqa.type.retrieval.TripleSearchResult");
 
   /**
    * @generated
@@ -77,21 +69,23 @@ public class TripleSearchResult_Type extends AnswerSearchResult_Type {
    * @generated
    */
   public int getTriple(int addr) {
-    if (featOkTst && casFeat_triple == null)
+        if (featOkTst && casFeat_triple == null)
       jcas.throwFeatMissing("triple", "edu.cmu.lti.oaqa.type.retrieval.TripleSearchResult");
     return ll_cas.ll_getRefValue(addr, casFeatCode_triple);
   }
-
   /**
    * @param addr low level Feature Structure reference
    * @param v    value to set
    * @generated
    */
   public void setTriple(int addr, int v) {
-    if (featOkTst && casFeat_triple == null)
+        if (featOkTst && casFeat_triple == null)
       jcas.throwFeatMissing("triple", "edu.cmu.lti.oaqa.type.retrieval.TripleSearchResult");
-    ll_cas.ll_setRefValue(addr, casFeatCode_triple, v);
-  }
+    ll_cas.ll_setRefValue(addr, casFeatCode_triple, v);}
+    
+  
+
+
 
   /**
    * initialize variables to correspond with Cas Type and Features
@@ -102,13 +96,11 @@ public class TripleSearchResult_Type extends AnswerSearchResult_Type {
    */
   public TripleSearchResult_Type(JCas jcas, Type casType) {
     super(jcas, casType);
-    casImpl.getFSClassRegistry().addGeneratorForType((TypeImpl) this.casType, getFSGenerator());
+    casImpl.getFSClassRegistry().addGeneratorForType((TypeImpl)this.casType, getFSGenerator());
 
-    casFeat_triple = jcas
-            .getRequiredFeatureDE(casType, "triple", "edu.cmu.lti.oaqa.type.kb.Triple", featOkTst);
-    casFeatCode_triple = (null == casFeat_triple) ?
-            JCas.INVALID_FEATURE_CODE :
-            ((FeatureImpl) casFeat_triple).getCode();
+ 
+    casFeat_triple = jcas.getRequiredFeatureDE(casType, "triple", "edu.cmu.lti.oaqa.type.kb.Triple", featOkTst);
+    casFeatCode_triple  = (null == casFeat_triple) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_triple).getCode();
 
   }
 }

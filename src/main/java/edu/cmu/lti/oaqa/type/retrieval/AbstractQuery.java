@@ -7,13 +7,10 @@ import org.apache.uima.jcas.cas.FSList;
 import org.apache.uima.jcas.cas.TOP;
 import org.apache.uima.jcas.cas.TOP_Type;
 
-/**
- * An abstract search query for the question that represents query concepts and query operators over those concepts.
- * Updated by JCasGen Sat Oct 18 19:40:19 EDT 2014
- * XML source: /home/mog/dev/11791/project/project-team03-archetype/src/main/resources/type/OAQATypes.xml
- *
- * @generated
- */
+/** An abstract search query for the question that represents query concepts and query operators over those concepts.
+ * Updated by JCasGen Mon Nov 10 20:23:30 EST 2014
+ * XML source: /home/gowayyed/workspace/11791/project-team03/src/main/resources/type/OAQATypes.xml
+ * @generated */
 public class AbstractQuery extends TOP {
   /**
    * @generated
@@ -34,17 +31,15 @@ public class AbstractQuery extends TOP {
    * @generated
    */
   @Override
-  public int getTypeIndexID() {
-    return typeIndexID;
-  }
-
+  public int getTypeIndexID() {return typeIndexID;}
+ 
   /**
    * Never called.  Disable default constructor
    *
    * @generated
    */
   protected AbstractQuery() {/* intentionally empty block */}
-
+    
   /**
    * Internal - constructor used by generator
    *
@@ -56,22 +51,22 @@ public class AbstractQuery extends TOP {
     super(addr, type);
     readObject();
   }
-
+  
   /**
    * @param jcas JCas to which this Feature Structure belongs
    * @generated
    */
   public AbstractQuery(JCas jcas) {
     super(jcas);
-    readObject();
-  }
+    readObject();   
+  } 
 
-  /**
+  /** 
    * <!-- begin-user-doc -->
    * Write your own initialization here
    * <!-- end-user-doc -->
    *
-   * @generated modifiable
+   * @generated modifiable 
    */
   private void readObject() {/*default - does nothing empty block */}
 
@@ -85,12 +80,10 @@ public class AbstractQuery extends TOP {
    * @generated
    */
   public FSList getConcepts() {
-    if (AbstractQuery_Type.featOkTst && ((AbstractQuery_Type) jcasType).casFeat_concepts == null)
+    if (AbstractQuery_Type.featOkTst && ((AbstractQuery_Type)jcasType).casFeat_concepts == null)
       jcasType.jcas.throwFeatMissing("concepts", "edu.cmu.lti.oaqa.type.retrieval.AbstractQuery");
-    return (FSList) (jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas
-            .ll_getRefValue(addr, ((AbstractQuery_Type) jcasType).casFeatCode_concepts)));
-  }
-
+    return (FSList)(jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas.ll_getRefValue(addr, ((AbstractQuery_Type)jcasType).casFeatCode_concepts)));}
+    
   /**
    * setter for concepts - sets The list of query concepts that make up this abstract query.  The list is ordered.
    *
@@ -98,11 +91,9 @@ public class AbstractQuery extends TOP {
    * @generated
    */
   public void setConcepts(FSList v) {
-    if (AbstractQuery_Type.featOkTst && ((AbstractQuery_Type) jcasType).casFeat_concepts == null)
+    if (AbstractQuery_Type.featOkTst && ((AbstractQuery_Type)jcasType).casFeat_concepts == null)
       jcasType.jcas.throwFeatMissing("concepts", "edu.cmu.lti.oaqa.type.retrieval.AbstractQuery");
-    jcasType.ll_cas.ll_setRefValue(addr, ((AbstractQuery_Type) jcasType).casFeatCode_concepts,
-            jcasType.ll_cas.ll_getFSRef(v));
+    jcasType.ll_cas.ll_setRefValue(addr, ((AbstractQuery_Type)jcasType).casFeatCode_concepts, jcasType.ll_cas.ll_getFSRef(v));}    
   }
-}
 
     

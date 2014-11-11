@@ -12,41 +12,34 @@ import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.JCasRegistry;
 import org.apache.uima.jcas.cas.TOP_Type;
 
-/**
- * An abstract search query for the question that represents query concepts and query operators over those concepts.
- * Updated by JCasGen Sat Oct 18 19:40:19 EDT 2014
- *
- * @generated
- */
+/** An abstract search query for the question that represents query concepts and query operators over those concepts.
+ * Updated by JCasGen Mon Nov 10 20:23:30 EST 2014
+ * @generated */
 public class AbstractQuery_Type extends TOP_Type {
   /**
    * @return the generator for this type
    * @generated
    */
   @Override
-  protected FSGenerator getFSGenerator() {
-    return fsGenerator;
-  }
-
+  protected FSGenerator getFSGenerator() {return fsGenerator;}
   /**
    * @generated
    */
-  private final FSGenerator fsGenerator =
-          new FSGenerator() {
-            public FeatureStructure createFS(int addr, CASImpl cas) {
-              if (AbstractQuery_Type.this.useExistingInstance) {
-                // Return eq fs instance if already created
-                FeatureStructure fs = AbstractQuery_Type.this.jcas.getJfsFromCaddr(addr);
-                if (null == fs) {
-                  fs = new AbstractQuery(addr, AbstractQuery_Type.this);
-                  AbstractQuery_Type.this.jcas.putJfsFromCaddr(addr, fs);
-                  return fs;
-                }
-                return fs;
-              } else
-                return new AbstractQuery(addr, AbstractQuery_Type.this);
-            }
-          };
+  private final FSGenerator fsGenerator = 
+    new FSGenerator() {
+      public FeatureStructure createFS(int addr, CASImpl cas) {
+  			 if (AbstractQuery_Type.this.useExistingInstance) {
+  			   // Return eq fs instance if already created
+  		     FeatureStructure fs = AbstractQuery_Type.this.jcas.getJfsFromCaddr(addr);
+  		     if (null == fs) {
+  		       fs = new AbstractQuery(addr, AbstractQuery_Type.this);
+  			   AbstractQuery_Type.this.jcas.putJfsFromCaddr(addr, fs);
+  			   return fs;
+  		     }
+  		     return fs;
+        } else return new AbstractQuery(addr, AbstractQuery_Type.this);
+  	  }
+    };
 
   /**
    * @generated
@@ -59,8 +52,7 @@ public class AbstractQuery_Type extends TOP_Type {
    * @modifiable
    */
   @SuppressWarnings("hiding")
-  public final static boolean featOkTst = JCasRegistry
-          .getFeatOkTst("edu.cmu.lti.oaqa.type.retrieval.AbstractQuery");
+  public final static boolean featOkTst = JCasRegistry.getFeatOkTst("edu.cmu.lti.oaqa.type.retrieval.AbstractQuery");
 
   /**
    * @generated
@@ -78,21 +70,23 @@ public class AbstractQuery_Type extends TOP_Type {
    * @generated
    */
   public int getConcepts(int addr) {
-    if (featOkTst && casFeat_concepts == null)
+        if (featOkTst && casFeat_concepts == null)
       jcas.throwFeatMissing("concepts", "edu.cmu.lti.oaqa.type.retrieval.AbstractQuery");
     return ll_cas.ll_getRefValue(addr, casFeatCode_concepts);
   }
-
   /**
    * @param addr low level Feature Structure reference
    * @param v    value to set
    * @generated
    */
   public void setConcepts(int addr, int v) {
-    if (featOkTst && casFeat_concepts == null)
+        if (featOkTst && casFeat_concepts == null)
       jcas.throwFeatMissing("concepts", "edu.cmu.lti.oaqa.type.retrieval.AbstractQuery");
-    ll_cas.ll_setRefValue(addr, casFeatCode_concepts, v);
-  }
+    ll_cas.ll_setRefValue(addr, casFeatCode_concepts, v);}
+    
+  
+
+
 
   /**
    * initialize variables to correspond with Cas Type and Features
@@ -103,12 +97,11 @@ public class AbstractQuery_Type extends TOP_Type {
    */
   public AbstractQuery_Type(JCas jcas, Type casType) {
     super(jcas, casType);
-    casImpl.getFSClassRegistry().addGeneratorForType((TypeImpl) this.casType, getFSGenerator());
+    casImpl.getFSClassRegistry().addGeneratorForType((TypeImpl)this.casType, getFSGenerator());
 
+ 
     casFeat_concepts = jcas.getRequiredFeatureDE(casType, "concepts", "uima.cas.FSList", featOkTst);
-    casFeatCode_concepts = (null == casFeat_concepts) ?
-            JCas.INVALID_FEATURE_CODE :
-            ((FeatureImpl) casFeat_concepts).getCode();
+    casFeatCode_concepts  = (null == casFeat_concepts) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_concepts).getCode();
 
   }
 }

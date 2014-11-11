@@ -7,13 +7,10 @@ import org.apache.uima.jcas.cas.StringList;
 import org.apache.uima.jcas.cas.TOP;
 import org.apache.uima.jcas.cas.TOP_Type;
 
-/**
- * A query concept in the abstract search query model.
- * Updated by JCasGen Sat Oct 18 19:40:19 EDT 2014
- * XML source: /home/mog/dev/11791/project/project-team03-archetype/src/main/resources/type/OAQATypes.xml
- *
- * @generated
- */
+/** A query concept in the abstract search query model.
+ * Updated by JCasGen Mon Nov 10 20:23:30 EST 2014
+ * XML source: /home/gowayyed/workspace/11791/project-team03/src/main/resources/type/OAQATypes.xml
+ * @generated */
 public class QueryConcept extends TOP {
   /**
    * @generated
@@ -34,17 +31,15 @@ public class QueryConcept extends TOP {
    * @generated
    */
   @Override
-  public int getTypeIndexID() {
-    return typeIndexID;
-  }
-
+  public int getTypeIndexID() {return typeIndexID;}
+ 
   /**
    * Never called.  Disable default constructor
    *
    * @generated
    */
   protected QueryConcept() {/* intentionally empty block */}
-
+    
   /**
    * Internal - constructor used by generator
    *
@@ -56,22 +51,22 @@ public class QueryConcept extends TOP {
     super(addr, type);
     readObject();
   }
-
+  
   /**
    * @param jcas JCas to which this Feature Structure belongs
    * @generated
    */
   public QueryConcept(JCas jcas) {
     super(jcas);
-    readObject();
-  }
+    readObject();   
+  } 
 
-  /**
+  /** 
    * <!-- begin-user-doc -->
    * Write your own initialization here
    * <!-- end-user-doc -->
    *
-   * @generated modifiable
+   * @generated modifiable 
    */
   private void readObject() {/*default - does nothing empty block */}
 
@@ -85,14 +80,10 @@ public class QueryConcept extends TOP {
    * @generated
    */
   public StringList getNamedEntityTypes() {
-    if (QueryConcept_Type.featOkTst &&
-            ((QueryConcept_Type) jcasType).casFeat_namedEntityTypes == null)
-      jcasType.jcas
-              .throwFeatMissing("namedEntityTypes", "edu.cmu.lti.oaqa.type.retrieval.QueryConcept");
-    return (StringList) (jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas
-            .ll_getRefValue(addr, ((QueryConcept_Type) jcasType).casFeatCode_namedEntityTypes)));
-  }
-
+    if (QueryConcept_Type.featOkTst && ((QueryConcept_Type)jcasType).casFeat_namedEntityTypes == null)
+      jcasType.jcas.throwFeatMissing("namedEntityTypes", "edu.cmu.lti.oaqa.type.retrieval.QueryConcept");
+    return (StringList)(jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas.ll_getRefValue(addr, ((QueryConcept_Type)jcasType).casFeatCode_namedEntityTypes)));}
+    
   /**
    * setter for namedEntityTypes - sets List of Named Entity types associated with this concept.
    *
@@ -100,15 +91,11 @@ public class QueryConcept extends TOP {
    * @generated
    */
   public void setNamedEntityTypes(StringList v) {
-    if (QueryConcept_Type.featOkTst &&
-            ((QueryConcept_Type) jcasType).casFeat_namedEntityTypes == null)
-      jcasType.jcas
-              .throwFeatMissing("namedEntityTypes", "edu.cmu.lti.oaqa.type.retrieval.QueryConcept");
-    jcasType.ll_cas
-            .ll_setRefValue(addr, ((QueryConcept_Type) jcasType).casFeatCode_namedEntityTypes,
-                    jcasType.ll_cas.ll_getFSRef(v));
-  }
-
+    if (QueryConcept_Type.featOkTst && ((QueryConcept_Type)jcasType).casFeat_namedEntityTypes == null)
+      jcasType.jcas.throwFeatMissing("namedEntityTypes", "edu.cmu.lti.oaqa.type.retrieval.QueryConcept");
+    jcasType.ll_cas.ll_setRefValue(addr, ((QueryConcept_Type)jcasType).casFeatCode_namedEntityTypes, jcasType.ll_cas.ll_getFSRef(v));}    
+   
+    
   //*--------------*
   //* Feature: conceptType
 
@@ -119,12 +106,10 @@ public class QueryConcept extends TOP {
    * @generated
    */
   public String getConceptType() {
-    if (QueryConcept_Type.featOkTst && ((QueryConcept_Type) jcasType).casFeat_conceptType == null)
+    if (QueryConcept_Type.featOkTst && ((QueryConcept_Type)jcasType).casFeat_conceptType == null)
       jcasType.jcas.throwFeatMissing("conceptType", "edu.cmu.lti.oaqa.type.retrieval.QueryConcept");
-    return jcasType.ll_cas
-            .ll_getStringValue(addr, ((QueryConcept_Type) jcasType).casFeatCode_conceptType);
-  }
-
+    return jcasType.ll_cas.ll_getStringValue(addr, ((QueryConcept_Type)jcasType).casFeatCode_conceptType);}
+    
   /**
    * setter for conceptType - sets The type of this concept.
    *
@@ -132,11 +117,9 @@ public class QueryConcept extends TOP {
    * @generated
    */
   public void setConceptType(String v) {
-    if (QueryConcept_Type.featOkTst && ((QueryConcept_Type) jcasType).casFeat_conceptType == null)
+    if (QueryConcept_Type.featOkTst && ((QueryConcept_Type)jcasType).casFeat_conceptType == null)
       jcasType.jcas.throwFeatMissing("conceptType", "edu.cmu.lti.oaqa.type.retrieval.QueryConcept");
-    jcasType.ll_cas
-            .ll_setStringValue(addr, ((QueryConcept_Type) jcasType).casFeatCode_conceptType, v);
+    jcasType.ll_cas.ll_setStringValue(addr, ((QueryConcept_Type)jcasType).casFeatCode_conceptType, v);}    
   }
-}
 
     

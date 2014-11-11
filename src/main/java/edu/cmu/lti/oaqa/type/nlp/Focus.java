@@ -6,13 +6,10 @@ import org.apache.uima.jcas.JCasRegistry;
 import org.apache.uima.jcas.cas.TOP_Type;
 import org.apache.uima.jcas.tcas.Annotation;
 
-/**
- * The phrase in the question that indicates the answer variable.
- * Updated by JCasGen Sat Oct 18 19:40:19 EDT 2014
- * XML source: /home/mog/dev/11791/project/project-team03-archetype/src/main/resources/type/OAQATypes.xml
- *
- * @generated
- */
+/** The phrase in the question that indicates the answer variable.
+ * Updated by JCasGen Mon Nov 10 20:23:30 EST 2014
+ * XML source: /home/gowayyed/workspace/11791/project-team03/src/main/resources/type/OAQATypes.xml
+ * @generated */
 public class Focus extends Annotation {
   /**
    * @generated
@@ -33,17 +30,15 @@ public class Focus extends Annotation {
    * @generated
    */
   @Override
-  public int getTypeIndexID() {
-    return typeIndexID;
-  }
-
+  public int getTypeIndexID() {return typeIndexID;}
+ 
   /**
    * Never called.  Disable default constructor
    *
    * @generated
    */
   protected Focus() {/* intentionally empty block */}
-
+    
   /**
    * Internal - constructor used by generator
    *
@@ -55,15 +50,15 @@ public class Focus extends Annotation {
     super(addr, type);
     readObject();
   }
-
+  
   /**
    * @param jcas JCas to which this Feature Structure belongs
    * @generated
    */
   public Focus(JCas jcas) {
     super(jcas);
-    readObject();
-  }
+    readObject();   
+  } 
 
   /**
    * @param jcas  JCas to which this Feature Structure belongs
@@ -76,14 +71,14 @@ public class Focus extends Annotation {
     setBegin(begin);
     setEnd(end);
     readObject();
-  }
+  }   
 
-  /**
+  /** 
    * <!-- begin-user-doc -->
    * Write your own initialization here
    * <!-- end-user-doc -->
    *
-   * @generated modifiable
+   * @generated modifiable 
    */
   private void readObject() {/*default - does nothing empty block */}
 
@@ -97,12 +92,10 @@ public class Focus extends Annotation {
    * @generated
    */
   public Token getToken() {
-    if (Focus_Type.featOkTst && ((Focus_Type) jcasType).casFeat_token == null)
+    if (Focus_Type.featOkTst && ((Focus_Type)jcasType).casFeat_token == null)
       jcasType.jcas.throwFeatMissing("token", "edu.cmu.lti.oaqa.type.nlp.Focus");
-    return (Token) (jcasType.ll_cas.ll_getFSForRef(
-            jcasType.ll_cas.ll_getRefValue(addr, ((Focus_Type) jcasType).casFeatCode_token)));
-  }
-
+    return (Token)(jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas.ll_getRefValue(addr, ((Focus_Type)jcasType).casFeatCode_token)));}
+    
   /**
    * setter for token - sets The corresponding token for the focus.
    *
@@ -110,12 +103,11 @@ public class Focus extends Annotation {
    * @generated
    */
   public void setToken(Token v) {
-    if (Focus_Type.featOkTst && ((Focus_Type) jcasType).casFeat_token == null)
+    if (Focus_Type.featOkTst && ((Focus_Type)jcasType).casFeat_token == null)
       jcasType.jcas.throwFeatMissing("token", "edu.cmu.lti.oaqa.type.nlp.Focus");
-    jcasType.ll_cas.ll_setRefValue(addr, ((Focus_Type) jcasType).casFeatCode_token,
-            jcasType.ll_cas.ll_getFSRef(v));
-  }
-
+    jcasType.ll_cas.ll_setRefValue(addr, ((Focus_Type)jcasType).casFeatCode_token, jcasType.ll_cas.ll_getFSRef(v));}    
+   
+    
   //*--------------*
   //* Feature: label
 
@@ -126,11 +118,10 @@ public class Focus extends Annotation {
    * @generated
    */
   public String getLabel() {
-    if (Focus_Type.featOkTst && ((Focus_Type) jcasType).casFeat_label == null)
+    if (Focus_Type.featOkTst && ((Focus_Type)jcasType).casFeat_label == null)
       jcasType.jcas.throwFeatMissing("label", "edu.cmu.lti.oaqa.type.nlp.Focus");
-    return jcasType.ll_cas.ll_getStringValue(addr, ((Focus_Type) jcasType).casFeatCode_label);
-  }
-
+    return jcasType.ll_cas.ll_getStringValue(addr, ((Focus_Type)jcasType).casFeatCode_label);}
+    
   /**
    * setter for label - sets String representation of the Question Focus.
    *
@@ -138,10 +129,9 @@ public class Focus extends Annotation {
    * @generated
    */
   public void setLabel(String v) {
-    if (Focus_Type.featOkTst && ((Focus_Type) jcasType).casFeat_label == null)
+    if (Focus_Type.featOkTst && ((Focus_Type)jcasType).casFeat_label == null)
       jcasType.jcas.throwFeatMissing("label", "edu.cmu.lti.oaqa.type.nlp.Focus");
-    jcasType.ll_cas.ll_setStringValue(addr, ((Focus_Type) jcasType).casFeatCode_label, v);
+    jcasType.ll_cas.ll_setStringValue(addr, ((Focus_Type)jcasType).casFeatCode_label, v);}    
   }
-}
 
     

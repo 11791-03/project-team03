@@ -12,41 +12,34 @@ import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.JCasRegistry;
 import org.apache.uima.jcas.cas.TOP_Type;
 
-/**
- * A triple, e.g., and RDF triple.
- * Updated by JCasGen Sat Oct 18 19:40:19 EDT 2014
- *
- * @generated
- */
+/** A triple, e.g., and RDF triple.
+ * Updated by JCasGen Mon Nov 10 20:23:30 EST 2014
+ * @generated */
 public class Triple_Type extends TOP_Type {
   /**
    * @return the generator for this type
    * @generated
    */
   @Override
-  protected FSGenerator getFSGenerator() {
-    return fsGenerator;
-  }
-
+  protected FSGenerator getFSGenerator() {return fsGenerator;}
   /**
    * @generated
    */
-  private final FSGenerator fsGenerator =
-          new FSGenerator() {
-            public FeatureStructure createFS(int addr, CASImpl cas) {
-              if (Triple_Type.this.useExistingInstance) {
-                // Return eq fs instance if already created
-                FeatureStructure fs = Triple_Type.this.jcas.getJfsFromCaddr(addr);
-                if (null == fs) {
-                  fs = new Triple(addr, Triple_Type.this);
-                  Triple_Type.this.jcas.putJfsFromCaddr(addr, fs);
-                  return fs;
-                }
-                return fs;
-              } else
-                return new Triple(addr, Triple_Type.this);
-            }
-          };
+  private final FSGenerator fsGenerator = 
+    new FSGenerator() {
+      public FeatureStructure createFS(int addr, CASImpl cas) {
+  			 if (Triple_Type.this.useExistingInstance) {
+  			   // Return eq fs instance if already created
+  		     FeatureStructure fs = Triple_Type.this.jcas.getJfsFromCaddr(addr);
+  		     if (null == fs) {
+  		       fs = new Triple(addr, Triple_Type.this);
+  			   Triple_Type.this.jcas.putJfsFromCaddr(addr, fs);
+  			   return fs;
+  		     }
+  		     return fs;
+        } else return new Triple(addr, Triple_Type.this);
+  	  }
+    };
 
   /**
    * @generated
@@ -59,8 +52,7 @@ public class Triple_Type extends TOP_Type {
    * @modifiable
    */
   @SuppressWarnings("hiding")
-  public final static boolean featOkTst = JCasRegistry
-          .getFeatOkTst("edu.cmu.lti.oaqa.type.kb.Triple");
+  public final static boolean featOkTst = JCasRegistry.getFeatOkTst("edu.cmu.lti.oaqa.type.kb.Triple");
 
   /**
    * @generated
@@ -78,22 +70,22 @@ public class Triple_Type extends TOP_Type {
    * @generated
    */
   public String getSubject(int addr) {
-    if (featOkTst && casFeat_subject == null)
+        if (featOkTst && casFeat_subject == null)
       jcas.throwFeatMissing("subject", "edu.cmu.lti.oaqa.type.kb.Triple");
     return ll_cas.ll_getStringValue(addr, casFeatCode_subject);
   }
-
   /**
    * @param addr low level Feature Structure reference
    * @param v    value to set
    * @generated
    */
   public void setSubject(int addr, String v) {
-    if (featOkTst && casFeat_subject == null)
+        if (featOkTst && casFeat_subject == null)
       jcas.throwFeatMissing("subject", "edu.cmu.lti.oaqa.type.kb.Triple");
-    ll_cas.ll_setStringValue(addr, casFeatCode_subject, v);
-  }
-
+    ll_cas.ll_setStringValue(addr, casFeatCode_subject, v);}
+    
+  
+ 
   /**
    * @generated
    */
@@ -110,22 +102,22 @@ public class Triple_Type extends TOP_Type {
    * @generated
    */
   public String getPredicate(int addr) {
-    if (featOkTst && casFeat_predicate == null)
+        if (featOkTst && casFeat_predicate == null)
       jcas.throwFeatMissing("predicate", "edu.cmu.lti.oaqa.type.kb.Triple");
     return ll_cas.ll_getStringValue(addr, casFeatCode_predicate);
   }
-
   /**
    * @param addr low level Feature Structure reference
    * @param v    value to set
    * @generated
    */
   public void setPredicate(int addr, String v) {
-    if (featOkTst && casFeat_predicate == null)
+        if (featOkTst && casFeat_predicate == null)
       jcas.throwFeatMissing("predicate", "edu.cmu.lti.oaqa.type.kb.Triple");
-    ll_cas.ll_setStringValue(addr, casFeatCode_predicate, v);
-  }
-
+    ll_cas.ll_setStringValue(addr, casFeatCode_predicate, v);}
+    
+  
+ 
   /**
    * @generated
    */
@@ -142,22 +134,22 @@ public class Triple_Type extends TOP_Type {
    * @generated
    */
   public String getObject(int addr) {
-    if (featOkTst && casFeat_object == null)
+        if (featOkTst && casFeat_object == null)
       jcas.throwFeatMissing("object", "edu.cmu.lti.oaqa.type.kb.Triple");
     return ll_cas.ll_getStringValue(addr, casFeatCode_object);
   }
-
   /**
    * @param addr low level Feature Structure reference
    * @param v    value to set
    * @generated
    */
   public void setObject(int addr, String v) {
-    if (featOkTst && casFeat_object == null)
+        if (featOkTst && casFeat_object == null)
       jcas.throwFeatMissing("object", "edu.cmu.lti.oaqa.type.kb.Triple");
-    ll_cas.ll_setStringValue(addr, casFeatCode_object, v);
-  }
-
+    ll_cas.ll_setStringValue(addr, casFeatCode_object, v);}
+    
+  
+ 
   /**
    * @generated
    */
@@ -174,21 +166,23 @@ public class Triple_Type extends TOP_Type {
    * @generated
    */
   public boolean getIsObjUri(int addr) {
-    if (featOkTst && casFeat_isObjUri == null)
+        if (featOkTst && casFeat_isObjUri == null)
       jcas.throwFeatMissing("isObjUri", "edu.cmu.lti.oaqa.type.kb.Triple");
     return ll_cas.ll_getBooleanValue(addr, casFeatCode_isObjUri);
   }
-
   /**
    * @param addr low level Feature Structure reference
    * @param v    value to set
    * @generated
    */
   public void setIsObjUri(int addr, boolean v) {
-    if (featOkTst && casFeat_isObjUri == null)
+        if (featOkTst && casFeat_isObjUri == null)
       jcas.throwFeatMissing("isObjUri", "edu.cmu.lti.oaqa.type.kb.Triple");
-    ll_cas.ll_setBooleanValue(addr, casFeatCode_isObjUri, v);
-  }
+    ll_cas.ll_setBooleanValue(addr, casFeatCode_isObjUri, v);}
+    
+  
+
+
 
   /**
    * initialize variables to correspond with Cas Type and Features
@@ -199,29 +193,23 @@ public class Triple_Type extends TOP_Type {
    */
   public Triple_Type(JCas jcas, Type casType) {
     super(jcas, casType);
-    casImpl.getFSClassRegistry().addGeneratorForType((TypeImpl) this.casType, getFSGenerator());
+    casImpl.getFSClassRegistry().addGeneratorForType((TypeImpl)this.casType, getFSGenerator());
 
+ 
     casFeat_subject = jcas.getRequiredFeatureDE(casType, "subject", "uima.cas.String", featOkTst);
-    casFeatCode_subject = (null == casFeat_subject) ?
-            JCas.INVALID_FEATURE_CODE :
-            ((FeatureImpl) casFeat_subject).getCode();
+    casFeatCode_subject  = (null == casFeat_subject) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_subject).getCode();
 
-    casFeat_predicate = jcas
-            .getRequiredFeatureDE(casType, "predicate", "uima.cas.String", featOkTst);
-    casFeatCode_predicate = (null == casFeat_predicate) ?
-            JCas.INVALID_FEATURE_CODE :
-            ((FeatureImpl) casFeat_predicate).getCode();
+ 
+    casFeat_predicate = jcas.getRequiredFeatureDE(casType, "predicate", "uima.cas.String", featOkTst);
+    casFeatCode_predicate  = (null == casFeat_predicate) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_predicate).getCode();
 
+ 
     casFeat_object = jcas.getRequiredFeatureDE(casType, "object", "uima.cas.String", featOkTst);
-    casFeatCode_object = (null == casFeat_object) ?
-            JCas.INVALID_FEATURE_CODE :
-            ((FeatureImpl) casFeat_object).getCode();
+    casFeatCode_object  = (null == casFeat_object) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_object).getCode();
 
-    casFeat_isObjUri = jcas
-            .getRequiredFeatureDE(casType, "isObjUri", "uima.cas.Boolean", featOkTst);
-    casFeatCode_isObjUri = (null == casFeat_isObjUri) ?
-            JCas.INVALID_FEATURE_CODE :
-            ((FeatureImpl) casFeat_isObjUri).getCode();
+ 
+    casFeat_isObjUri = jcas.getRequiredFeatureDE(casType, "isObjUri", "uima.cas.Boolean", featOkTst);
+    casFeatCode_isObjUri  = (null == casFeat_isObjUri) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_isObjUri).getCode();
 
   }
 }

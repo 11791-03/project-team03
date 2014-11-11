@@ -6,13 +6,10 @@ import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.JCasRegistry;
 import org.apache.uima.jcas.cas.TOP_Type;
 
-/**
- * A passage search result that was the result of a search from the subject and object of a triple
- * Updated by JCasGen Sat Oct 18 19:40:19 EDT 2014
- * XML source: /home/mog/dev/11791/project/project-team03-archetype/src/main/resources/type/OAQATypes.xml
- *
- * @generated
- */
+/** A passage search result that was the result of a search from the subject and object of a triple
+ * Updated by JCasGen Mon Nov 10 20:23:30 EST 2014
+ * XML source: /home/gowayyed/workspace/11791/project-team03/src/main/resources/type/OAQATypes.xml
+ * @generated */
 public class PassageFromRelation extends Passage {
   /**
    * @generated
@@ -33,17 +30,15 @@ public class PassageFromRelation extends Passage {
    * @generated
    */
   @Override
-  public int getTypeIndexID() {
-    return typeIndexID;
-  }
-
+  public int getTypeIndexID() {return typeIndexID;}
+ 
   /**
    * Never called.  Disable default constructor
    *
    * @generated
    */
   protected PassageFromRelation() {/* intentionally empty block */}
-
+    
   /**
    * Internal - constructor used by generator
    *
@@ -55,22 +50,22 @@ public class PassageFromRelation extends Passage {
     super(addr, type);
     readObject();
   }
-
+  
   /**
    * @param jcas JCas to which this Feature Structure belongs
    * @generated
    */
   public PassageFromRelation(JCas jcas) {
     super(jcas);
-    readObject();
-  }
+    readObject();   
+  } 
 
-  /**
+  /** 
    * <!-- begin-user-doc -->
    * Write your own initialization here
    * <!-- end-user-doc -->
    *
-   * @generated modifiable
+   * @generated modifiable 
    */
   private void readObject() {/*default - does nothing empty block */}
 
@@ -84,14 +79,10 @@ public class PassageFromRelation extends Passage {
    * @generated
    */
   public Triple getSourceRelation() {
-    if (PassageFromRelation_Type.featOkTst &&
-            ((PassageFromRelation_Type) jcasType).casFeat_sourceRelation == null)
-      jcasType.jcas.throwFeatMissing("sourceRelation",
-              "edu.cmu.lti.oaqa.type.retrieval.PassageFromRelation");
-    return (Triple) (jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas.ll_getRefValue(addr,
-            ((PassageFromRelation_Type) jcasType).casFeatCode_sourceRelation)));
-  }
-
+    if (PassageFromRelation_Type.featOkTst && ((PassageFromRelation_Type)jcasType).casFeat_sourceRelation == null)
+      jcasType.jcas.throwFeatMissing("sourceRelation", "edu.cmu.lti.oaqa.type.retrieval.PassageFromRelation");
+    return (Triple)(jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas.ll_getRefValue(addr, ((PassageFromRelation_Type)jcasType).casFeatCode_sourceRelation)));}
+    
   /**
    * setter for sourceRelation - sets The triple from which the search result was generated
    *
@@ -99,14 +90,9 @@ public class PassageFromRelation extends Passage {
    * @generated
    */
   public void setSourceRelation(Triple v) {
-    if (PassageFromRelation_Type.featOkTst &&
-            ((PassageFromRelation_Type) jcasType).casFeat_sourceRelation == null)
-      jcasType.jcas.throwFeatMissing("sourceRelation",
-              "edu.cmu.lti.oaqa.type.retrieval.PassageFromRelation");
-    jcasType.ll_cas
-            .ll_setRefValue(addr, ((PassageFromRelation_Type) jcasType).casFeatCode_sourceRelation,
-                    jcasType.ll_cas.ll_getFSRef(v));
+    if (PassageFromRelation_Type.featOkTst && ((PassageFromRelation_Type)jcasType).casFeat_sourceRelation == null)
+      jcasType.jcas.throwFeatMissing("sourceRelation", "edu.cmu.lti.oaqa.type.retrieval.PassageFromRelation");
+    jcasType.ll_cas.ll_setRefValue(addr, ((PassageFromRelation_Type)jcasType).casFeatCode_sourceRelation, jcasType.ll_cas.ll_getFSRef(v));}    
   }
-}
 
     

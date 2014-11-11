@@ -6,13 +6,10 @@ import org.apache.uima.jcas.JCasRegistry;
 import org.apache.uima.jcas.cas.TOP_Type;
 import org.apache.uima.jcas.tcas.Annotation;
 
-/**
- * The lexical answer type found in the question.
- * Updated by JCasGen Sat Oct 18 19:40:19 EDT 2014
- * XML source: /home/mog/dev/11791/project/project-team03-archetype/src/main/resources/type/OAQATypes.xml
- *
- * @generated
- */
+/** The lexical answer type found in the question.
+ * Updated by JCasGen Mon Nov 10 20:23:30 EST 2014
+ * XML source: /home/gowayyed/workspace/11791/project-team03/src/main/resources/type/OAQATypes.xml
+ * @generated */
 public class LexicalAnswerType extends Annotation {
   /**
    * @generated
@@ -33,17 +30,15 @@ public class LexicalAnswerType extends Annotation {
    * @generated
    */
   @Override
-  public int getTypeIndexID() {
-    return typeIndexID;
-  }
-
+  public int getTypeIndexID() {return typeIndexID;}
+ 
   /**
    * Never called.  Disable default constructor
    *
    * @generated
    */
   protected LexicalAnswerType() {/* intentionally empty block */}
-
+    
   /**
    * Internal - constructor used by generator
    *
@@ -55,15 +50,15 @@ public class LexicalAnswerType extends Annotation {
     super(addr, type);
     readObject();
   }
-
+  
   /**
    * @param jcas JCas to which this Feature Structure belongs
    * @generated
    */
   public LexicalAnswerType(JCas jcas) {
     super(jcas);
-    readObject();
-  }
+    readObject();   
+  } 
 
   /**
    * @param jcas  JCas to which this Feature Structure belongs
@@ -76,14 +71,14 @@ public class LexicalAnswerType extends Annotation {
     setBegin(begin);
     setEnd(end);
     readObject();
-  }
+  }   
 
-  /**
+  /** 
    * <!-- begin-user-doc -->
    * Write your own initialization here
    * <!-- end-user-doc -->
    *
-   * @generated modifiable
+   * @generated modifiable 
    */
   private void readObject() {/*default - does nothing empty block */}
 
@@ -97,13 +92,10 @@ public class LexicalAnswerType extends Annotation {
    * @generated
    */
   public Token getToken() {
-    if (LexicalAnswerType_Type.featOkTst &&
-            ((LexicalAnswerType_Type) jcasType).casFeat_token == null)
+    if (LexicalAnswerType_Type.featOkTst && ((LexicalAnswerType_Type)jcasType).casFeat_token == null)
       jcasType.jcas.throwFeatMissing("token", "edu.cmu.lti.oaqa.type.nlp.LexicalAnswerType");
-    return (Token) (jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas
-            .ll_getRefValue(addr, ((LexicalAnswerType_Type) jcasType).casFeatCode_token)));
-  }
-
+    return (Token)(jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas.ll_getRefValue(addr, ((LexicalAnswerType_Type)jcasType).casFeatCode_token)));}
+    
   /**
    * setter for token - sets The corresponding token for the LAT.
    *
@@ -111,13 +103,11 @@ public class LexicalAnswerType extends Annotation {
    * @generated
    */
   public void setToken(Token v) {
-    if (LexicalAnswerType_Type.featOkTst &&
-            ((LexicalAnswerType_Type) jcasType).casFeat_token == null)
+    if (LexicalAnswerType_Type.featOkTst && ((LexicalAnswerType_Type)jcasType).casFeat_token == null)
       jcasType.jcas.throwFeatMissing("token", "edu.cmu.lti.oaqa.type.nlp.LexicalAnswerType");
-    jcasType.ll_cas.ll_setRefValue(addr, ((LexicalAnswerType_Type) jcasType).casFeatCode_token,
-            jcasType.ll_cas.ll_getFSRef(v));
-  }
-
+    jcasType.ll_cas.ll_setRefValue(addr, ((LexicalAnswerType_Type)jcasType).casFeatCode_token, jcasType.ll_cas.ll_getFSRef(v));}    
+   
+    
   //*--------------*
   //* Feature: label
 
@@ -128,13 +118,10 @@ public class LexicalAnswerType extends Annotation {
    * @generated
    */
   public String getLabel() {
-    if (LexicalAnswerType_Type.featOkTst &&
-            ((LexicalAnswerType_Type) jcasType).casFeat_label == null)
+    if (LexicalAnswerType_Type.featOkTst && ((LexicalAnswerType_Type)jcasType).casFeat_label == null)
       jcasType.jcas.throwFeatMissing("label", "edu.cmu.lti.oaqa.type.nlp.LexicalAnswerType");
-    return jcasType.ll_cas
-            .ll_getStringValue(addr, ((LexicalAnswerType_Type) jcasType).casFeatCode_label);
-  }
-
+    return jcasType.ll_cas.ll_getStringValue(addr, ((LexicalAnswerType_Type)jcasType).casFeatCode_label);}
+    
   /**
    * setter for label - sets The normalized LAT string.
    *
@@ -142,12 +129,9 @@ public class LexicalAnswerType extends Annotation {
    * @generated
    */
   public void setLabel(String v) {
-    if (LexicalAnswerType_Type.featOkTst &&
-            ((LexicalAnswerType_Type) jcasType).casFeat_label == null)
+    if (LexicalAnswerType_Type.featOkTst && ((LexicalAnswerType_Type)jcasType).casFeat_label == null)
       jcasType.jcas.throwFeatMissing("label", "edu.cmu.lti.oaqa.type.nlp.LexicalAnswerType");
-    jcasType.ll_cas
-            .ll_setStringValue(addr, ((LexicalAnswerType_Type) jcasType).casFeatCode_label, v);
+    jcasType.ll_cas.ll_setStringValue(addr, ((LexicalAnswerType_Type)jcasType).casFeatCode_label, v);}    
   }
-}
 
     

@@ -8,13 +8,10 @@ import org.apache.uima.jcas.cas.FSArray;
 import org.apache.uima.jcas.cas.TOP;
 import org.apache.uima.jcas.cas.TOP_Type;
 
-/**
- * A search result.
- * Updated by JCasGen Sat Oct 18 19:40:19 EDT 2014
- * XML source: /home/mog/dev/11791/project/project-team03-archetype/src/main/resources/type/OAQATypes.xml
- *
- * @generated
- */
+/** A search result.
+ * Updated by JCasGen Mon Nov 10 20:23:30 EST 2014
+ * XML source: /home/gowayyed/workspace/11791/project-team03/src/main/resources/type/OAQATypes.xml
+ * @generated */
 public class SearchResult extends TOP {
   /**
    * @generated
@@ -35,17 +32,15 @@ public class SearchResult extends TOP {
    * @generated
    */
   @Override
-  public int getTypeIndexID() {
-    return typeIndexID;
-  }
-
+  public int getTypeIndexID() {return typeIndexID;}
+ 
   /**
    * Never called.  Disable default constructor
    *
    * @generated
    */
   protected SearchResult() {/* intentionally empty block */}
-
+    
   /**
    * Internal - constructor used by generator
    *
@@ -57,22 +52,22 @@ public class SearchResult extends TOP {
     super(addr, type);
     readObject();
   }
-
+  
   /**
    * @param jcas JCas to which this Feature Structure belongs
    * @generated
    */
   public SearchResult(JCas jcas) {
     super(jcas);
-    readObject();
-  }
+    readObject();   
+  } 
 
-  /**
+  /** 
    * <!-- begin-user-doc -->
    * Write your own initialization here
    * <!-- end-user-doc -->
    *
-   * @generated modifiable
+   * @generated modifiable 
    */
   private void readObject() {/*default - does nothing empty block */}
 
@@ -86,11 +81,10 @@ public class SearchResult extends TOP {
    * @generated
    */
   public String getUri() {
-    if (SearchResult_Type.featOkTst && ((SearchResult_Type) jcasType).casFeat_uri == null)
+    if (SearchResult_Type.featOkTst && ((SearchResult_Type)jcasType).casFeat_uri == null)
       jcasType.jcas.throwFeatMissing("uri", "edu.cmu.lti.oaqa.type.retrieval.SearchResult");
-    return jcasType.ll_cas.ll_getStringValue(addr, ((SearchResult_Type) jcasType).casFeatCode_uri);
-  }
-
+    return jcasType.ll_cas.ll_getStringValue(addr, ((SearchResult_Type)jcasType).casFeatCode_uri);}
+    
   /**
    * setter for uri - sets An identifier for the source of this search result, e.g., the name of the file that this result is drawn from, which, when combined with offset and length, uniquely identifies the span of text for this result.
    *
@@ -98,11 +92,11 @@ public class SearchResult extends TOP {
    * @generated
    */
   public void setUri(String v) {
-    if (SearchResult_Type.featOkTst && ((SearchResult_Type) jcasType).casFeat_uri == null)
+    if (SearchResult_Type.featOkTst && ((SearchResult_Type)jcasType).casFeat_uri == null)
       jcasType.jcas.throwFeatMissing("uri", "edu.cmu.lti.oaqa.type.retrieval.SearchResult");
-    jcasType.ll_cas.ll_setStringValue(addr, ((SearchResult_Type) jcasType).casFeatCode_uri, v);
-  }
-
+    jcasType.ll_cas.ll_setStringValue(addr, ((SearchResult_Type)jcasType).casFeatCode_uri, v);}    
+   
+    
   //*--------------*
   //* Feature: score
 
@@ -113,12 +107,10 @@ public class SearchResult extends TOP {
    * @generated
    */
   public double getScore() {
-    if (SearchResult_Type.featOkTst && ((SearchResult_Type) jcasType).casFeat_score == null)
+    if (SearchResult_Type.featOkTst && ((SearchResult_Type)jcasType).casFeat_score == null)
       jcasType.jcas.throwFeatMissing("score", "edu.cmu.lti.oaqa.type.retrieval.SearchResult");
-    return jcasType.ll_cas
-            .ll_getDoubleValue(addr, ((SearchResult_Type) jcasType).casFeatCode_score);
-  }
-
+    return jcasType.ll_cas.ll_getDoubleValue(addr, ((SearchResult_Type)jcasType).casFeatCode_score);}
+    
   /**
    * setter for score - sets Relevance score associated with the search result.
    *
@@ -126,11 +118,11 @@ public class SearchResult extends TOP {
    * @generated
    */
   public void setScore(double v) {
-    if (SearchResult_Type.featOkTst && ((SearchResult_Type) jcasType).casFeat_score == null)
+    if (SearchResult_Type.featOkTst && ((SearchResult_Type)jcasType).casFeat_score == null)
       jcasType.jcas.throwFeatMissing("score", "edu.cmu.lti.oaqa.type.retrieval.SearchResult");
-    jcasType.ll_cas.ll_setDoubleValue(addr, ((SearchResult_Type) jcasType).casFeatCode_score, v);
-  }
-
+    jcasType.ll_cas.ll_setDoubleValue(addr, ((SearchResult_Type)jcasType).casFeatCode_score, v);}    
+   
+    
   //*--------------*
   //* Feature: text
 
@@ -141,11 +133,10 @@ public class SearchResult extends TOP {
    * @generated
    */
   public String getText() {
-    if (SearchResult_Type.featOkTst && ((SearchResult_Type) jcasType).casFeat_text == null)
+    if (SearchResult_Type.featOkTst && ((SearchResult_Type)jcasType).casFeat_text == null)
       jcasType.jcas.throwFeatMissing("text", "edu.cmu.lti.oaqa.type.retrieval.SearchResult");
-    return jcasType.ll_cas.ll_getStringValue(addr, ((SearchResult_Type) jcasType).casFeatCode_text);
-  }
-
+    return jcasType.ll_cas.ll_getStringValue(addr, ((SearchResult_Type)jcasType).casFeatCode_text);}
+    
   /**
    * setter for text - sets The text associated with the hit.
    *
@@ -153,11 +144,11 @@ public class SearchResult extends TOP {
    * @generated
    */
   public void setText(String v) {
-    if (SearchResult_Type.featOkTst && ((SearchResult_Type) jcasType).casFeat_text == null)
+    if (SearchResult_Type.featOkTst && ((SearchResult_Type)jcasType).casFeat_text == null)
       jcasType.jcas.throwFeatMissing("text", "edu.cmu.lti.oaqa.type.retrieval.SearchResult");
-    jcasType.ll_cas.ll_setStringValue(addr, ((SearchResult_Type) jcasType).casFeatCode_text, v);
-  }
-
+    jcasType.ll_cas.ll_setStringValue(addr, ((SearchResult_Type)jcasType).casFeatCode_text, v);}    
+   
+    
   //*--------------*
   //* Feature: rank
 
@@ -168,11 +159,10 @@ public class SearchResult extends TOP {
    * @generated
    */
   public int getRank() {
-    if (SearchResult_Type.featOkTst && ((SearchResult_Type) jcasType).casFeat_rank == null)
+    if (SearchResult_Type.featOkTst && ((SearchResult_Type)jcasType).casFeat_rank == null)
       jcasType.jcas.throwFeatMissing("rank", "edu.cmu.lti.oaqa.type.retrieval.SearchResult");
-    return jcasType.ll_cas.ll_getIntValue(addr, ((SearchResult_Type) jcasType).casFeatCode_rank);
-  }
-
+    return jcasType.ll_cas.ll_getIntValue(addr, ((SearchResult_Type)jcasType).casFeatCode_rank);}
+    
   /**
    * setter for rank - sets Rank of this result in the original hit-list.
    *
@@ -180,11 +170,11 @@ public class SearchResult extends TOP {
    * @generated
    */
   public void setRank(int v) {
-    if (SearchResult_Type.featOkTst && ((SearchResult_Type) jcasType).casFeat_rank == null)
+    if (SearchResult_Type.featOkTst && ((SearchResult_Type)jcasType).casFeat_rank == null)
       jcasType.jcas.throwFeatMissing("rank", "edu.cmu.lti.oaqa.type.retrieval.SearchResult");
-    jcasType.ll_cas.ll_setIntValue(addr, ((SearchResult_Type) jcasType).casFeatCode_rank, v);
-  }
-
+    jcasType.ll_cas.ll_setIntValue(addr, ((SearchResult_Type)jcasType).casFeatCode_rank, v);}    
+   
+    
   //*--------------*
   //* Feature: queryString
 
@@ -195,12 +185,10 @@ public class SearchResult extends TOP {
    * @generated
    */
   public String getQueryString() {
-    if (SearchResult_Type.featOkTst && ((SearchResult_Type) jcasType).casFeat_queryString == null)
+    if (SearchResult_Type.featOkTst && ((SearchResult_Type)jcasType).casFeat_queryString == null)
       jcasType.jcas.throwFeatMissing("queryString", "edu.cmu.lti.oaqa.type.retrieval.SearchResult");
-    return jcasType.ll_cas
-            .ll_getStringValue(addr, ((SearchResult_Type) jcasType).casFeatCode_queryString);
-  }
-
+    return jcasType.ll_cas.ll_getStringValue(addr, ((SearchResult_Type)jcasType).casFeatCode_queryString);}
+    
   /**
    * setter for queryString - sets The query string associated with the hit.
    *
@@ -208,12 +196,11 @@ public class SearchResult extends TOP {
    * @generated
    */
   public void setQueryString(String v) {
-    if (SearchResult_Type.featOkTst && ((SearchResult_Type) jcasType).casFeat_queryString == null)
+    if (SearchResult_Type.featOkTst && ((SearchResult_Type)jcasType).casFeat_queryString == null)
       jcasType.jcas.throwFeatMissing("queryString", "edu.cmu.lti.oaqa.type.retrieval.SearchResult");
-    jcasType.ll_cas
-            .ll_setStringValue(addr, ((SearchResult_Type) jcasType).casFeatCode_queryString, v);
-  }
-
+    jcasType.ll_cas.ll_setStringValue(addr, ((SearchResult_Type)jcasType).casFeatCode_queryString, v);}    
+   
+    
   //*--------------*
   //* Feature: searchId
 
@@ -224,12 +211,10 @@ public class SearchResult extends TOP {
    * @generated
    */
   public String getSearchId() {
-    if (SearchResult_Type.featOkTst && ((SearchResult_Type) jcasType).casFeat_searchId == null)
+    if (SearchResult_Type.featOkTst && ((SearchResult_Type)jcasType).casFeat_searchId == null)
       jcasType.jcas.throwFeatMissing("searchId", "edu.cmu.lti.oaqa.type.retrieval.SearchResult");
-    return jcasType.ll_cas
-            .ll_getStringValue(addr, ((SearchResult_Type) jcasType).casFeatCode_searchId);
-  }
-
+    return jcasType.ll_cas.ll_getStringValue(addr, ((SearchResult_Type)jcasType).casFeatCode_searchId);}
+    
   /**
    * setter for searchId - sets ID of the search object to which this search result belongs (matches the searchId field in the Search object).
    *
@@ -237,11 +222,11 @@ public class SearchResult extends TOP {
    * @generated
    */
   public void setSearchId(String v) {
-    if (SearchResult_Type.featOkTst && ((SearchResult_Type) jcasType).casFeat_searchId == null)
+    if (SearchResult_Type.featOkTst && ((SearchResult_Type)jcasType).casFeat_searchId == null)
       jcasType.jcas.throwFeatMissing("searchId", "edu.cmu.lti.oaqa.type.retrieval.SearchResult");
-    jcasType.ll_cas.ll_setStringValue(addr, ((SearchResult_Type) jcasType).casFeatCode_searchId, v);
-  }
-
+    jcasType.ll_cas.ll_setStringValue(addr, ((SearchResult_Type)jcasType).casFeatCode_searchId, v);}    
+   
+    
   //*--------------*
   //* Feature: candidateAnswers
 
@@ -252,14 +237,10 @@ public class SearchResult extends TOP {
    * @generated
    */
   public FSArray getCandidateAnswers() {
-    if (SearchResult_Type.featOkTst &&
-            ((SearchResult_Type) jcasType).casFeat_candidateAnswers == null)
-      jcasType.jcas
-              .throwFeatMissing("candidateAnswers", "edu.cmu.lti.oaqa.type.retrieval.SearchResult");
-    return (FSArray) (jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas
-            .ll_getRefValue(addr, ((SearchResult_Type) jcasType).casFeatCode_candidateAnswers)));
-  }
-
+    if (SearchResult_Type.featOkTst && ((SearchResult_Type)jcasType).casFeat_candidateAnswers == null)
+      jcasType.jcas.throwFeatMissing("candidateAnswers", "edu.cmu.lti.oaqa.type.retrieval.SearchResult");
+    return (FSArray)(jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas.ll_getRefValue(addr, ((SearchResult_Type)jcasType).casFeatCode_candidateAnswers)));}
+    
   /**
    * setter for candidateAnswers - sets CandidateAnswerVariants generated from this SearchResult.
    *
@@ -267,15 +248,10 @@ public class SearchResult extends TOP {
    * @generated
    */
   public void setCandidateAnswers(FSArray v) {
-    if (SearchResult_Type.featOkTst &&
-            ((SearchResult_Type) jcasType).casFeat_candidateAnswers == null)
-      jcasType.jcas
-              .throwFeatMissing("candidateAnswers", "edu.cmu.lti.oaqa.type.retrieval.SearchResult");
-    jcasType.ll_cas
-            .ll_setRefValue(addr, ((SearchResult_Type) jcasType).casFeatCode_candidateAnswers,
-                    jcasType.ll_cas.ll_getFSRef(v));
-  }
-
+    if (SearchResult_Type.featOkTst && ((SearchResult_Type)jcasType).casFeat_candidateAnswers == null)
+      jcasType.jcas.throwFeatMissing("candidateAnswers", "edu.cmu.lti.oaqa.type.retrieval.SearchResult");
+    jcasType.ll_cas.ll_setRefValue(addr, ((SearchResult_Type)jcasType).casFeatCode_candidateAnswers, jcasType.ll_cas.ll_getFSRef(v));}    
+    
   /**
    * indexed getter for candidateAnswers - gets an indexed value - CandidateAnswerVariants generated from this SearchResult.
    *
@@ -284,16 +260,10 @@ public class SearchResult extends TOP {
    * @generated
    */
   public CandidateAnswerVariant getCandidateAnswers(int i) {
-    if (SearchResult_Type.featOkTst &&
-            ((SearchResult_Type) jcasType).casFeat_candidateAnswers == null)
-      jcasType.jcas
-              .throwFeatMissing("candidateAnswers", "edu.cmu.lti.oaqa.type.retrieval.SearchResult");
-    jcasType.jcas.checkArrayBounds(jcasType.ll_cas
-            .ll_getRefValue(addr, ((SearchResult_Type) jcasType).casFeatCode_candidateAnswers), i);
-    return (CandidateAnswerVariant) (jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas
-            .ll_getRefArrayValue(jcasType.ll_cas.ll_getRefValue(addr,
-                    ((SearchResult_Type) jcasType).casFeatCode_candidateAnswers), i)));
-  }
+    if (SearchResult_Type.featOkTst && ((SearchResult_Type)jcasType).casFeat_candidateAnswers == null)
+      jcasType.jcas.throwFeatMissing("candidateAnswers", "edu.cmu.lti.oaqa.type.retrieval.SearchResult");
+    jcasType.jcas.checkArrayBounds(jcasType.ll_cas.ll_getRefValue(addr, ((SearchResult_Type)jcasType).casFeatCode_candidateAnswers), i);
+    return (CandidateAnswerVariant)(jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas.ll_getRefArrayValue(jcasType.ll_cas.ll_getRefValue(addr, ((SearchResult_Type)jcasType).casFeatCode_candidateAnswers), i)));}
 
   /**
    * indexed setter for candidateAnswers - sets an indexed value - CandidateAnswerVariants generated from this SearchResult.
@@ -302,17 +272,11 @@ public class SearchResult extends TOP {
    * @param v value to set into the array
    * @generated
    */
-  public void setCandidateAnswers(int i, CandidateAnswerVariant v) {
-    if (SearchResult_Type.featOkTst &&
-            ((SearchResult_Type) jcasType).casFeat_candidateAnswers == null)
-      jcasType.jcas
-              .throwFeatMissing("candidateAnswers", "edu.cmu.lti.oaqa.type.retrieval.SearchResult");
-    jcasType.jcas.checkArrayBounds(jcasType.ll_cas
-            .ll_getRefValue(addr, ((SearchResult_Type) jcasType).casFeatCode_candidateAnswers), i);
-    jcasType.ll_cas.ll_setRefArrayValue(jcasType.ll_cas
-            .ll_getRefValue(addr, ((SearchResult_Type) jcasType).casFeatCode_candidateAnswers), i,
-            jcasType.ll_cas.ll_getFSRef(v));
+  public void setCandidateAnswers(int i, CandidateAnswerVariant v) { 
+    if (SearchResult_Type.featOkTst && ((SearchResult_Type)jcasType).casFeat_candidateAnswers == null)
+      jcasType.jcas.throwFeatMissing("candidateAnswers", "edu.cmu.lti.oaqa.type.retrieval.SearchResult");
+    jcasType.jcas.checkArrayBounds(jcasType.ll_cas.ll_getRefValue(addr, ((SearchResult_Type)jcasType).casFeatCode_candidateAnswers), i);
+    jcasType.ll_cas.ll_setRefArrayValue(jcasType.ll_cas.ll_getRefValue(addr, ((SearchResult_Type)jcasType).casFeatCode_candidateAnswers), i, jcasType.ll_cas.ll_getFSRef(v));}
   }
-}
 
     

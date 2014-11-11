@@ -6,13 +6,10 @@ import org.apache.uima.jcas.JCasRegistry;
 import org.apache.uima.jcas.cas.TOP_Type;
 import org.apache.uima.jcas.tcas.Annotation;
 
-/**
- * A superclass for EntityMention and RelationMention.
- * Updated by JCasGen Sat Oct 18 19:40:19 EDT 2014
- * XML source: /home/mog/dev/11791/project/project-team03-archetype/src/main/resources/type/OAQATypes.xml
- *
- * @generated
- */
+/** A superclass for EntityMention and RelationMention.
+ * Updated by JCasGen Mon Nov 10 20:23:29 EST 2014
+ * XML source: /home/gowayyed/workspace/11791/project-team03/src/main/resources/type/OAQATypes.xml
+ * @generated */
 public class ConceptMention extends Annotation {
   /**
    * @generated
@@ -33,17 +30,15 @@ public class ConceptMention extends Annotation {
    * @generated
    */
   @Override
-  public int getTypeIndexID() {
-    return typeIndexID;
-  }
-
+  public int getTypeIndexID() {return typeIndexID;}
+ 
   /**
    * Never called.  Disable default constructor
    *
    * @generated
    */
   protected ConceptMention() {/* intentionally empty block */}
-
+    
   /**
    * Internal - constructor used by generator
    *
@@ -55,15 +50,15 @@ public class ConceptMention extends Annotation {
     super(addr, type);
     readObject();
   }
-
+  
   /**
    * @param jcas JCas to which this Feature Structure belongs
    * @generated
    */
   public ConceptMention(JCas jcas) {
     super(jcas);
-    readObject();
-  }
+    readObject();   
+  } 
 
   /**
    * @param jcas  JCas to which this Feature Structure belongs
@@ -76,14 +71,14 @@ public class ConceptMention extends Annotation {
     setBegin(begin);
     setEnd(end);
     readObject();
-  }
+  }   
 
-  /**
+  /** 
    * <!-- begin-user-doc -->
    * Write your own initialization here
    * <!-- end-user-doc -->
    *
-   * @generated modifiable
+   * @generated modifiable 
    */
   private void readObject() {/*default - does nothing empty block */}
 
@@ -97,12 +92,10 @@ public class ConceptMention extends Annotation {
    * @generated
    */
   public Concept getConcept() {
-    if (ConceptMention_Type.featOkTst && ((ConceptMention_Type) jcasType).casFeat_concept == null)
+    if (ConceptMention_Type.featOkTst && ((ConceptMention_Type)jcasType).casFeat_concept == null)
       jcasType.jcas.throwFeatMissing("concept", "edu.cmu.lti.oaqa.type.kb.ConceptMention");
-    return (Concept) (jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas
-            .ll_getRefValue(addr, ((ConceptMention_Type) jcasType).casFeatCode_concept)));
-  }
-
+    return (Concept)(jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas.ll_getRefValue(addr, ((ConceptMention_Type)jcasType).casFeatCode_concept)));}
+    
   /**
    * setter for concept - sets The abstract concept that the text span conveys.
    *
@@ -110,11 +103,9 @@ public class ConceptMention extends Annotation {
    * @generated
    */
   public void setConcept(Concept v) {
-    if (ConceptMention_Type.featOkTst && ((ConceptMention_Type) jcasType).casFeat_concept == null)
+    if (ConceptMention_Type.featOkTst && ((ConceptMention_Type)jcasType).casFeat_concept == null)
       jcasType.jcas.throwFeatMissing("concept", "edu.cmu.lti.oaqa.type.kb.ConceptMention");
-    jcasType.ll_cas.ll_setRefValue(addr, ((ConceptMention_Type) jcasType).casFeatCode_concept,
-            jcasType.ll_cas.ll_getFSRef(v));
+    jcasType.ll_cas.ll_setRefValue(addr, ((ConceptMention_Type)jcasType).casFeatCode_concept, jcasType.ll_cas.ll_getFSRef(v));}    
   }
-}
 
     

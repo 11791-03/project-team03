@@ -6,13 +6,10 @@ import org.apache.uima.jcas.JCasRegistry;
 import org.apache.uima.jcas.cas.TOP;
 import org.apache.uima.jcas.cas.TOP_Type;
 
-/**
- * A triple, e.g., and RDF triple.
- * Updated by JCasGen Sat Oct 18 19:40:19 EDT 2014
- * XML source: /home/mog/dev/11791/project/project-team03-archetype/src/main/resources/type/OAQATypes.xml
- *
- * @generated
- */
+/** A triple, e.g., and RDF triple.
+ * Updated by JCasGen Mon Nov 10 20:23:30 EST 2014
+ * XML source: /home/gowayyed/workspace/11791/project-team03/src/main/resources/type/OAQATypes.xml
+ * @generated */
 public class Triple extends TOP {
   /**
    * @generated
@@ -33,17 +30,15 @@ public class Triple extends TOP {
    * @generated
    */
   @Override
-  public int getTypeIndexID() {
-    return typeIndexID;
-  }
-
+  public int getTypeIndexID() {return typeIndexID;}
+ 
   /**
    * Never called.  Disable default constructor
    *
    * @generated
    */
   protected Triple() {/* intentionally empty block */}
-
+    
   /**
    * Internal - constructor used by generator
    *
@@ -55,22 +50,22 @@ public class Triple extends TOP {
     super(addr, type);
     readObject();
   }
-
+  
   /**
    * @param jcas JCas to which this Feature Structure belongs
    * @generated
    */
   public Triple(JCas jcas) {
     super(jcas);
-    readObject();
-  }
+    readObject();   
+  } 
 
-  /**
+  /** 
    * <!-- begin-user-doc -->
    * Write your own initialization here
    * <!-- end-user-doc -->
    *
-   * @generated modifiable
+   * @generated modifiable 
    */
   private void readObject() {/*default - does nothing empty block */}
 
@@ -84,11 +79,10 @@ public class Triple extends TOP {
    * @generated
    */
   public String getSubject() {
-    if (Triple_Type.featOkTst && ((Triple_Type) jcasType).casFeat_subject == null)
+    if (Triple_Type.featOkTst && ((Triple_Type)jcasType).casFeat_subject == null)
       jcasType.jcas.throwFeatMissing("subject", "edu.cmu.lti.oaqa.type.kb.Triple");
-    return jcasType.ll_cas.ll_getStringValue(addr, ((Triple_Type) jcasType).casFeatCode_subject);
-  }
-
+    return jcasType.ll_cas.ll_getStringValue(addr, ((Triple_Type)jcasType).casFeatCode_subject);}
+    
   /**
    * setter for subject - sets The subject of the triple - always a URI.
    *
@@ -96,11 +90,11 @@ public class Triple extends TOP {
    * @generated
    */
   public void setSubject(String v) {
-    if (Triple_Type.featOkTst && ((Triple_Type) jcasType).casFeat_subject == null)
+    if (Triple_Type.featOkTst && ((Triple_Type)jcasType).casFeat_subject == null)
       jcasType.jcas.throwFeatMissing("subject", "edu.cmu.lti.oaqa.type.kb.Triple");
-    jcasType.ll_cas.ll_setStringValue(addr, ((Triple_Type) jcasType).casFeatCode_subject, v);
-  }
-
+    jcasType.ll_cas.ll_setStringValue(addr, ((Triple_Type)jcasType).casFeatCode_subject, v);}    
+   
+    
   //*--------------*
   //* Feature: predicate
 
@@ -111,11 +105,10 @@ public class Triple extends TOP {
    * @generated
    */
   public String getPredicate() {
-    if (Triple_Type.featOkTst && ((Triple_Type) jcasType).casFeat_predicate == null)
+    if (Triple_Type.featOkTst && ((Triple_Type)jcasType).casFeat_predicate == null)
       jcasType.jcas.throwFeatMissing("predicate", "edu.cmu.lti.oaqa.type.kb.Triple");
-    return jcasType.ll_cas.ll_getStringValue(addr, ((Triple_Type) jcasType).casFeatCode_predicate);
-  }
-
+    return jcasType.ll_cas.ll_getStringValue(addr, ((Triple_Type)jcasType).casFeatCode_predicate);}
+    
   /**
    * setter for predicate - sets The predicate of the triple - always a URI.
    *
@@ -123,11 +116,11 @@ public class Triple extends TOP {
    * @generated
    */
   public void setPredicate(String v) {
-    if (Triple_Type.featOkTst && ((Triple_Type) jcasType).casFeat_predicate == null)
+    if (Triple_Type.featOkTst && ((Triple_Type)jcasType).casFeat_predicate == null)
       jcasType.jcas.throwFeatMissing("predicate", "edu.cmu.lti.oaqa.type.kb.Triple");
-    jcasType.ll_cas.ll_setStringValue(addr, ((Triple_Type) jcasType).casFeatCode_predicate, v);
-  }
-
+    jcasType.ll_cas.ll_setStringValue(addr, ((Triple_Type)jcasType).casFeatCode_predicate, v);}    
+   
+    
   //*--------------*
   //* Feature: object
 
@@ -138,11 +131,10 @@ public class Triple extends TOP {
    * @generated
    */
   public String getObject() {
-    if (Triple_Type.featOkTst && ((Triple_Type) jcasType).casFeat_object == null)
+    if (Triple_Type.featOkTst && ((Triple_Type)jcasType).casFeat_object == null)
       jcasType.jcas.throwFeatMissing("object", "edu.cmu.lti.oaqa.type.kb.Triple");
-    return jcasType.ll_cas.ll_getStringValue(addr, ((Triple_Type) jcasType).casFeatCode_object);
-  }
-
+    return jcasType.ll_cas.ll_getStringValue(addr, ((Triple_Type)jcasType).casFeatCode_object);}
+    
   /**
    * setter for object - sets The object of the triple - may be a URI or an xml datatype (string, int, etc.).  See isObjeUri to determine if object is a URI.
    *
@@ -150,11 +142,11 @@ public class Triple extends TOP {
    * @generated
    */
   public void setObject(String v) {
-    if (Triple_Type.featOkTst && ((Triple_Type) jcasType).casFeat_object == null)
+    if (Triple_Type.featOkTst && ((Triple_Type)jcasType).casFeat_object == null)
       jcasType.jcas.throwFeatMissing("object", "edu.cmu.lti.oaqa.type.kb.Triple");
-    jcasType.ll_cas.ll_setStringValue(addr, ((Triple_Type) jcasType).casFeatCode_object, v);
-  }
-
+    jcasType.ll_cas.ll_setStringValue(addr, ((Triple_Type)jcasType).casFeatCode_object, v);}    
+   
+    
   //*--------------*
   //* Feature: isObjUri
 
@@ -165,11 +157,10 @@ public class Triple extends TOP {
    * @generated
    */
   public boolean getIsObjUri() {
-    if (Triple_Type.featOkTst && ((Triple_Type) jcasType).casFeat_isObjUri == null)
+    if (Triple_Type.featOkTst && ((Triple_Type)jcasType).casFeat_isObjUri == null)
       jcasType.jcas.throwFeatMissing("isObjUri", "edu.cmu.lti.oaqa.type.kb.Triple");
-    return jcasType.ll_cas.ll_getBooleanValue(addr, ((Triple_Type) jcasType).casFeatCode_isObjUri);
-  }
-
+    return jcasType.ll_cas.ll_getBooleanValue(addr, ((Triple_Type)jcasType).casFeatCode_isObjUri);}
+    
   /**
    * setter for isObjUri - sets Boolean flag - true of object field is a URI, false otherwise.
    *
@@ -177,10 +168,9 @@ public class Triple extends TOP {
    * @generated
    */
   public void setIsObjUri(boolean v) {
-    if (Triple_Type.featOkTst && ((Triple_Type) jcasType).casFeat_isObjUri == null)
+    if (Triple_Type.featOkTst && ((Triple_Type)jcasType).casFeat_isObjUri == null)
       jcasType.jcas.throwFeatMissing("isObjUri", "edu.cmu.lti.oaqa.type.kb.Triple");
-    jcasType.ll_cas.ll_setBooleanValue(addr, ((Triple_Type) jcasType).casFeatCode_isObjUri, v);
+    jcasType.ll_cas.ll_setBooleanValue(addr, ((Triple_Type)jcasType).casFeatCode_isObjUri, v);}    
   }
-}
 
     

@@ -8,13 +8,10 @@ import org.apache.uima.jcas.cas.StringList;
 import org.apache.uima.jcas.cas.TOP;
 import org.apache.uima.jcas.cas.TOP_Type;
 
-/**
- * A superclass for EntityConcept and RelationConcept.
- * Updated by JCasGen Sat Oct 18 19:40:19 EDT 2014
- * XML source: /home/mog/dev/11791/project/project-team03-archetype/src/main/resources/type/OAQATypes.xml
- *
- * @generated
- */
+/** A superclass for EntityConcept and RelationConcept.
+ * Updated by JCasGen Mon Nov 10 20:23:29 EST 2014
+ * XML source: /home/gowayyed/workspace/11791/project-team03/src/main/resources/type/OAQATypes.xml
+ * @generated */
 public class Concept extends TOP {
   /**
    * @generated
@@ -35,17 +32,15 @@ public class Concept extends TOP {
    * @generated
    */
   @Override
-  public int getTypeIndexID() {
-    return typeIndexID;
-  }
-
+  public int getTypeIndexID() {return typeIndexID;}
+ 
   /**
    * Never called.  Disable default constructor
    *
    * @generated
    */
   protected Concept() {/* intentionally empty block */}
-
+    
   /**
    * Internal - constructor used by generator
    *
@@ -57,22 +52,22 @@ public class Concept extends TOP {
     super(addr, type);
     readObject();
   }
-
+  
   /**
    * @param jcas JCas to which this Feature Structure belongs
    * @generated
    */
   public Concept(JCas jcas) {
     super(jcas);
-    readObject();
-  }
+    readObject();   
+  } 
 
-  /**
+  /** 
    * <!-- begin-user-doc -->
    * Write your own initialization here
    * <!-- end-user-doc -->
    *
-   * @generated modifiable
+   * @generated modifiable 
    */
   private void readObject() {/*default - does nothing empty block */}
 
@@ -86,11 +81,10 @@ public class Concept extends TOP {
    * @generated
    */
   public String getName() {
-    if (Concept_Type.featOkTst && ((Concept_Type) jcasType).casFeat_name == null)
+    if (Concept_Type.featOkTst && ((Concept_Type)jcasType).casFeat_name == null)
       jcasType.jcas.throwFeatMissing("name", "edu.cmu.lti.oaqa.type.kb.Concept");
-    return jcasType.ll_cas.ll_getStringValue(addr, ((Concept_Type) jcasType).casFeatCode_name);
-  }
-
+    return jcasType.ll_cas.ll_getStringValue(addr, ((Concept_Type)jcasType).casFeatCode_name);}
+    
   /**
    * setter for name - sets The name of the concept.
    *
@@ -98,11 +92,11 @@ public class Concept extends TOP {
    * @generated
    */
   public void setName(String v) {
-    if (Concept_Type.featOkTst && ((Concept_Type) jcasType).casFeat_name == null)
+    if (Concept_Type.featOkTst && ((Concept_Type)jcasType).casFeat_name == null)
       jcasType.jcas.throwFeatMissing("name", "edu.cmu.lti.oaqa.type.kb.Concept");
-    jcasType.ll_cas.ll_setStringValue(addr, ((Concept_Type) jcasType).casFeatCode_name, v);
-  }
-
+    jcasType.ll_cas.ll_setStringValue(addr, ((Concept_Type)jcasType).casFeatCode_name, v);}    
+   
+    
   //*--------------*
   //* Feature: uris
 
@@ -113,12 +107,10 @@ public class Concept extends TOP {
    * @generated
    */
   public StringList getUris() {
-    if (Concept_Type.featOkTst && ((Concept_Type) jcasType).casFeat_uris == null)
+    if (Concept_Type.featOkTst && ((Concept_Type)jcasType).casFeat_uris == null)
       jcasType.jcas.throwFeatMissing("uris", "edu.cmu.lti.oaqa.type.kb.Concept");
-    return (StringList) (jcasType.ll_cas.ll_getFSForRef(
-            jcasType.ll_cas.ll_getRefValue(addr, ((Concept_Type) jcasType).casFeatCode_uris)));
-  }
-
+    return (StringList)(jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas.ll_getRefValue(addr, ((Concept_Type)jcasType).casFeatCode_uris)));}
+    
   /**
    * setter for uris - sets Array of uris that identify this named entity.  There may be more than one uri if this named entity is ambiguous.
    *
@@ -126,12 +118,11 @@ public class Concept extends TOP {
    * @generated
    */
   public void setUris(StringList v) {
-    if (Concept_Type.featOkTst && ((Concept_Type) jcasType).casFeat_uris == null)
+    if (Concept_Type.featOkTst && ((Concept_Type)jcasType).casFeat_uris == null)
       jcasType.jcas.throwFeatMissing("uris", "edu.cmu.lti.oaqa.type.kb.Concept");
-    jcasType.ll_cas.ll_setRefValue(addr, ((Concept_Type) jcasType).casFeatCode_uris,
-            jcasType.ll_cas.ll_getFSRef(v));
-  }
-
+    jcasType.ll_cas.ll_setRefValue(addr, ((Concept_Type)jcasType).casFeatCode_uris, jcasType.ll_cas.ll_getFSRef(v));}    
+   
+    
   //*--------------*
   //* Feature: mentions
 
@@ -142,12 +133,10 @@ public class Concept extends TOP {
    * @generated
    */
   public FSList getMentions() {
-    if (Concept_Type.featOkTst && ((Concept_Type) jcasType).casFeat_mentions == null)
+    if (Concept_Type.featOkTst && ((Concept_Type)jcasType).casFeat_mentions == null)
       jcasType.jcas.throwFeatMissing("mentions", "edu.cmu.lti.oaqa.type.kb.Concept");
-    return (FSList) (jcasType.ll_cas.ll_getFSForRef(
-            jcasType.ll_cas.ll_getRefValue(addr, ((Concept_Type) jcasType).casFeatCode_mentions)));
-  }
-
+    return (FSList)(jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas.ll_getRefValue(addr, ((Concept_Type)jcasType).casFeatCode_mentions)));}
+    
   /**
    * setter for mentions - sets A list of ConceptMentions (text spans) that might be surface forms to this concept.
    *
@@ -155,11 +144,9 @@ public class Concept extends TOP {
    * @generated
    */
   public void setMentions(FSList v) {
-    if (Concept_Type.featOkTst && ((Concept_Type) jcasType).casFeat_mentions == null)
+    if (Concept_Type.featOkTst && ((Concept_Type)jcasType).casFeat_mentions == null)
       jcasType.jcas.throwFeatMissing("mentions", "edu.cmu.lti.oaqa.type.kb.Concept");
-    jcasType.ll_cas.ll_setRefValue(addr, ((Concept_Type) jcasType).casFeatCode_mentions,
-            jcasType.ll_cas.ll_getFSRef(v));
+    jcasType.ll_cas.ll_setRefValue(addr, ((Concept_Type)jcasType).casFeatCode_mentions, jcasType.ll_cas.ll_getFSRef(v));}    
   }
-}
 
     

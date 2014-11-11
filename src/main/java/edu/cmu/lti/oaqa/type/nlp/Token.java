@@ -8,13 +8,10 @@ import org.apache.uima.jcas.cas.StringArray;
 import org.apache.uima.jcas.cas.TOP_Type;
 import org.apache.uima.jcas.tcas.Annotation;
 
-/**
- * Annotation on a token, which may have arguments if they are predicates; useful in transforming text into a "logical form", with affordances similar to the ones provided in Extended WordNet and the like. --- Source: Murdock
- * Updated by JCasGen Sat Oct 18 19:40:19 EDT 2014
- * XML source: /home/mog/dev/11791/project/project-team03-archetype/src/main/resources/type/OAQATypes.xml
- *
- * @generated
- */
+/** Annotation on a token, which may have arguments if they are predicates; useful in transforming text into a "logical form", with affordances similar to the ones provided in Extended WordNet and the like. --- Source: Murdock
+ * Updated by JCasGen Mon Nov 10 20:23:30 EST 2014
+ * XML source: /home/gowayyed/workspace/11791/project-team03/src/main/resources/type/OAQATypes.xml
+ * @generated */
 public class Token extends Annotation {
   /**
    * @generated
@@ -35,17 +32,15 @@ public class Token extends Annotation {
    * @generated
    */
   @Override
-  public int getTypeIndexID() {
-    return typeIndexID;
-  }
-
+  public int getTypeIndexID() {return typeIndexID;}
+ 
   /**
    * Never called.  Disable default constructor
    *
    * @generated
    */
   protected Token() {/* intentionally empty block */}
-
+    
   /**
    * Internal - constructor used by generator
    *
@@ -57,15 +52,15 @@ public class Token extends Annotation {
     super(addr, type);
     readObject();
   }
-
+  
   /**
    * @param jcas JCas to which this Feature Structure belongs
    * @generated
    */
   public Token(JCas jcas) {
     super(jcas);
-    readObject();
-  }
+    readObject();   
+  } 
 
   /**
    * @param jcas  JCas to which this Feature Structure belongs
@@ -78,14 +73,14 @@ public class Token extends Annotation {
     setBegin(begin);
     setEnd(end);
     readObject();
-  }
+  }   
 
-  /**
+  /** 
    * <!-- begin-user-doc -->
    * Write your own initialization here
    * <!-- end-user-doc -->
    *
-   * @generated modifiable
+   * @generated modifiable 
    */
   private void readObject() {/*default - does nothing empty block */}
 
@@ -99,12 +94,10 @@ public class Token extends Annotation {
    * @generated
    */
   public FSArray getArguments() {
-    if (Token_Type.featOkTst && ((Token_Type) jcasType).casFeat_arguments == null)
+    if (Token_Type.featOkTst && ((Token_Type)jcasType).casFeat_arguments == null)
       jcasType.jcas.throwFeatMissing("arguments", "edu.cmu.lti.oaqa.type.nlp.Token");
-    return (FSArray) (jcasType.ll_cas.ll_getFSForRef(
-            jcasType.ll_cas.ll_getRefValue(addr, ((Token_Type) jcasType).casFeatCode_arguments)));
-  }
-
+    return (FSArray)(jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas.ll_getRefValue(addr, ((Token_Type)jcasType).casFeatCode_arguments)));}
+    
   /**
    * setter for arguments - sets The arguments
    *
@@ -112,12 +105,10 @@ public class Token extends Annotation {
    * @generated
    */
   public void setArguments(FSArray v) {
-    if (Token_Type.featOkTst && ((Token_Type) jcasType).casFeat_arguments == null)
+    if (Token_Type.featOkTst && ((Token_Type)jcasType).casFeat_arguments == null)
       jcasType.jcas.throwFeatMissing("arguments", "edu.cmu.lti.oaqa.type.nlp.Token");
-    jcasType.ll_cas.ll_setRefValue(addr, ((Token_Type) jcasType).casFeatCode_arguments,
-            jcasType.ll_cas.ll_getFSRef(v));
-  }
-
+    jcasType.ll_cas.ll_setRefValue(addr, ((Token_Type)jcasType).casFeatCode_arguments, jcasType.ll_cas.ll_getFSRef(v));}    
+    
   /**
    * indexed getter for arguments - gets an indexed value - The arguments
    *
@@ -126,14 +117,10 @@ public class Token extends Annotation {
    * @generated
    */
   public Token getArguments(int i) {
-    if (Token_Type.featOkTst && ((Token_Type) jcasType).casFeat_arguments == null)
+    if (Token_Type.featOkTst && ((Token_Type)jcasType).casFeat_arguments == null)
       jcasType.jcas.throwFeatMissing("arguments", "edu.cmu.lti.oaqa.type.nlp.Token");
-    jcasType.jcas.checkArrayBounds(
-            jcasType.ll_cas.ll_getRefValue(addr, ((Token_Type) jcasType).casFeatCode_arguments), i);
-    return (Token) (jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas.ll_getRefArrayValue(
-            jcasType.ll_cas.ll_getRefValue(addr, ((Token_Type) jcasType).casFeatCode_arguments),
-            i)));
-  }
+    jcasType.jcas.checkArrayBounds(jcasType.ll_cas.ll_getRefValue(addr, ((Token_Type)jcasType).casFeatCode_arguments), i);
+    return (Token)(jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas.ll_getRefArrayValue(jcasType.ll_cas.ll_getRefValue(addr, ((Token_Type)jcasType).casFeatCode_arguments), i)));}
 
   /**
    * indexed setter for arguments - sets an indexed value - The arguments
@@ -142,16 +129,13 @@ public class Token extends Annotation {
    * @param v value to set into the array
    * @generated
    */
-  public void setArguments(int i, Token v) {
-    if (Token_Type.featOkTst && ((Token_Type) jcasType).casFeat_arguments == null)
+  public void setArguments(int i, Token v) { 
+    if (Token_Type.featOkTst && ((Token_Type)jcasType).casFeat_arguments == null)
       jcasType.jcas.throwFeatMissing("arguments", "edu.cmu.lti.oaqa.type.nlp.Token");
-    jcasType.jcas.checkArrayBounds(
-            jcasType.ll_cas.ll_getRefValue(addr, ((Token_Type) jcasType).casFeatCode_arguments), i);
-    jcasType.ll_cas.ll_setRefArrayValue(
-            jcasType.ll_cas.ll_getRefValue(addr, ((Token_Type) jcasType).casFeatCode_arguments), i,
-            jcasType.ll_cas.ll_getFSRef(v));
-  }
-
+    jcasType.jcas.checkArrayBounds(jcasType.ll_cas.ll_getRefValue(addr, ((Token_Type)jcasType).casFeatCode_arguments), i);
+    jcasType.ll_cas.ll_setRefArrayValue(jcasType.ll_cas.ll_getRefValue(addr, ((Token_Type)jcasType).casFeatCode_arguments), i, jcasType.ll_cas.ll_getFSRef(v));}
+   
+    
   //*--------------*
   //* Feature: argumentLabels
 
@@ -162,12 +146,10 @@ public class Token extends Annotation {
    * @generated
    */
   public StringArray getArgumentLabels() {
-    if (Token_Type.featOkTst && ((Token_Type) jcasType).casFeat_argumentLabels == null)
+    if (Token_Type.featOkTst && ((Token_Type)jcasType).casFeat_argumentLabels == null)
       jcasType.jcas.throwFeatMissing("argumentLabels", "edu.cmu.lti.oaqa.type.nlp.Token");
-    return (StringArray) (jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas
-            .ll_getRefValue(addr, ((Token_Type) jcasType).casFeatCode_argumentLabels)));
-  }
-
+    return (StringArray)(jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas.ll_getRefValue(addr, ((Token_Type)jcasType).casFeatCode_argumentLabels)));}
+    
   /**
    * setter for argumentLabels - sets The slot labels for the arguments (e.g., subj, obj, objprep)
    *
@@ -175,12 +157,10 @@ public class Token extends Annotation {
    * @generated
    */
   public void setArgumentLabels(StringArray v) {
-    if (Token_Type.featOkTst && ((Token_Type) jcasType).casFeat_argumentLabels == null)
+    if (Token_Type.featOkTst && ((Token_Type)jcasType).casFeat_argumentLabels == null)
       jcasType.jcas.throwFeatMissing("argumentLabels", "edu.cmu.lti.oaqa.type.nlp.Token");
-    jcasType.ll_cas.ll_setRefValue(addr, ((Token_Type) jcasType).casFeatCode_argumentLabels,
-            jcasType.ll_cas.ll_getFSRef(v));
-  }
-
+    jcasType.ll_cas.ll_setRefValue(addr, ((Token_Type)jcasType).casFeatCode_argumentLabels, jcasType.ll_cas.ll_getFSRef(v));}    
+    
   /**
    * indexed getter for argumentLabels - gets an indexed value - The slot labels for the arguments (e.g., subj, obj, objprep)
    *
@@ -189,13 +169,10 @@ public class Token extends Annotation {
    * @generated
    */
   public String getArgumentLabels(int i) {
-    if (Token_Type.featOkTst && ((Token_Type) jcasType).casFeat_argumentLabels == null)
+    if (Token_Type.featOkTst && ((Token_Type)jcasType).casFeat_argumentLabels == null)
       jcasType.jcas.throwFeatMissing("argumentLabels", "edu.cmu.lti.oaqa.type.nlp.Token");
-    jcasType.jcas.checkArrayBounds(jcasType.ll_cas
-            .ll_getRefValue(addr, ((Token_Type) jcasType).casFeatCode_argumentLabels), i);
-    return jcasType.ll_cas.ll_getStringArrayValue(jcasType.ll_cas
-            .ll_getRefValue(addr, ((Token_Type) jcasType).casFeatCode_argumentLabels), i);
-  }
+    jcasType.jcas.checkArrayBounds(jcasType.ll_cas.ll_getRefValue(addr, ((Token_Type)jcasType).casFeatCode_argumentLabels), i);
+    return jcasType.ll_cas.ll_getStringArrayValue(jcasType.ll_cas.ll_getRefValue(addr, ((Token_Type)jcasType).casFeatCode_argumentLabels), i);}
 
   /**
    * indexed setter for argumentLabels - sets an indexed value - The slot labels for the arguments (e.g., subj, obj, objprep)
@@ -204,15 +181,13 @@ public class Token extends Annotation {
    * @param v value to set into the array
    * @generated
    */
-  public void setArgumentLabels(int i, String v) {
-    if (Token_Type.featOkTst && ((Token_Type) jcasType).casFeat_argumentLabels == null)
+  public void setArgumentLabels(int i, String v) { 
+    if (Token_Type.featOkTst && ((Token_Type)jcasType).casFeat_argumentLabels == null)
       jcasType.jcas.throwFeatMissing("argumentLabels", "edu.cmu.lti.oaqa.type.nlp.Token");
-    jcasType.jcas.checkArrayBounds(jcasType.ll_cas
-            .ll_getRefValue(addr, ((Token_Type) jcasType).casFeatCode_argumentLabels), i);
-    jcasType.ll_cas.ll_setStringArrayValue(jcasType.ll_cas
-            .ll_getRefValue(addr, ((Token_Type) jcasType).casFeatCode_argumentLabels), i, v);
-  }
-
+    jcasType.jcas.checkArrayBounds(jcasType.ll_cas.ll_getRefValue(addr, ((Token_Type)jcasType).casFeatCode_argumentLabels), i);
+    jcasType.ll_cas.ll_setStringArrayValue(jcasType.ll_cas.ll_getRefValue(addr, ((Token_Type)jcasType).casFeatCode_argumentLabels), i, v);}
+   
+    
   //*--------------*
   //* Feature: parse
 
@@ -223,12 +198,10 @@ public class Token extends Annotation {
    * @generated
    */
   public Token getParse() {
-    if (Token_Type.featOkTst && ((Token_Type) jcasType).casFeat_parse == null)
+    if (Token_Type.featOkTst && ((Token_Type)jcasType).casFeat_parse == null)
       jcasType.jcas.throwFeatMissing("parse", "edu.cmu.lti.oaqa.type.nlp.Token");
-    return (Token) (jcasType.ll_cas.ll_getFSForRef(
-            jcasType.ll_cas.ll_getRefValue(addr, ((Token_Type) jcasType).casFeatCode_parse)));
-  }
-
+    return (Token)(jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas.ll_getRefValue(addr, ((Token_Type)jcasType).casFeatCode_parse)));}
+    
   /**
    * setter for parse - sets A parse for which this token was a head (if any)
    *
@@ -236,12 +209,11 @@ public class Token extends Annotation {
    * @generated
    */
   public void setParse(Token v) {
-    if (Token_Type.featOkTst && ((Token_Type) jcasType).casFeat_parse == null)
+    if (Token_Type.featOkTst && ((Token_Type)jcasType).casFeat_parse == null)
       jcasType.jcas.throwFeatMissing("parse", "edu.cmu.lti.oaqa.type.nlp.Token");
-    jcasType.ll_cas.ll_setRefValue(addr, ((Token_Type) jcasType).casFeatCode_parse,
-            jcasType.ll_cas.ll_getFSRef(v));
-  }
-
+    jcasType.ll_cas.ll_setRefValue(addr, ((Token_Type)jcasType).casFeatCode_parse, jcasType.ll_cas.ll_getFSRef(v));}    
+   
+    
   //*--------------*
   //* Feature: semanticType
 
@@ -252,12 +224,10 @@ public class Token extends Annotation {
    * @generated
    */
   public String getSemanticType() {
-    if (Token_Type.featOkTst && ((Token_Type) jcasType).casFeat_semanticType == null)
+    if (Token_Type.featOkTst && ((Token_Type)jcasType).casFeat_semanticType == null)
       jcasType.jcas.throwFeatMissing("semanticType", "edu.cmu.lti.oaqa.type.nlp.Token");
-    return jcasType.ll_cas
-            .ll_getStringValue(addr, ((Token_Type) jcasType).casFeatCode_semanticType);
-  }
-
+    return jcasType.ll_cas.ll_getStringValue(addr, ((Token_Type)jcasType).casFeatCode_semanticType);}
+    
   /**
    * setter for semanticType - sets A semantic type, typically the name of an Entity Annotation type
    *
@@ -265,11 +235,11 @@ public class Token extends Annotation {
    * @generated
    */
   public void setSemanticType(String v) {
-    if (Token_Type.featOkTst && ((Token_Type) jcasType).casFeat_semanticType == null)
+    if (Token_Type.featOkTst && ((Token_Type)jcasType).casFeat_semanticType == null)
       jcasType.jcas.throwFeatMissing("semanticType", "edu.cmu.lti.oaqa.type.nlp.Token");
-    jcasType.ll_cas.ll_setStringValue(addr, ((Token_Type) jcasType).casFeatCode_semanticType, v);
-  }
-
+    jcasType.ll_cas.ll_setStringValue(addr, ((Token_Type)jcasType).casFeatCode_semanticType, v);}    
+   
+    
   //*--------------*
   //* Feature: partOfSpeech
 
@@ -280,12 +250,10 @@ public class Token extends Annotation {
    * @generated
    */
   public String getPartOfSpeech() {
-    if (Token_Type.featOkTst && ((Token_Type) jcasType).casFeat_partOfSpeech == null)
+    if (Token_Type.featOkTst && ((Token_Type)jcasType).casFeat_partOfSpeech == null)
       jcasType.jcas.throwFeatMissing("partOfSpeech", "edu.cmu.lti.oaqa.type.nlp.Token");
-    return jcasType.ll_cas
-            .ll_getStringValue(addr, ((Token_Type) jcasType).casFeatCode_partOfSpeech);
-  }
-
+    return jcasType.ll_cas.ll_getStringValue(addr, ((Token_Type)jcasType).casFeatCode_partOfSpeech);}
+    
   /**
    * setter for partOfSpeech - sets Coarse-grained part of speech --- Example: noun, verb, adj, cord
    *
@@ -293,11 +261,11 @@ public class Token extends Annotation {
    * @generated
    */
   public void setPartOfSpeech(String v) {
-    if (Token_Type.featOkTst && ((Token_Type) jcasType).casFeat_partOfSpeech == null)
+    if (Token_Type.featOkTst && ((Token_Type)jcasType).casFeat_partOfSpeech == null)
       jcasType.jcas.throwFeatMissing("partOfSpeech", "edu.cmu.lti.oaqa.type.nlp.Token");
-    jcasType.ll_cas.ll_setStringValue(addr, ((Token_Type) jcasType).casFeatCode_partOfSpeech, v);
-  }
-
+    jcasType.ll_cas.ll_setStringValue(addr, ((Token_Type)jcasType).casFeatCode_partOfSpeech, v);}    
+   
+    
   //*--------------*
   //* Feature: lemmaForm
 
@@ -308,11 +276,10 @@ public class Token extends Annotation {
    * @generated
    */
   public String getLemmaForm() {
-    if (Token_Type.featOkTst && ((Token_Type) jcasType).casFeat_lemmaForm == null)
+    if (Token_Type.featOkTst && ((Token_Type)jcasType).casFeat_lemmaForm == null)
       jcasType.jcas.throwFeatMissing("lemmaForm", "edu.cmu.lti.oaqa.type.nlp.Token");
-    return jcasType.ll_cas.ll_getStringValue(addr, ((Token_Type) jcasType).casFeatCode_lemmaForm);
-  }
-
+    return jcasType.ll_cas.ll_getStringValue(addr, ((Token_Type)jcasType).casFeatCode_lemmaForm);}
+    
   /**
    * setter for lemmaForm - sets A canonical/lemmatized form of the covered text
    *
@@ -320,11 +287,11 @@ public class Token extends Annotation {
    * @generated
    */
   public void setLemmaForm(String v) {
-    if (Token_Type.featOkTst && ((Token_Type) jcasType).casFeat_lemmaForm == null)
+    if (Token_Type.featOkTst && ((Token_Type)jcasType).casFeat_lemmaForm == null)
       jcasType.jcas.throwFeatMissing("lemmaForm", "edu.cmu.lti.oaqa.type.nlp.Token");
-    jcasType.ll_cas.ll_setStringValue(addr, ((Token_Type) jcasType).casFeatCode_lemmaForm, v);
-  }
-
+    jcasType.ll_cas.ll_setStringValue(addr, ((Token_Type)jcasType).casFeatCode_lemmaForm, v);}    
+   
+    
   //*--------------*
   //* Feature: isMainReference
 
@@ -335,12 +302,10 @@ public class Token extends Annotation {
    * @generated
    */
   public boolean getIsMainReference() {
-    if (Token_Type.featOkTst && ((Token_Type) jcasType).casFeat_isMainReference == null)
+    if (Token_Type.featOkTst && ((Token_Type)jcasType).casFeat_isMainReference == null)
       jcasType.jcas.throwFeatMissing("isMainReference", "edu.cmu.lti.oaqa.type.nlp.Token");
-    return jcasType.ll_cas
-            .ll_getBooleanValue(addr, ((Token_Type) jcasType).casFeatCode_isMainReference);
-  }
-
+    return jcasType.ll_cas.ll_getBooleanValue(addr, ((Token_Type)jcasType).casFeatCode_isMainReference);}
+    
   /**
    * setter for isMainReference - sets If true, then this is the main reference to the first argument.  Modifiers and anaphoric references do not have isMainReference set. --- Example: "A dark blue [hat]"
    *
@@ -348,12 +313,11 @@ public class Token extends Annotation {
    * @generated
    */
   public void setIsMainReference(boolean v) {
-    if (Token_Type.featOkTst && ((Token_Type) jcasType).casFeat_isMainReference == null)
+    if (Token_Type.featOkTst && ((Token_Type)jcasType).casFeat_isMainReference == null)
       jcasType.jcas.throwFeatMissing("isMainReference", "edu.cmu.lti.oaqa.type.nlp.Token");
-    jcasType.ll_cas
-            .ll_setBooleanValue(addr, ((Token_Type) jcasType).casFeatCode_isMainReference, v);
-  }
-
+    jcasType.ll_cas.ll_setBooleanValue(addr, ((Token_Type)jcasType).casFeatCode_isMainReference, v);}    
+   
+    
   //*--------------*
   //* Feature: isVariable
 
@@ -364,11 +328,10 @@ public class Token extends Annotation {
    * @generated
    */
   public boolean getIsVariable() {
-    if (Token_Type.featOkTst && ((Token_Type) jcasType).casFeat_isVariable == null)
+    if (Token_Type.featOkTst && ((Token_Type)jcasType).casFeat_isVariable == null)
       jcasType.jcas.throwFeatMissing("isVariable", "edu.cmu.lti.oaqa.type.nlp.Token");
-    return jcasType.ll_cas.ll_getBooleanValue(addr, ((Token_Type) jcasType).casFeatCode_isVariable);
-  }
-
+    return jcasType.ll_cas.ll_getBooleanValue(addr, ((Token_Type)jcasType).casFeatCode_isVariable);}
+    
   /**
    * setter for isVariable - sets True iff the token expresses some unknown entity, typically the focus of a question:  --- Example: "[Who] shot JR?", "What [city] was JR born in?"
    *
@@ -376,11 +339,11 @@ public class Token extends Annotation {
    * @generated
    */
   public void setIsVariable(boolean v) {
-    if (Token_Type.featOkTst && ((Token_Type) jcasType).casFeat_isVariable == null)
+    if (Token_Type.featOkTst && ((Token_Type)jcasType).casFeat_isVariable == null)
       jcasType.jcas.throwFeatMissing("isVariable", "edu.cmu.lti.oaqa.type.nlp.Token");
-    jcasType.ll_cas.ll_setBooleanValue(addr, ((Token_Type) jcasType).casFeatCode_isVariable, v);
-  }
-
+    jcasType.ll_cas.ll_setBooleanValue(addr, ((Token_Type)jcasType).casFeatCode_isVariable, v);}    
+   
+    
   //*--------------*
   //* Feature: determiner
 
@@ -391,11 +354,10 @@ public class Token extends Annotation {
    * @generated
    */
   public String getDeterminer() {
-    if (Token_Type.featOkTst && ((Token_Type) jcasType).casFeat_determiner == null)
+    if (Token_Type.featOkTst && ((Token_Type)jcasType).casFeat_determiner == null)
       jcasType.jcas.throwFeatMissing("determiner", "edu.cmu.lti.oaqa.type.nlp.Token");
-    return jcasType.ll_cas.ll_getStringValue(addr, ((Token_Type) jcasType).casFeatCode_determiner);
-  }
-
+    return jcasType.ll_cas.ll_getStringValue(addr, ((Token_Type)jcasType).casFeatCode_determiner);}
+    
   /**
    * setter for determiner - sets The determiner attached to the node, if any --- Example: [the] book
    *
@@ -403,10 +365,9 @@ public class Token extends Annotation {
    * @generated
    */
   public void setDeterminer(String v) {
-    if (Token_Type.featOkTst && ((Token_Type) jcasType).casFeat_determiner == null)
+    if (Token_Type.featOkTst && ((Token_Type)jcasType).casFeat_determiner == null)
       jcasType.jcas.throwFeatMissing("determiner", "edu.cmu.lti.oaqa.type.nlp.Token");
-    jcasType.ll_cas.ll_setStringValue(addr, ((Token_Type) jcasType).casFeatCode_determiner, v);
+    jcasType.ll_cas.ll_setStringValue(addr, ((Token_Type)jcasType).casFeatCode_determiner, v);}    
   }
-}
 
     

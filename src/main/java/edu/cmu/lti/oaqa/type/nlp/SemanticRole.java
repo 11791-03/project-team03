@@ -6,13 +6,10 @@ import org.apache.uima.jcas.JCasRegistry;
 import org.apache.uima.jcas.cas.TOP_Type;
 import org.apache.uima.jcas.tcas.Annotation;
 
-/**
- * A semantic role label.
- * Updated by JCasGen Sat Oct 18 19:40:19 EDT 2014
- * XML source: /home/mog/dev/11791/project/project-team03-archetype/src/main/resources/type/OAQATypes.xml
- *
- * @generated
- */
+/** A semantic role label.
+ * Updated by JCasGen Mon Nov 10 20:23:30 EST 2014
+ * XML source: /home/gowayyed/workspace/11791/project-team03/src/main/resources/type/OAQATypes.xml
+ * @generated */
 public class SemanticRole extends Annotation {
   /**
    * @generated
@@ -33,17 +30,15 @@ public class SemanticRole extends Annotation {
    * @generated
    */
   @Override
-  public int getTypeIndexID() {
-    return typeIndexID;
-  }
-
+  public int getTypeIndexID() {return typeIndexID;}
+ 
   /**
    * Never called.  Disable default constructor
    *
    * @generated
    */
   protected SemanticRole() {/* intentionally empty block */}
-
+    
   /**
    * Internal - constructor used by generator
    *
@@ -55,15 +50,15 @@ public class SemanticRole extends Annotation {
     super(addr, type);
     readObject();
   }
-
+  
   /**
    * @param jcas JCas to which this Feature Structure belongs
    * @generated
    */
   public SemanticRole(JCas jcas) {
     super(jcas);
-    readObject();
-  }
+    readObject();   
+  } 
 
   /**
    * @param jcas  JCas to which this Feature Structure belongs
@@ -76,14 +71,14 @@ public class SemanticRole extends Annotation {
     setBegin(begin);
     setEnd(end);
     readObject();
-  }
+  }   
 
-  /**
+  /** 
    * <!-- begin-user-doc -->
    * Write your own initialization here
    * <!-- end-user-doc -->
    *
-   * @generated modifiable
+   * @generated modifiable 
    */
   private void readObject() {/*default - does nothing empty block */}
 
@@ -97,12 +92,10 @@ public class SemanticRole extends Annotation {
    * @generated
    */
   public String getLabel() {
-    if (SemanticRole_Type.featOkTst && ((SemanticRole_Type) jcasType).casFeat_label == null)
+    if (SemanticRole_Type.featOkTst && ((SemanticRole_Type)jcasType).casFeat_label == null)
       jcasType.jcas.throwFeatMissing("label", "edu.cmu.lti.oaqa.type.nlp.SemanticRole");
-    return jcasType.ll_cas
-            .ll_getStringValue(addr, ((SemanticRole_Type) jcasType).casFeatCode_label);
-  }
-
+    return jcasType.ll_cas.ll_getStringValue(addr, ((SemanticRole_Type)jcasType).casFeatCode_label);}
+    
   /**
    * setter for label - sets The semantic role label.
    *
@@ -110,10 +103,9 @@ public class SemanticRole extends Annotation {
    * @generated
    */
   public void setLabel(String v) {
-    if (SemanticRole_Type.featOkTst && ((SemanticRole_Type) jcasType).casFeat_label == null)
+    if (SemanticRole_Type.featOkTst && ((SemanticRole_Type)jcasType).casFeat_label == null)
       jcasType.jcas.throwFeatMissing("label", "edu.cmu.lti.oaqa.type.nlp.SemanticRole");
-    jcasType.ll_cas.ll_setStringValue(addr, ((SemanticRole_Type) jcasType).casFeatCode_label, v);
+    jcasType.ll_cas.ll_setStringValue(addr, ((SemanticRole_Type)jcasType).casFeatCode_label, v);}    
   }
-}
 
     

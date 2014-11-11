@@ -5,13 +5,10 @@ import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.JCasRegistry;
 import org.apache.uima.jcas.cas.TOP_Type;
 
-/**
- * A document search result.
- * Updated by JCasGen Sat Oct 18 19:40:19 EDT 2014
- * XML source: /home/mog/dev/11791/project/project-team03-archetype/src/main/resources/type/OAQATypes.xml
- *
- * @generated
- */
+/** A document search result.
+ * Updated by JCasGen Mon Nov 10 20:23:30 EST 2014
+ * XML source: /home/gowayyed/workspace/11791/project-team03/src/main/resources/type/OAQATypes.xml
+ * @generated */
 public class Document extends SearchResult {
   /**
    * @generated
@@ -32,17 +29,15 @@ public class Document extends SearchResult {
    * @generated
    */
   @Override
-  public int getTypeIndexID() {
-    return typeIndexID;
-  }
-
+  public int getTypeIndexID() {return typeIndexID;}
+ 
   /**
    * Never called.  Disable default constructor
    *
    * @generated
    */
   protected Document() {/* intentionally empty block */}
-
+    
   /**
    * Internal - constructor used by generator
    *
@@ -54,22 +49,22 @@ public class Document extends SearchResult {
     super(addr, type);
     readObject();
   }
-
+  
   /**
    * @param jcas JCas to which this Feature Structure belongs
    * @generated
    */
   public Document(JCas jcas) {
     super(jcas);
-    readObject();
-  }
+    readObject();   
+  } 
 
-  /**
+  /** 
    * <!-- begin-user-doc -->
    * Write your own initialization here
    * <!-- end-user-doc -->
    *
-   * @generated modifiable
+   * @generated modifiable 
    */
   private void readObject() {/*default - does nothing empty block */}
 
@@ -83,11 +78,10 @@ public class Document extends SearchResult {
    * @generated
    */
   public String getTitle() {
-    if (Document_Type.featOkTst && ((Document_Type) jcasType).casFeat_title == null)
+    if (Document_Type.featOkTst && ((Document_Type)jcasType).casFeat_title == null)
       jcasType.jcas.throwFeatMissing("title", "edu.cmu.lti.oaqa.type.retrieval.Document");
-    return jcasType.ll_cas.ll_getStringValue(addr, ((Document_Type) jcasType).casFeatCode_title);
-  }
-
+    return jcasType.ll_cas.ll_getStringValue(addr, ((Document_Type)jcasType).casFeatCode_title);}
+    
   /**
    * setter for title - sets The title of the document.
    *
@@ -95,11 +89,11 @@ public class Document extends SearchResult {
    * @generated
    */
   public void setTitle(String v) {
-    if (Document_Type.featOkTst && ((Document_Type) jcasType).casFeat_title == null)
+    if (Document_Type.featOkTst && ((Document_Type)jcasType).casFeat_title == null)
       jcasType.jcas.throwFeatMissing("title", "edu.cmu.lti.oaqa.type.retrieval.Document");
-    jcasType.ll_cas.ll_setStringValue(addr, ((Document_Type) jcasType).casFeatCode_title, v);
-  }
-
+    jcasType.ll_cas.ll_setStringValue(addr, ((Document_Type)jcasType).casFeatCode_title, v);}    
+   
+    
   //*--------------*
   //* Feature: docId
 
@@ -110,11 +104,10 @@ public class Document extends SearchResult {
    * @generated
    */
   public String getDocId() {
-    if (Document_Type.featOkTst && ((Document_Type) jcasType).casFeat_docId == null)
+    if (Document_Type.featOkTst && ((Document_Type)jcasType).casFeat_docId == null)
       jcasType.jcas.throwFeatMissing("docId", "edu.cmu.lti.oaqa.type.retrieval.Document");
-    return jcasType.ll_cas.ll_getStringValue(addr, ((Document_Type) jcasType).casFeatCode_docId);
-  }
-
+    return jcasType.ll_cas.ll_getStringValue(addr, ((Document_Type)jcasType).casFeatCode_docId);}
+    
   /**
    * setter for docId - sets A unique identifier for this document.
    *
@@ -122,10 +115,9 @@ public class Document extends SearchResult {
    * @generated
    */
   public void setDocId(String v) {
-    if (Document_Type.featOkTst && ((Document_Type) jcasType).casFeat_docId == null)
+    if (Document_Type.featOkTst && ((Document_Type)jcasType).casFeat_docId == null)
       jcasType.jcas.throwFeatMissing("docId", "edu.cmu.lti.oaqa.type.retrieval.Document");
-    jcasType.ll_cas.ll_setStringValue(addr, ((Document_Type) jcasType).casFeatCode_docId, v);
+    jcasType.ll_cas.ll_setStringValue(addr, ((Document_Type)jcasType).casFeatCode_docId, v);}    
   }
-}
 
     

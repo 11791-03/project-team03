@@ -5,13 +5,10 @@ import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.JCasRegistry;
 import org.apache.uima.jcas.cas.TOP_Type;
 
-/**
- * A primitive query concept represented by a single text string
- * Updated by JCasGen Sat Oct 18 19:40:19 EDT 2014
- * XML source: /home/mog/dev/11791/project/project-team03-archetype/src/main/resources/type/OAQATypes.xml
- *
- * @generated
- */
+/** A primitive query concept represented by a single text string
+ * Updated by JCasGen Mon Nov 10 20:23:30 EST 2014
+ * XML source: /home/gowayyed/workspace/11791/project-team03/src/main/resources/type/OAQATypes.xml
+ * @generated */
 public class AtomicQueryConcept extends QueryConcept {
   /**
    * @generated
@@ -32,17 +29,15 @@ public class AtomicQueryConcept extends QueryConcept {
    * @generated
    */
   @Override
-  public int getTypeIndexID() {
-    return typeIndexID;
-  }
-
+  public int getTypeIndexID() {return typeIndexID;}
+ 
   /**
    * Never called.  Disable default constructor
    *
    * @generated
    */
   protected AtomicQueryConcept() {/* intentionally empty block */}
-
+    
   /**
    * Internal - constructor used by generator
    *
@@ -54,22 +49,22 @@ public class AtomicQueryConcept extends QueryConcept {
     super(addr, type);
     readObject();
   }
-
+  
   /**
    * @param jcas JCas to which this Feature Structure belongs
    * @generated
    */
   public AtomicQueryConcept(JCas jcas) {
     super(jcas);
-    readObject();
-  }
+    readObject();   
+  } 
 
-  /**
+  /** 
    * <!-- begin-user-doc -->
    * Write your own initialization here
    * <!-- end-user-doc -->
    *
-   * @generated modifiable
+   * @generated modifiable 
    */
   private void readObject() {/*default - does nothing empty block */}
 
@@ -83,13 +78,10 @@ public class AtomicQueryConcept extends QueryConcept {
    * @generated
    */
   public String getText() {
-    if (AtomicQueryConcept_Type.featOkTst &&
-            ((AtomicQueryConcept_Type) jcasType).casFeat_text == null)
+    if (AtomicQueryConcept_Type.featOkTst && ((AtomicQueryConcept_Type)jcasType).casFeat_text == null)
       jcasType.jcas.throwFeatMissing("text", "edu.cmu.lti.oaqa.type.retrieval.AtomicQueryConcept");
-    return jcasType.ll_cas
-            .ll_getStringValue(addr, ((AtomicQueryConcept_Type) jcasType).casFeatCode_text);
-  }
-
+    return jcasType.ll_cas.ll_getStringValue(addr, ((AtomicQueryConcept_Type)jcasType).casFeatCode_text);}
+    
   /**
    * setter for text - sets The keyword text.
    *
@@ -97,13 +89,11 @@ public class AtomicQueryConcept extends QueryConcept {
    * @generated
    */
   public void setText(String v) {
-    if (AtomicQueryConcept_Type.featOkTst &&
-            ((AtomicQueryConcept_Type) jcasType).casFeat_text == null)
+    if (AtomicQueryConcept_Type.featOkTst && ((AtomicQueryConcept_Type)jcasType).casFeat_text == null)
       jcasType.jcas.throwFeatMissing("text", "edu.cmu.lti.oaqa.type.retrieval.AtomicQueryConcept");
-    jcasType.ll_cas
-            .ll_setStringValue(addr, ((AtomicQueryConcept_Type) jcasType).casFeatCode_text, v);
-  }
-
+    jcasType.ll_cas.ll_setStringValue(addr, ((AtomicQueryConcept_Type)jcasType).casFeatCode_text, v);}    
+   
+    
   //*--------------*
   //* Feature: originalText
 
@@ -114,14 +104,10 @@ public class AtomicQueryConcept extends QueryConcept {
    * @generated
    */
   public String getOriginalText() {
-    if (AtomicQueryConcept_Type.featOkTst &&
-            ((AtomicQueryConcept_Type) jcasType).casFeat_originalText == null)
-      jcasType.jcas.throwFeatMissing("originalText",
-              "edu.cmu.lti.oaqa.type.retrieval.AtomicQueryConcept");
-    return jcasType.ll_cas
-            .ll_getStringValue(addr, ((AtomicQueryConcept_Type) jcasType).casFeatCode_originalText);
-  }
-
+    if (AtomicQueryConcept_Type.featOkTst && ((AtomicQueryConcept_Type)jcasType).casFeat_originalText == null)
+      jcasType.jcas.throwFeatMissing("originalText", "edu.cmu.lti.oaqa.type.retrieval.AtomicQueryConcept");
+    return jcasType.ll_cas.ll_getStringValue(addr, ((AtomicQueryConcept_Type)jcasType).casFeatCode_originalText);}
+    
   /**
    * setter for originalText - sets The lexical string in the question.
    *
@@ -129,14 +115,9 @@ public class AtomicQueryConcept extends QueryConcept {
    * @generated
    */
   public void setOriginalText(String v) {
-    if (AtomicQueryConcept_Type.featOkTst &&
-            ((AtomicQueryConcept_Type) jcasType).casFeat_originalText == null)
-      jcasType.jcas.throwFeatMissing("originalText",
-              "edu.cmu.lti.oaqa.type.retrieval.AtomicQueryConcept");
-    jcasType.ll_cas
-            .ll_setStringValue(addr, ((AtomicQueryConcept_Type) jcasType).casFeatCode_originalText,
-                    v);
+    if (AtomicQueryConcept_Type.featOkTst && ((AtomicQueryConcept_Type)jcasType).casFeat_originalText == null)
+      jcasType.jcas.throwFeatMissing("originalText", "edu.cmu.lti.oaqa.type.retrieval.AtomicQueryConcept");
+    jcasType.ll_cas.ll_setStringValue(addr, ((AtomicQueryConcept_Type)jcasType).casFeatCode_originalText, v);}    
   }
-}
 
     

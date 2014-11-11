@@ -19,7 +19,7 @@ import edu.cmu.lti.oaqa.type.input.Question;
  * @author junjiah
  *
  */
-public class ConceptRetrieval extends JCasAnnotator_ImplBase {
+public class QuestionPreprocessing extends JCasAnnotator_ImplBase {
 
   /**
    *

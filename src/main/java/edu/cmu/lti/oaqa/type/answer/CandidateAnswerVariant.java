@@ -8,13 +8,10 @@ import org.apache.uima.jcas.cas.StringList;
 import org.apache.uima.jcas.cas.TOP;
 import org.apache.uima.jcas.cas.TOP_Type;
 
-/**
- * A variant of a candidate answer.  A variant may have multiple occurrences, all of which are collected in a variant object.
- * Updated by JCasGen Sat Oct 18 19:40:19 EDT 2014
- * XML source: /home/mog/dev/11791/project/project-team03-archetype/src/main/resources/type/OAQATypes.xml
- *
- * @generated
- */
+/** A variant of a candidate answer.  A variant may have multiple occurrences, all of which are collected in a variant object.
+ * Updated by JCasGen Mon Nov 10 20:23:29 EST 2014
+ * XML source: /home/gowayyed/workspace/11791/project-team03/src/main/resources/type/OAQATypes.xml
+ * @generated */
 public class CandidateAnswerVariant extends TOP {
   /**
    * @generated
@@ -35,17 +32,15 @@ public class CandidateAnswerVariant extends TOP {
    * @generated
    */
   @Override
-  public int getTypeIndexID() {
-    return typeIndexID;
-  }
-
+  public int getTypeIndexID() {return typeIndexID;}
+ 
   /**
    * Never called.  Disable default constructor
    *
    * @generated
    */
   protected CandidateAnswerVariant() {/* intentionally empty block */}
-
+    
   /**
    * Internal - constructor used by generator
    *
@@ -57,22 +52,22 @@ public class CandidateAnswerVariant extends TOP {
     super(addr, type);
     readObject();
   }
-
+  
   /**
    * @param jcas JCas to which this Feature Structure belongs
    * @generated
    */
   public CandidateAnswerVariant(JCas jcas) {
     super(jcas);
-    readObject();
-  }
+    readObject();   
+  } 
 
-  /**
+  /** 
    * <!-- begin-user-doc -->
    * Write your own initialization here
    * <!-- end-user-doc -->
    *
-   * @generated modifiable
+   * @generated modifiable 
    */
   private void readObject() {/*default - does nothing empty block */}
 
@@ -86,14 +81,10 @@ public class CandidateAnswerVariant extends TOP {
    * @generated
    */
   public FSList getOccurrences() {
-    if (CandidateAnswerVariant_Type.featOkTst &&
-            ((CandidateAnswerVariant_Type) jcasType).casFeat_occurrences == null)
-      jcasType.jcas.throwFeatMissing("occurrences",
-              "edu.cmu.lti.oaqa.type.answer.CandidateAnswerVariant");
-    return (FSList) (jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas.ll_getRefValue(addr,
-            ((CandidateAnswerVariant_Type) jcasType).casFeatCode_occurrences)));
-  }
-
+    if (CandidateAnswerVariant_Type.featOkTst && ((CandidateAnswerVariant_Type)jcasType).casFeat_occurrences == null)
+      jcasType.jcas.throwFeatMissing("occurrences", "edu.cmu.lti.oaqa.type.answer.CandidateAnswerVariant");
+    return (FSList)(jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas.ll_getRefValue(addr, ((CandidateAnswerVariant_Type)jcasType).casFeatCode_occurrences)));}
+    
   /**
    * setter for occurrences - sets The occurrences of this variant.
    *
@@ -101,15 +92,11 @@ public class CandidateAnswerVariant extends TOP {
    * @generated
    */
   public void setOccurrences(FSList v) {
-    if (CandidateAnswerVariant_Type.featOkTst &&
-            ((CandidateAnswerVariant_Type) jcasType).casFeat_occurrences == null)
-      jcasType.jcas.throwFeatMissing("occurrences",
-              "edu.cmu.lti.oaqa.type.answer.CandidateAnswerVariant");
-    jcasType.ll_cas
-            .ll_setRefValue(addr, ((CandidateAnswerVariant_Type) jcasType).casFeatCode_occurrences,
-                    jcasType.ll_cas.ll_getFSRef(v));
-  }
-
+    if (CandidateAnswerVariant_Type.featOkTst && ((CandidateAnswerVariant_Type)jcasType).casFeat_occurrences == null)
+      jcasType.jcas.throwFeatMissing("occurrences", "edu.cmu.lti.oaqa.type.answer.CandidateAnswerVariant");
+    jcasType.ll_cas.ll_setRefValue(addr, ((CandidateAnswerVariant_Type)jcasType).casFeatCode_occurrences, jcasType.ll_cas.ll_getFSRef(v));}    
+   
+    
   //*--------------*
   //* Feature: candidateId
 
@@ -120,14 +107,10 @@ public class CandidateAnswerVariant extends TOP {
    * @generated
    */
   public String getCandidateId() {
-    if (CandidateAnswerVariant_Type.featOkTst &&
-            ((CandidateAnswerVariant_Type) jcasType).casFeat_candidateId == null)
-      jcasType.jcas.throwFeatMissing("candidateId",
-              "edu.cmu.lti.oaqa.type.answer.CandidateAnswerVariant");
-    return jcasType.ll_cas.ll_getStringValue(addr,
-            ((CandidateAnswerVariant_Type) jcasType).casFeatCode_candidateId);
-  }
-
+    if (CandidateAnswerVariant_Type.featOkTst && ((CandidateAnswerVariant_Type)jcasType).casFeat_candidateId == null)
+      jcasType.jcas.throwFeatMissing("candidateId", "edu.cmu.lti.oaqa.type.answer.CandidateAnswerVariant");
+    return jcasType.ll_cas.ll_getStringValue(addr, ((CandidateAnswerVariant_Type)jcasType).casFeatCode_candidateId);}
+    
   /**
    * setter for candidateId - sets Unique id of this candidate answer variant.
    *
@@ -135,14 +118,11 @@ public class CandidateAnswerVariant extends TOP {
    * @generated
    */
   public void setCandidateId(String v) {
-    if (CandidateAnswerVariant_Type.featOkTst &&
-            ((CandidateAnswerVariant_Type) jcasType).casFeat_candidateId == null)
-      jcasType.jcas.throwFeatMissing("candidateId",
-              "edu.cmu.lti.oaqa.type.answer.CandidateAnswerVariant");
-    jcasType.ll_cas.ll_setStringValue(addr,
-            ((CandidateAnswerVariant_Type) jcasType).casFeatCode_candidateId, v);
-  }
-
+    if (CandidateAnswerVariant_Type.featOkTst && ((CandidateAnswerVariant_Type)jcasType).casFeat_candidateId == null)
+      jcasType.jcas.throwFeatMissing("candidateId", "edu.cmu.lti.oaqa.type.answer.CandidateAnswerVariant");
+    jcasType.ll_cas.ll_setStringValue(addr, ((CandidateAnswerVariant_Type)jcasType).casFeatCode_candidateId, v);}    
+   
+    
   //*--------------*
   //* Feature: text
 
@@ -153,13 +133,10 @@ public class CandidateAnswerVariant extends TOP {
    * @generated
    */
   public String getText() {
-    if (CandidateAnswerVariant_Type.featOkTst &&
-            ((CandidateAnswerVariant_Type) jcasType).casFeat_text == null)
+    if (CandidateAnswerVariant_Type.featOkTst && ((CandidateAnswerVariant_Type)jcasType).casFeat_text == null)
       jcasType.jcas.throwFeatMissing("text", "edu.cmu.lti.oaqa.type.answer.CandidateAnswerVariant");
-    return jcasType.ll_cas
-            .ll_getStringValue(addr, ((CandidateAnswerVariant_Type) jcasType).casFeatCode_text);
-  }
-
+    return jcasType.ll_cas.ll_getStringValue(addr, ((CandidateAnswerVariant_Type)jcasType).casFeatCode_text);}
+    
   /**
    * setter for text - sets The candidate answer string.
    *
@@ -167,13 +144,11 @@ public class CandidateAnswerVariant extends TOP {
    * @generated
    */
   public void setText(String v) {
-    if (CandidateAnswerVariant_Type.featOkTst &&
-            ((CandidateAnswerVariant_Type) jcasType).casFeat_text == null)
+    if (CandidateAnswerVariant_Type.featOkTst && ((CandidateAnswerVariant_Type)jcasType).casFeat_text == null)
       jcasType.jcas.throwFeatMissing("text", "edu.cmu.lti.oaqa.type.answer.CandidateAnswerVariant");
-    jcasType.ll_cas
-            .ll_setStringValue(addr, ((CandidateAnswerVariant_Type) jcasType).casFeatCode_text, v);
-  }
-
+    jcasType.ll_cas.ll_setStringValue(addr, ((CandidateAnswerVariant_Type)jcasType).casFeatCode_text, v);}    
+   
+    
   //*--------------*
   //* Feature: alternativeNames
 
@@ -184,14 +159,10 @@ public class CandidateAnswerVariant extends TOP {
    * @generated
    */
   public StringList getAlternativeNames() {
-    if (CandidateAnswerVariant_Type.featOkTst &&
-            ((CandidateAnswerVariant_Type) jcasType).casFeat_alternativeNames == null)
-      jcasType.jcas.throwFeatMissing("alternativeNames",
-              "edu.cmu.lti.oaqa.type.answer.CandidateAnswerVariant");
-    return (StringList) (jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas.ll_getRefValue(addr,
-            ((CandidateAnswerVariant_Type) jcasType).casFeatCode_alternativeNames)));
-  }
-
+    if (CandidateAnswerVariant_Type.featOkTst && ((CandidateAnswerVariant_Type)jcasType).casFeat_alternativeNames == null)
+      jcasType.jcas.throwFeatMissing("alternativeNames", "edu.cmu.lti.oaqa.type.answer.CandidateAnswerVariant");
+    return (StringList)(jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas.ll_getRefValue(addr, ((CandidateAnswerVariant_Type)jcasType).casFeatCode_alternativeNames)));}
+    
   /**
    * setter for alternativeNames - sets alternative names for a given candidate answer variant, e.g. Tandy, Tandy Inc. for candidate answer Variant Tandy Incorporated
    *
@@ -199,15 +170,11 @@ public class CandidateAnswerVariant extends TOP {
    * @generated
    */
   public void setAlternativeNames(StringList v) {
-    if (CandidateAnswerVariant_Type.featOkTst &&
-            ((CandidateAnswerVariant_Type) jcasType).casFeat_alternativeNames == null)
-      jcasType.jcas.throwFeatMissing("alternativeNames",
-              "edu.cmu.lti.oaqa.type.answer.CandidateAnswerVariant");
-    jcasType.ll_cas.ll_setRefValue(addr,
-            ((CandidateAnswerVariant_Type) jcasType).casFeatCode_alternativeNames,
-            jcasType.ll_cas.ll_getFSRef(v));
-  }
-
+    if (CandidateAnswerVariant_Type.featOkTst && ((CandidateAnswerVariant_Type)jcasType).casFeat_alternativeNames == null)
+      jcasType.jcas.throwFeatMissing("alternativeNames", "edu.cmu.lti.oaqa.type.answer.CandidateAnswerVariant");
+    jcasType.ll_cas.ll_setRefValue(addr, ((CandidateAnswerVariant_Type)jcasType).casFeatCode_alternativeNames, jcasType.ll_cas.ll_getFSRef(v));}    
+   
+    
   //*--------------*
   //* Feature: uri
 
@@ -218,13 +185,10 @@ public class CandidateAnswerVariant extends TOP {
    * @generated
    */
   public String getUri() {
-    if (CandidateAnswerVariant_Type.featOkTst &&
-            ((CandidateAnswerVariant_Type) jcasType).casFeat_uri == null)
+    if (CandidateAnswerVariant_Type.featOkTst && ((CandidateAnswerVariant_Type)jcasType).casFeat_uri == null)
       jcasType.jcas.throwFeatMissing("uri", "edu.cmu.lti.oaqa.type.answer.CandidateAnswerVariant");
-    return jcasType.ll_cas
-            .ll_getStringValue(addr, ((CandidateAnswerVariant_Type) jcasType).casFeatCode_uri);
-  }
-
+    return jcasType.ll_cas.ll_getStringValue(addr, ((CandidateAnswerVariant_Type)jcasType).casFeatCode_uri);}
+    
   /**
    * setter for uri - sets A unique identifier for this candidate.  All candidate answers in the same candidate answer group will have the same uri.  A candidate answer group is formed at candidate generation time when additional derived candidate answers are created from the root candidate answer.
    *
@@ -232,13 +196,11 @@ public class CandidateAnswerVariant extends TOP {
    * @generated
    */
   public void setUri(String v) {
-    if (CandidateAnswerVariant_Type.featOkTst &&
-            ((CandidateAnswerVariant_Type) jcasType).casFeat_uri == null)
+    if (CandidateAnswerVariant_Type.featOkTst && ((CandidateAnswerVariant_Type)jcasType).casFeat_uri == null)
       jcasType.jcas.throwFeatMissing("uri", "edu.cmu.lti.oaqa.type.answer.CandidateAnswerVariant");
-    jcasType.ll_cas
-            .ll_setStringValue(addr, ((CandidateAnswerVariant_Type) jcasType).casFeatCode_uri, v);
-  }
-
+    jcasType.ll_cas.ll_setStringValue(addr, ((CandidateAnswerVariant_Type)jcasType).casFeatCode_uri, v);}    
+   
+    
   //*--------------*
   //* Feature: docId
 
@@ -249,14 +211,10 @@ public class CandidateAnswerVariant extends TOP {
    * @generated
    */
   public String getDocId() {
-    if (CandidateAnswerVariant_Type.featOkTst &&
-            ((CandidateAnswerVariant_Type) jcasType).casFeat_docId == null)
-      jcasType.jcas
-              .throwFeatMissing("docId", "edu.cmu.lti.oaqa.type.answer.CandidateAnswerVariant");
-    return jcasType.ll_cas
-            .ll_getStringValue(addr, ((CandidateAnswerVariant_Type) jcasType).casFeatCode_docId);
-  }
-
+    if (CandidateAnswerVariant_Type.featOkTst && ((CandidateAnswerVariant_Type)jcasType).casFeat_docId == null)
+      jcasType.jcas.throwFeatMissing("docId", "edu.cmu.lti.oaqa.type.answer.CandidateAnswerVariant");
+    return jcasType.ll_cas.ll_getStringValue(addr, ((CandidateAnswerVariant_Type)jcasType).casFeatCode_docId);}
+    
   /**
    * setter for docId - sets The unique id of the document (if any) from which this candidate answer was generated.
    *
@@ -264,13 +222,9 @@ public class CandidateAnswerVariant extends TOP {
    * @generated
    */
   public void setDocId(String v) {
-    if (CandidateAnswerVariant_Type.featOkTst &&
-            ((CandidateAnswerVariant_Type) jcasType).casFeat_docId == null)
-      jcasType.jcas
-              .throwFeatMissing("docId", "edu.cmu.lti.oaqa.type.answer.CandidateAnswerVariant");
-    jcasType.ll_cas
-            .ll_setStringValue(addr, ((CandidateAnswerVariant_Type) jcasType).casFeatCode_docId, v);
+    if (CandidateAnswerVariant_Type.featOkTst && ((CandidateAnswerVariant_Type)jcasType).casFeat_docId == null)
+      jcasType.jcas.throwFeatMissing("docId", "edu.cmu.lti.oaqa.type.answer.CandidateAnswerVariant");
+    jcasType.ll_cas.ll_setStringValue(addr, ((CandidateAnswerVariant_Type)jcasType).casFeatCode_docId, v);}    
   }
-}
 
     
