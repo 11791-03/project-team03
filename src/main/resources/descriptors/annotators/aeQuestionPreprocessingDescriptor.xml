@@ -1,25 +1,33 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <analysisEngineDescription xmlns="http://uima.apache.org/resourceSpecifier">
   <frameworkImplementation>org.apache.uima.java</frameworkImplementation>
-  <primitive>true</primitive>  <annotatorImplementationName></annotatorImplementationName>
+  <primitive>true</primitive>  <annotatorImplementationName>edu.cmu.lti.f14.project.QuestionPreprocessing</annotatorImplementationName>
   <analysisEngineMetaData>
     <name>aeQuestionPreprocessingDescriptor</name>
-    <description></description>
+    <description/>
     <version>1.0</version>
-    <vendor></vendor>
-    <configurationParameters></configurationParameters>
-    <configurationParameterSettings></configurationParameterSettings>
-    <typeSystemDescription></typeSystemDescription>
-    <typePriorities></typePriorities>
-    <fsIndexCollection></fsIndexCollection>
+    <vendor/>
+    <configurationParameters/>
+    <configurationParameterSettings/>
+    <typeSystemDescription>
+      <imports>
+        <import location="../../type/OAQATypes.xml"/>
+      </imports>
+    </typeSystemDescription>
+    <typePriorities/>
+    <fsIndexCollection/>
     <capabilities>
       <capability>
-        <inputs></inputs>
-        <outputs></outputs>
-        <languagesSupported></languagesSupported>
+        <inputs/>
+        <outputs/>
+        <languagesSupported/>
       </capability>
     </capabilities>
+    <operationalProperties>
+      <modifiesCas>true</modifiesCas>
+      <multipleDeploymentAllowed>true</multipleDeploymentAllowed>
+      <outputsNewCASes>false</outputsNewCASes>
+    </operationalProperties>
   </analysisEngineMetaData>
-  <externalResourceDependencies></externalResourceDependencies>
-  <resourceManagerConfiguration></resourceManagerConfiguration>
+  <resourceManagerConfiguration/>
 </analysisEngineDescription>
