@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
+
 <analysisEngineDescription xmlns="http://uima.apache.org/resourceSpecifier">
   <frameworkImplementation>org.apache.uima.java</frameworkImplementation>
   <primitive>true</primitive>  <annotatorImplementationName>edu.cmu.lti.f14.project.QuestionPreprocessing</annotatorImplementationName>
@@ -9,11 +10,7 @@
     <vendor/>
     <configurationParameters/>
     <configurationParameterSettings/>
-    <typeSystemDescription>
-      <imports>
-        <import location="../../type/OAQATypes.xml"/>
-      </imports>
-    </typeSystemDescription>
+    <typeSystemDescription/>
     <typePriorities/>
     <fsIndexCollection/>
     <capabilities>
@@ -23,7 +20,7 @@
         <languagesSupported/>
       </capability>
     </capabilities>
-    <operationalProperties>
+  <operationalProperties>
       <modifiesCas>true</modifiesCas>
       <multipleDeploymentAllowed>true</multipleDeploymentAllowed>
       <outputsNewCASes>false</outputsNewCASes>
