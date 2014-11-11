@@ -76,4 +76,8 @@ public final class Triple {
     this.o = o;
   }
 
+  @Override
+  public String toString() {
+    return String.format("o: %s, p: %s, s: %s", o, p, s);
+  }
 }
