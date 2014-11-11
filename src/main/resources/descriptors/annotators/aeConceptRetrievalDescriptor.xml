@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <analysisEngineDescription xmlns="http://uima.apache.org/resourceSpecifier">
   <frameworkImplementation>org.apache.uima.java</frameworkImplementation>
-  <primitive>true</primitive>
-  <annotatorImplementationName>edu.cmu.lti.f14.project.ConceptAnnotator</annotatorImplementationName>
+  <primitive>true</primitive>  <annotatorImplementationName>edu.cmu.lti.f14.project.ConceptRetrieval</annotatorImplementationName>
   <analysisEngineMetaData>
-    <name>ConceptAnnotatorDescriptor</name>
+    <name>aeConceptRetrievalDescriptor</name>
     <description/>
     <version>1.0</version>
-    <vendor>Junjia He</vendor>
+    <vendor/>
+    <configurationParameters/>
+    <configurationParameterSettings/>
     <typeSystemDescription>
       <imports>
         <import location="../../type/OAQATypes.xml"/>
@@ -22,7 +24,7 @@
         <languagesSupported/>
       </capability>
     </capabilities>
-    <operationalProperties>
+  <operationalProperties>
       <modifiesCas>true</modifiesCas>
       <multipleDeploymentAllowed>true</multipleDeploymentAllowed>
       <outputsNewCASes>false</outputsNewCASes>

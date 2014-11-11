@@ -14,7 +14,7 @@ import edu.cmu.lti.oaqa.type.input.*;
  * @author junjiah
  *
  */
-public class ConceptAnnotator extends JCasAnnotator_ImplBase {
+public class DocumentRetrieval extends JCasAnnotator_ImplBase {
 
   /**
    *

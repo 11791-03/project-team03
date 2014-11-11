@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<analysisEngineDescription xmlns="http://uima.apache.org/resourceSpecifier">
+  <frameworkImplementation>org.apache.uima.java</frameworkImplementation>
+  <primitive>false</primitive>  
+  <delegateAnalysisEngineSpecifiers>
+    <delegateAnalysisEngine key="aeDocumentRetrievalDescriptor">
+      <import location="aeDocumentRetrievalDescriptor.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="aeConceptRetrievalDescriptor">
+      <import location="aeConceptRetrievalDescriptor.xml"/>
+    </delegateAnalysisEngine>
+    <delegateAnalysisEngine key="aeTripleRetrievalDescriptor">
+      <import location="aeTripleRetrievalDescriptor.xml"/>
+    </delegateAnalysisEngine>
+  </delegateAnalysisEngineSpecifiers>
+  <analysisEngineMetaData>
+    <name>aaeInformationRetrievalDescriptor</name>
+    <description/>
+    <version>1.0</version>
+    <vendor/>
+    <configurationParameters/>
+    <configurationParameterSettings/>
+    <flowConstraints>
+      <fixedFlow>
+        <node>aeDocumentRetrievalDescriptor</node>
+        <node>aeConceptRetrievalDescriptor</node>
+        <node>aeTripleRetrievalDescriptor</node>
+      </fixedFlow>
+    </flowConstraints>
+    <fsIndexCollection/>
+    <capabilities>
+      <capability>
+        <inputs/>
+        <outputs/>
+        <languagesSupported/>
+      </capability>
+    </capabilities>
+  <operationalProperties>
+      <modifiesCas>true</modifiesCas>
+      <multipleDeploymentAllowed>true</multipleDeploymentAllowed>
+      <outputsNewCASes>false</outputsNewCASes>
+    </operationalProperties>
+  </analysisEngineMetaData>
+  <resourceManagerConfiguration/>
+</analysisEngineDescription>
