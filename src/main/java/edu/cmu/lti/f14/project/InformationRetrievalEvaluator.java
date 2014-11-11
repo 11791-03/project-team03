@@ -35,11 +35,11 @@ public class InformationRetrievalEvaluator extends JCasAnnotator_ImplBase {
 
   private Map<String, json.gson.Question> goldenStandards;
 
-  private Integer[] documentsCounts = new Integer[3];
+  private int[] documentsCounts = new int[3];
 
-  private Integer[] conceptsCounts = new Integer[3];
+  private int[] conceptsCounts = new int[3];
 
-  private Integer[] triplesCounts = new Integer[3];
+  private int[] triplesCounts = new int[3];
 
   /**
    * Initialize the golden results.
@@ -98,30 +98,40 @@ public class InformationRetrievalEvaluator extends JCasAnnotator_ImplBase {
     Collection<Concept> concepts = JCasUtil.select(aJCas, Concept.class);
     Collection<Triple> triples = JCasUtil.select(aJCas, Triple.class);
 
-    compareToGroundTruth(
-            documentsCounts,
-            goldenResult.getDocuments(),
-            documents
-                    .stream()
-                    .map(Document::getDocId)
-                    .collect(toList()));
-    compareToGroundTruth(
-            conceptsCounts,
-            goldenResult.getConcepts(),
-            concepts
-                    .stream()
-                    .map(Concept::getUris)
-                    .map(i -> i.getNthElement(0)) // only one URI for every concept
-                    .collect(toList()));
-    compareToGroundTruth(triplesCounts,
-            goldenResult.getTriples()
-                    .stream()
-                    .map(json.gson.Triple::toString)
-                    .collect(toList()),
-            triples
-                    .stream()
-                    .map(this::convertTripleToString)
-                    .collect(toList()));
+    List<String> goldenDocuments = goldenResult.getDocuments();
+    List<String> goldenConcepts = goldenResult.getConcepts();
+    List<json.gson.Triple> goldenTriples= goldenResult.getTriples();
+
+    if (goldenDocuments != null) {
+      compareToGroundTruth(
+              documentsCounts,
+              goldenResult.getDocuments(),
+              documents
+                      .stream()
+                      .map(Document::getUri)
+                      .collect(toList()));
+    }
+    if (goldenConcepts != null) {
+      compareToGroundTruth(
+              conceptsCounts,
+              goldenConcepts,
+              concepts
+                      .stream()
+                      .map(Concept::getUris)
+                      .map(i -> i.getNthElement(0)) // only one URI for every concept
+                      .collect(toList()));
+    }
+    if (goldenTriples != null) {
+      compareToGroundTruth(triplesCounts,
+              goldenTriples
+                      .stream()
+                      .map(json.gson.Triple::toString)
+                      .collect(toList()),
+              triples
+                      .stream()
+                      .map(this::convertTripleToString)
+                      .collect(toList()));
+    }
   }
 
   @Override
@@ -154,8 +164,8 @@ public class InformationRetrievalEvaluator extends JCasAnnotator_ImplBase {
 
   }
 
-  private void compareToGroundTruth(Integer[] counts, List<String> results,
-          List<String> golden) {
+  private void compareToGroundTruth(int[] counts, List<String> golden,
+          List<String> results) {
     Set<String> intersection = Sets.newHashSet(results);
     intersection.retainAll(golden);
     int intersectionSize = intersection.size();
