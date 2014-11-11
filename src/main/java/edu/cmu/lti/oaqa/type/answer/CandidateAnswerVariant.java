@@ -9,7 +9,7 @@ import org.apache.uima.jcas.cas.TOP;
 import org.apache.uima.jcas.cas.TOP_Type;
 
 /** A variant of a candidate answer.  A variant may have multiple occurrences, all of which are collected in a variant object.
- * Updated by JCasGen Mon Nov 10 20:23:29 EST 2014
+ * Updated by JCasGen Mon Nov 10 20:27:49 EST 2014
  * XML source: /home/gowayyed/workspace/11791/project-team03/src/main/resources/type/OAQATypes.xml
  * @generated */
 public class CandidateAnswerVariant extends TOP {

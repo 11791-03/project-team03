@@ -7,7 +7,7 @@ import org.apache.uima.jcas.cas.TOP_Type;
 import org.apache.uima.jcas.tcas.Annotation;
 
 /** The Question and any associated meta-data.
- * Updated by JCasGen Mon Nov 10 20:23:29 EST 2014
+ * Updated by JCasGen Mon Nov 10 20:27:49 EST 2014
  * XML source: /home/gowayyed/workspace/11791/project-team03/src/main/resources/type/OAQATypes.xml
  * @generated */
 public class Question extends Annotation {
@@ -187,25 +187,25 @@ public class Question extends Annotation {
    
     
   //*--------------*
-  //* Feature: keywords
+  //* Feature: preprocessedText
 
-  /** getter for keywords - gets 
+  /** getter for preprocessedText - gets 
    * @generated
    * @return value of the feature 
    */
-  public String getKeywords() {
-    if (Question_Type.featOkTst && ((Question_Type)jcasType).casFeat_keywords == null)
-      jcasType.jcas.throwFeatMissing("keywords", "edu.cmu.lti.oaqa.type.input.Question");
-    return jcasType.ll_cas.ll_getStringValue(addr, ((Question_Type)jcasType).casFeatCode_keywords);}
+  public String getPreprocessedText() {
+    if (Question_Type.featOkTst && ((Question_Type)jcasType).casFeat_preprocessedText == null)
+      jcasType.jcas.throwFeatMissing("preprocessedText", "edu.cmu.lti.oaqa.type.input.Question");
+    return jcasType.ll_cas.ll_getStringValue(addr, ((Question_Type)jcasType).casFeatCode_preprocessedText);}
     
-  /** setter for keywords - sets  
+  /** setter for preprocessedText - sets  
    * @generated
    * @param v value to set into the feature 
    */
-  public void setKeywords(String v) {
-    if (Question_Type.featOkTst && ((Question_Type)jcasType).casFeat_keywords == null)
-      jcasType.jcas.throwFeatMissing("keywords", "edu.cmu.lti.oaqa.type.input.Question");
-    jcasType.ll_cas.ll_setStringValue(addr, ((Question_Type)jcasType).casFeatCode_keywords, v);}    
+  public void setPreprocessedText(String v) {
+    if (Question_Type.featOkTst && ((Question_Type)jcasType).casFeat_preprocessedText == null)
+      jcasType.jcas.throwFeatMissing("preprocessedText", "edu.cmu.lti.oaqa.type.input.Question");
+    jcasType.ll_cas.ll_setStringValue(addr, ((Question_Type)jcasType).casFeatCode_preprocessedText, v);}    
   }
 
     

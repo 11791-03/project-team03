@@ -13,7 +13,7 @@ import org.apache.uima.jcas.JCasRegistry;
 import org.apache.uima.jcas.cas.TOP_Type;
 
 /** An abstract search query for the question that represents query concepts and query operators over those concepts.
- * Updated by JCasGen Mon Nov 10 20:23:30 EST 2014
+ * Updated by JCasGen Mon Nov 10 20:27:49 EST 2014
  * @generated */
 public class AbstractQuery_Type extends TOP_Type {
   /**

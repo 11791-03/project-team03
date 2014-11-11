@@ -10,7 +10,7 @@ import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.JCasRegistry;
 
 /** A search result where the candidate answer is obtained as part of the search process and saved in the text field of the search result.
- * Updated by JCasGen Mon Nov 10 20:23:30 EST 2014
+ * Updated by JCasGen Mon Nov 10 20:27:49 EST 2014
  * @generated */
 public class AnswerSearchResult_Type extends SearchResult_Type {
   /**

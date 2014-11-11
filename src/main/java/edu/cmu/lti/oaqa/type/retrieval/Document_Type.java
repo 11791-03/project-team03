@@ -12,7 +12,7 @@ import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.JCasRegistry;
 
 /** A document search result.
- * Updated by JCasGen Mon Nov 10 20:23:30 EST 2014
+ * Updated by JCasGen Mon Nov 10 20:27:49 EST 2014
  * @generated */
 public class Document_Type extends SearchResult_Type {
   /**

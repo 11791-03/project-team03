@@ -13,7 +13,7 @@ import org.apache.uima.jcas.JCasRegistry;
 import org.apache.uima.jcas.tcas.Annotation_Type;
 
 /** A semantic role label.
- * Updated by JCasGen Mon Nov 10 20:23:30 EST 2014
+ * Updated by JCasGen Mon Nov 10 20:27:49 EST 2014
  * @generated */
 public class SemanticRole_Type extends Annotation_Type {
   /**

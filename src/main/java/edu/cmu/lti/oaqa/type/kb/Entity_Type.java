@@ -10,7 +10,7 @@ import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.JCasRegistry;
 
 /** An abstract normalized entity, which may have various surface forms (alternative representations).
- * Updated by JCasGen Mon Nov 10 20:23:29 EST 2014
+ * Updated by JCasGen Mon Nov 10 20:27:49 EST 2014
  * @generated */
 public class Entity_Type extends Concept_Type {
   /**

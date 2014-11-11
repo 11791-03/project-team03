@@ -7,7 +7,7 @@ import org.apache.uima.jcas.cas.FSList;
 import org.apache.uima.jcas.cas.TOP_Type;
 
 /** A hierarchical query concept represented by a query operation on a list of concepts
- * Updated by JCasGen Mon Nov 10 20:23:30 EST 2014
+ * Updated by JCasGen Mon Nov 10 20:27:49 EST 2014
  * XML source: /home/gowayyed/workspace/11791/project-team03/src/main/resources/type/OAQATypes.xml
  * @generated */
 public class ComplexQueryConcept extends QueryConcept {

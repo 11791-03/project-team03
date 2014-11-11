@@ -149,7 +149,7 @@
           <rangeTypeName>uima.cas.String</rangeTypeName>
         </featureDescription>
       <featureDescription>
-          <name>keywords</name>
+          <name>preprocessedText</name>
           <description/>
           <rangeTypeName>uima.cas.String</rangeTypeName>
         </featureDescription>

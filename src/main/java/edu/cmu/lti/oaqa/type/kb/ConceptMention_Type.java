@@ -13,7 +13,7 @@ import org.apache.uima.jcas.JCasRegistry;
 import org.apache.uima.jcas.tcas.Annotation_Type;
 
 /** A superclass for EntityMention and RelationMention.
- * Updated by JCasGen Mon Nov 10 20:23:29 EST 2014
+ * Updated by JCasGen Mon Nov 10 20:27:49 EST 2014
  * @generated */
 public class ConceptMention_Type extends Annotation_Type {
   /**

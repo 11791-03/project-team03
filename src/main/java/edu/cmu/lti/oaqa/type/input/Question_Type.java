@@ -13,7 +13,7 @@ import org.apache.uima.jcas.JCasRegistry;
 import org.apache.uima.jcas.tcas.Annotation_Type;
 
 /** The Question and any associated meta-data.
- * Updated by JCasGen Mon Nov 10 20:23:29 EST 2014
+ * Updated by JCasGen Mon Nov 10 20:27:49 EST 2014
  * @generated */
 public class Question_Type extends Annotation_Type {
   /**
@@ -183,26 +183,26 @@ public class Question_Type extends Annotation_Type {
   
  
   /** @generated */
-  final Feature casFeat_keywords;
+  final Feature casFeat_preprocessedText;
   /** @generated */
-  final int     casFeatCode_keywords;
+  final int     casFeatCode_preprocessedText;
   /** @generated
    * @param addr low level Feature Structure reference
    * @return the feature value 
    */ 
-  public String getKeywords(int addr) {
-        if (featOkTst && casFeat_keywords == null)
-      jcas.throwFeatMissing("keywords", "edu.cmu.lti.oaqa.type.input.Question");
-    return ll_cas.ll_getStringValue(addr, casFeatCode_keywords);
+  public String getPreprocessedText(int addr) {
+        if (featOkTst && casFeat_preprocessedText == null)
+      jcas.throwFeatMissing("preprocessedText", "edu.cmu.lti.oaqa.type.input.Question");
+    return ll_cas.ll_getStringValue(addr, casFeatCode_preprocessedText);
   }
   /** @generated
    * @param addr low level Feature Structure reference
    * @param v value to set 
    */    
-  public void setKeywords(int addr, String v) {
-        if (featOkTst && casFeat_keywords == null)
-      jcas.throwFeatMissing("keywords", "edu.cmu.lti.oaqa.type.input.Question");
-    ll_cas.ll_setStringValue(addr, casFeatCode_keywords, v);}
+  public void setPreprocessedText(int addr, String v) {
+        if (featOkTst && casFeat_preprocessedText == null)
+      jcas.throwFeatMissing("preprocessedText", "edu.cmu.lti.oaqa.type.input.Question");
+    ll_cas.ll_setStringValue(addr, casFeatCode_preprocessedText, v);}
     
   
 
@@ -236,8 +236,8 @@ public class Question_Type extends Annotation_Type {
     casFeatCode_text  = (null == casFeat_text) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_text).getCode();
 
  
-    casFeat_keywords = jcas.getRequiredFeatureDE(casType, "keywords", "uima.cas.String", featOkTst);
-    casFeatCode_keywords  = (null == casFeat_keywords) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_keywords).getCode();
+    casFeat_preprocessedText = jcas.getRequiredFeatureDE(casType, "preprocessedText", "uima.cas.String", featOkTst);
+    casFeatCode_preprocessedText  = (null == casFeat_preprocessedText) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_preprocessedText).getCode();
 
   }
 }
