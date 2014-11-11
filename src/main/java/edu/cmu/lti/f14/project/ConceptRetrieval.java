@@ -46,30 +46,30 @@ public class ConceptRetrieval extends JCasAnnotator_ImplBase {
         for (OntologyServiceResponse.Finding finding : diseaseOntologyResult.getFindings()) {
           createConcept(aJCas, finding.getConcept());
         }
-        OntologyServiceResponse.Result geneOntologyResult = service.findGeneOntologyEntitiesPaged(
-                question.getPreprocessedText(), 0, 10);
-        System.out.println("Gene ontology: " + geneOntologyResult.getFindings().size());
-        for (OntologyServiceResponse.Finding finding : geneOntologyResult.getFindings()) {
-          createConcept(aJCas, finding.getConcept());
-        }
-        OntologyServiceResponse.Result jochemResult = service.findJochemEntitiesPaged(
-                question.getPreprocessedText(), 0);
-        System.out.println("Jochem: " + jochemResult.getFindings().size());
-        for (OntologyServiceResponse.Finding finding : jochemResult.getFindings()) {
-          createConcept(aJCas, finding.getConcept());
-        }
-        OntologyServiceResponse.Result meshResult = service.findMeshEntitiesPaged(
-                question.getPreprocessedText(), 0);
-        System.out.println("MeSH: " + meshResult.getFindings().size());
-        for (OntologyServiceResponse.Finding finding : meshResult.getFindings()) {
-          createConcept(aJCas, finding.getConcept());
-        }
-        OntologyServiceResponse.Result uniprotResult = service.findUniprotEntitiesPaged(
-                question.getPreprocessedText(), 0);
-        System.out.println("UniProt: " + uniprotResult.getFindings().size());
-        for (OntologyServiceResponse.Finding finding : uniprotResult.getFindings()) {
-          createConcept(aJCas, finding.getConcept());
-        }
+//        OntologyServiceResponse.Result geneOntologyResult = service.findGeneOntologyEntitiesPaged(
+//                question.getPreprocessedText(), 0, 10);
+//        System.out.println("Gene ontology: " + geneOntologyResult.getFindings().size());
+//        for (OntologyServiceResponse.Finding finding : geneOntologyResult.getFindings()) {
+//          createConcept(aJCas, finding.getConcept());
+//        }
+//        OntologyServiceResponse.Result jochemResult = service.findJochemEntitiesPaged(
+//                question.getPreprocessedText(), 0);
+//        System.out.println("Jochem: " + jochemResult.getFindings().size());
+//        for (OntologyServiceResponse.Finding finding : jochemResult.getFindings()) {
+//          createConcept(aJCas, finding.getConcept());
+//        }
+//        OntologyServiceResponse.Result meshResult = service.findMeshEntitiesPaged(
+//                question.getPreprocessedText(), 0);
+//        System.out.println("MeSH: " + meshResult.getFindings().size());
+//        for (OntologyServiceResponse.Finding finding : meshResult.getFindings()) {
+//          createConcept(aJCas, finding.getConcept());
+//        }
+//        OntologyServiceResponse.Result uniprotResult = service.findUniprotEntitiesPaged(
+//                question.getPreprocessedText(), 0);
+//        System.out.println("UniProt: " + uniprotResult.getFindings().size());
+//        for (OntologyServiceResponse.Finding finding : uniprotResult.getFindings()) {
+//          createConcept(aJCas, finding.getConcept());
+//        }
       } catch (ConfigurationException e) {
         e.printStackTrace();
       } catch (ClientProtocolException e) {
