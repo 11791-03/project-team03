@@ -12,8 +12,13 @@ import json.gson.TrainingSet;
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
+import org.apache.uima.cas.CASException;
 import org.apache.uima.cas.FSIterator;
+import org.apache.uima.cas.FeatureStructure;
+import org.apache.uima.cas.Type;
+import org.apache.uima.cas_data.impl.FeatureStructureImpl;
 import org.apache.uima.jcas.JCas;
+import org.apache.uima.jcas.cas.FSArray;
 import org.apache.uima.jcas.cas.TOP;
 import org.apache.uima.jcas.tcas.Annotation;
 import org.apache.uima.resource.ResourceInitializationException;
@@ -25,6 +30,7 @@ import edu.cmu.lti.oaqa.type.input.Question;
 import edu.cmu.lti.oaqa.type.kb.Concept;
 import edu.cmu.lti.oaqa.type.kb.Triple;
 import edu.cmu.lti.oaqa.type.retrieval.Document;
+import edu.cmu.lti.oaqa.type.retrieval.Document_Type;
 
 /**
  * @author junjiah
@@ -70,30 +76,17 @@ public class InformationRetrievalEvaluator extends JCasAnnotator_ImplBase {
   public void process(JCas aJCas) throws AnalysisEngineProcessException {
     FSIterator<Annotation> iter = aJCas.getAnnotationIndex(Question.type).iterator();
     TrainingQuestion goldenResult = null;
-    Iterator<TOP> fs = aJCas.getIndexRepository().getAllIndexedFS(Concept.class).iterator();
     int i = 0;
-    List<String> concepts = Lists.newArrayList();
-    List<String> triples = Lists.newArrayList();
-    List<String> documents = Lists.newArrayList();
-    while (fs.hasNext()) {
-      TOP ann = fs.next();
-      if (ann.getClass() == Question.class) {
-        String questionId = ((Question) (ann)).getId();
-        goldenResult = goldenStandards.get(questionId);
-      }
-      if (ann.getClass() == Document.class) {
-//        documents.add((Document) ann);
-      }
-      if (ann.getClass() == Concept.class) {
-//        concepts.add((Concept) ann);
-      }
-      if (ann.getClass() == Triple.class) {
-//        concepts.add((Triple) ann);
-      }
+    try {
+      FSIterator<FeatureStructure> documents = (FSIterator<FeatureStructure>) aJCas.getIndexRepository().getAllIndexedFS(aJCas.getRequiredType("edu.cmu.lti.oaqa.type.retrieval.Document"));
+      FSIterator<FeatureStructure> concepts = (FSIterator<FeatureStructure>) aJCas.getIndexRepository().getAllIndexedFS(aJCas.getRequiredType("edu.cmu.lti.oaqa.type.retrieval.Concept"));
+      FSIterator<FeatureStructure> triples = (FSIterator<FeatureStructure>) aJCas.getIndexRepository().getAllIndexedFS(aJCas.getRequiredType("edu.cmu.lti.oaqa.type.retrieval.Triple"));
+    } catch (CASException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
     }
-    // compare
-    compareToGroundTruth(documentsCounts, goldenResult.getDocuments(), documents);
-    compareToGroundTruth(conceptsCounts, goldenResult.getConcepts(), concepts);
+//    compareToGroundTruth(documentsCounts, goldenResult.getDocuments(), documents);
+//    compareToGroundTruth(conceptsCounts, goldenResult.getConcepts(), concepts);
 //    compareToGroundTruth(triplesCounts, goldenResult.getTriples(), triples);
     
   }
