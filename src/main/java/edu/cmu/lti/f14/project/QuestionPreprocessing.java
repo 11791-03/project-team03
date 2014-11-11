@@ -26,6 +26,8 @@ import java.util.StringTokenizer;
  */
 public class QuestionPreprocessing extends JCasAnnotator_ImplBase {
 
+  private Set<String> stopwords;
+
   /**
    * Set up a stop-word dictionary.
    */
@@ -46,13 +48,12 @@ public class QuestionPreprocessing extends JCasAnnotator_ImplBase {
     } catch (Exception e) {
       e.printStackTrace();
     } finally {
-      try {
-        if (br != null) {
+      if (br != null)
+        try {
           br.close();
+        } catch (IOException e) {
+          e.printStackTrace();
         }
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
     }
   }
 
@@ -85,6 +86,4 @@ public class QuestionPreprocessing extends JCasAnnotator_ImplBase {
     }
     return res;
   }
-
-  private Set<String> stopwords;
 }

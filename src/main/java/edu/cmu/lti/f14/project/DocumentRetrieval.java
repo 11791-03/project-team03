@@ -16,16 +16,18 @@ import util.TypeFactory;
 import java.io.IOException;
 
 /**
+ * Document retrieval component in pipeline.
+ *
  * @author junjiah
  */
 public class DocumentRetrieval extends JCasAnnotator_ImplBase {
 
-  private GoPubMedService service;
-
   private static final String URI_PREFIX = "http://www.ncbi.nlm.nih.gov/pubmed/";
 
+  private GoPubMedService service;
+
   /**
-   *
+   * Initialize the PubMed service.
    */
   @Override
   public void initialize(UimaContext aContext) throws ResourceInitializationException {
@@ -38,7 +40,7 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
   }
 
   /**
-   *
+   * Input the preprocessed texts to PubMed and retrieve the documents.
    */
   @Override
   public void process(JCas aJCas) throws AnalysisEngineProcessException {
@@ -49,7 +51,7 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
         return;
 
       PubMedSearchServiceResponse.Result pubMedResult = null;
-      System.out.println(query);
+
       try {
         pubMedResult = service.findPubMedCitations(query, 0);
       } catch (IOException e) {
@@ -60,7 +62,7 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
       for (PubMedSearchServiceResponse.Document pubMedDocument : pubMedResult.getDocuments()) {
         String pmid = pubMedDocument.getPmid();
         Document document = TypeFactory
-                .createDocument(aJCas, URI_PREFIX + pmid, pubMedDocument.getPmid());
+                .createDocument(aJCas, URI_PREFIX + pmid, pmid);
         document.addToIndexes();
       }
     }
