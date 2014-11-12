@@ -164,10 +164,22 @@ public class InformationRetrievalEvaluator extends JCasAnnotator_ImplBase {
             triplePrecision, tripleRecall, 2 * triplePrecision * tripleRecall
                     / (triplePrecision + tripleRecall), tripleMAP, tripleGMAP));
   }
+  
+  private static double apAtK(Set<String> golden, List<String> results, int k) {
+    assert k < results.size();
+    double pos = 0.;
+    for(int i=0; i<k; i++) {
+      if(golden.contains(results.get(i))) {
+        pos++;
+      }
+    }
+    return pos / (k+1);
+  }
 
   private void compareToGroundTruth(double[] counts, List<String> golden, List<String> originalResults) {
+    
     Set<String> intersection = Sets.newHashSet(originalResults);
-    List<String> results = Lists.newArrayList(Sets.newHashSet(originalResults));
+    List<String> results = Lists.newArrayList(Sets.newLinkedHashSet(originalResults));
     Set<String> goldenSet = Sets.newHashSet(golden);
     assert originalResults.size() != results.size();
     assert 0 == 1;
@@ -189,6 +201,22 @@ public class InformationRetrievalEvaluator extends JCasAnnotator_ImplBase {
       }
     }
     ap /= golden.size();
+    
+    List<Double> aps = Lists.newArrayList();
+    for(int r=0; r<results.size(); r++) {
+      if(goldenSet.contains(results.get(r))) {
+        aps.add(apAtK(goldenSet,results,r));
+      }
+    }
+    
+    double sumAP = 0;
+    for(double d:aps) {
+      sumAP += d;
+    }
+    
+    System.out.println("my AP: " + (sumAP/golden.size()));
+    assert sumAP/golden.size() == ap;
+    ap = sumAP/golden.size();
 
     // sumAPrecision
     counts[3] += ap;
