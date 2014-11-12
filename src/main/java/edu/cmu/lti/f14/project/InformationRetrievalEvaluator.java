@@ -33,13 +33,15 @@ import static java.util.stream.Collectors.toList;
  */
 public class InformationRetrievalEvaluator extends JCasAnnotator_ImplBase {
 
+  private final double EPSILON = 0.01;
+
   private Map<String, json.gson.Question> goldenStandards;
 
-  private int[] documentsCounts = new int[3];
+  private double[] documentsCounts = new double[6];
 
-  private int[] conceptsCounts = new int[3];
+  private double[] conceptsCounts = new double[6];
 
-  private int[] triplesCounts = new int[3];
+  private double[] triplesCounts = new double[6];
 
   /**
    * Initialize the golden results.
@@ -51,9 +53,8 @@ public class InformationRetrievalEvaluator extends JCasAnnotator_ImplBase {
     List<json.gson.Question> questions = Lists.newArrayList();
 
     try {
-      List<? extends TestQuestion> gsonQuestions = TestSet
-              .load(getClass().getResourceAsStream(
-                      String.class.cast(filePath)));
+      List<? extends TestQuestion> gsonQuestions = TestSet.load(getClass().getResourceAsStream(
+              String.class.cast(filePath)));
       for (json.gson.Question q : gsonQuestions)
         questions.add(q);
     } catch (Exception e) {
@@ -62,11 +63,8 @@ public class InformationRetrievalEvaluator extends JCasAnnotator_ImplBase {
       System.exit(1);
     }
     // trim question texts and add to golden standards
-    questions.stream()
-            .filter(input -> input.getBody() != null)
-            .forEach(
-                    input -> goldenStandards.put(input.getId(), input));
-
+    questions.stream().filter(input -> input.getBody() != null)
+            .forEach(input -> goldenStandards.put(input.getId(), input));
   }
 
   /**
@@ -85,14 +83,18 @@ public class InformationRetrievalEvaluator extends JCasAnnotator_ImplBase {
       // cannot evaluate current question
       return;
     }
-  /*  try {
-      FSIterator<FeatureStructure> documents = (FSIterator<FeatureStructure>) aJCas.getIndexRepository().getAllIndexedFS(aJCas.getRequiredType("edu.cmu.lti.oaqa.type.retrieval.Document"));
-      FSIterator<FeatureStructure> concepts = (FSIterator<FeatureStructure>) aJCas.getIndexRepository().getAllIndexedFS(aJCas.getRequiredType("edu.cmu.lti.oaqa.type.retrieval.Concept"));
-      FSIterator<FeatureStructure> triples = (FSIterator<FeatureStructure>) aJCas.getIndexRepository().getAllIndexedFS(aJCas.getRequiredType("edu.cmu.lti.oaqa.type.retrieval.Triple"));
-    } catch (CASException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }*/
+    /*
+     * try { FSIterator<FeatureStructure> documents = (FSIterator<FeatureStructure>)
+     * aJCas.getIndexRepository
+     * ().getAllIndexedFS(aJCas.getRequiredType("edu.cmu.lti.oaqa.type.retrieval.Document"));
+     * FSIterator<FeatureStructure> concepts = (FSIterator<FeatureStructure>)
+     * aJCas.getIndexRepository
+     * ().getAllIndexedFS(aJCas.getRequiredType("edu.cmu.lti.oaqa.type.retrieval.Concept"));
+     * FSIterator<FeatureStructure> triples = (FSIterator<FeatureStructure>)
+     * aJCas.getIndexRepository
+     * ().getAllIndexedFS(aJCas.getRequiredType("edu.cmu.lti.oaqa.type.retrieval.Triple")); } catch
+     * (CASException e) { // TODO Auto-generated catch block e.printStackTrace(); }
+     */
 
     Collection<Document> documents = JCasUtil.select(aJCas, Document.class);
     Collection<Concept> concepts = JCasUtil.select(aJCas, Concept.class);
@@ -100,37 +102,29 @@ public class InformationRetrievalEvaluator extends JCasAnnotator_ImplBase {
 
     List<String> goldenDocuments = goldenResult.getDocuments();
     List<String> goldenConcepts = goldenResult.getConcepts();
-    List<json.gson.Triple> goldenTriples= goldenResult.getTriples();
+    List<json.gson.Triple> goldenTriples = goldenResult.getTriples();
 
     if (goldenDocuments != null) {
-      compareToGroundTruth(
-              documentsCounts,
-              goldenResult.getDocuments(),
-              documents
-                      .stream()
-                      .map(Document::getUri)
-                      .collect(toList()));
+      compareToGroundTruth(documentsCounts, goldenResult.getDocuments(),
+      // goldenResult.getDocuments()
+              documents.stream().map(Document::getUri).collect(toList()));
     }
     if (goldenConcepts != null) {
-      compareToGroundTruth(
-              conceptsCounts,
-              goldenConcepts,
-              concepts
-                      .stream()
-                      .map(Concept::getUris)
-                      .map(i -> i.getNthElement(0)) // only one URI for every concept
+      compareToGroundTruth(conceptsCounts, goldenConcepts,
+      // goldenConcepts);
+              concepts.stream().map(Concept::getUris).map(i -> i.getNthElement(0)) // only one URI
+                                                                                   // for every
+                                                                                   // concept
                       .collect(toList()));
     }
     if (goldenTriples != null) {
-      compareToGroundTruth(triplesCounts,
-              goldenTriples
-                      .stream()
-                      .map(json.gson.Triple::toString)
-                      .collect(toList()),
-              triples
-                      .stream()
-                      .map(this::convertTripleToString)
-                      .collect(toList()));
+      compareToGroundTruth(triplesCounts, goldenTriples.stream().map(json.gson.Triple::toString)
+              .collect(toList()),
+      // goldenTriples
+      // .stream()
+      // .map(json.gson.Triple::toString)
+      // .collect(toList()));
+              triples.stream().map(this::convertTripleToString).collect(toList()));
     }
   }
 
@@ -138,43 +132,67 @@ public class InformationRetrievalEvaluator extends JCasAnnotator_ImplBase {
   public void collectionProcessComplete() throws AnalysisEngineProcessException {
     super.collectionProcessComplete();
     // calculate precision & recall
-    double documentPrecision =
-            ((double) documentsCounts[0]) / (documentsCounts[0] + documentsCounts[1]);
-    double conceptPrecision =
-            ((double) conceptsCounts[0]) / (conceptsCounts[0] + conceptsCounts[1]);
+    double documentPrecision = ((double) documentsCounts[0])
+            / (documentsCounts[0] + documentsCounts[1]);
+    double conceptPrecision = ((double) conceptsCounts[0])
+            / (conceptsCounts[0] + conceptsCounts[1]);
     double triplePrecision = ((double) triplesCounts[0]) / (triplesCounts[0] + triplesCounts[1]);
 
-    double documentRecall =
-            ((double) documentsCounts[0]) / (documentsCounts[0] + documentsCounts[2]);
+    double documentRecall = ((double) documentsCounts[0])
+            / (documentsCounts[0] + documentsCounts[2]);
     double conceptRecall = ((double) conceptsCounts[0]) / (conceptsCounts[0] + conceptsCounts[2]);
     double tripleRecall = ((double) triplesCounts[0]) / (triplesCounts[0] + triplesCounts[2]);
 
-    System.out.println(String.format(
-            "Document - precision: %.4f, recall: %.4f, F1: %.4f", documentPrecision, documentRecall,
-            2 * documentPrecision * documentRecall / (documentPrecision + documentRecall)
-    ));
-    System.out.println(String.format(
-            "Concept - precision: %.4f, recall: %.4f, F1: %.4f", conceptPrecision, conceptRecall,
-            2 * conceptPrecision * conceptRecall / (conceptPrecision + conceptRecall)
-    ));
-    System.out.println(String.format(
-            "Triple - precision: %.4f, recall: %.4f, F1: %.4f", triplePrecision, tripleRecall,
-            2 * triplePrecision * tripleRecall / (triplePrecision + tripleRecall)
-    ));
+    double documentMAP = documentsCounts[3] / documentsCounts[5];
+    double conceptMAP = conceptsCounts[3] / conceptsCounts[5];
+    double tripleMAP = triplesCounts[3] / triplesCounts[5];
 
+    double documentGMAP = documentsCounts[4] / documentsCounts[5];
+    double conceptGMAP = conceptsCounts[4] / conceptsCounts[5];
+    double tripleGMAP = triplesCounts[4] / triplesCounts[5];
+
+    System.out.println(String.format(
+            "Document - precision: %.4f, recall: %.4f, F1: %.4f, MAP: %.4f, GMAP: %.4f",
+            documentPrecision, documentRecall, 2 * documentPrecision * documentRecall
+                    / (documentPrecision + documentRecall), documentMAP, documentGMAP));
+    System.out.println(String.format(
+            "Concept - precision: %.4f, recall: %.4f, F1: %.4f, MAP: %.4f, GMAP: %.4f",
+            conceptPrecision, conceptRecall, 2 * conceptPrecision * conceptRecall
+                    / (conceptPrecision + conceptRecall), conceptMAP, conceptGMAP));
+    System.out.println(String.format(
+            "Triple - precision: %.4f, recall: %.4f, F1: %.4f, MAP: %.4f, GMAP: %.4f",
+            triplePrecision, tripleRecall, 2 * triplePrecision * tripleRecall
+                    / (triplePrecision + tripleRecall), tripleMAP, tripleGMAP));
   }
 
-  private void compareToGroundTruth(int[] counts, List<String> golden,
-          List<String> results) {
-    Set<String> intersection = Sets.newHashSet(results);
+  private void compareToGroundTruth(double[] counts, List<String> golden, List<String> originalResults) {
+    Set<String> intersection = Sets.newHashSet(originalResults);
+    List<String> results = Lists.newArrayList(Sets.newHashSet(originalResults));
+    Set<String> goldenSet = Sets.newHashSet(golden);
     intersection.retainAll(golden);
-    int intersectionSize = intersection.size();
+    double intersectionSize = intersection.size();
     // index for true positive = 0
     counts[0] += intersectionSize;
     // index for false positive = 1
     counts[1] += results.size() - intersectionSize;
     // index for false negative = 2
     counts[2] += golden.size() - intersectionSize;
+    double trueCount = 0;
+    double ap = 0;
+    for (int r = 0; r < results.size(); r++) {
+      if (goldenSet.contains(results.get(r))) {
+        trueCount++;
+        assert trueCount < (r + 1);
+        ap += trueCount / (r + 1);
+      }
+    }
+    ap /= golden.size();
+
+    // sumAPrecision
+    counts[3] += ap;
+    // productAPrecision
+    counts[4] *= ap == 0 ? EPSILON : ap;
+    counts[5]++;
   }
 
   private String convertTripleToString(Triple t) {
