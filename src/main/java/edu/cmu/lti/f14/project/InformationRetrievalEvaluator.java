@@ -30,7 +30,7 @@ import static java.util.stream.Collectors.toList;
  */
 public class InformationRetrievalEvaluator extends JCasAnnotator_ImplBase {
 
-  private final double EPSILON = 0.01;
+  private static final double EPSILON = 0.01;
 
   private Map<String, json.gson.Question> goldenStandards;
 
@@ -39,17 +39,6 @@ public class InformationRetrievalEvaluator extends JCasAnnotator_ImplBase {
   private double[] conceptsCounts = new double[6];
 
   private double[] triplesCounts = new double[6];
-
-  private static double apAtK(Set<String> golden, List<String> results, int k) {
-    assert k < results.size();
-    double pos = 0.;
-    for (int i = 0; i < k; i++) {
-      if (golden.contains(results.get(i))) {
-        pos++;
-      }
-    }
-    return pos / (k + 1);
-  }
 
   /**
    * Initialize the golden results.

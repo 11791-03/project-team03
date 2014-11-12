@@ -1,33 +1,27 @@
 package edu.cmu.lti.f14.project;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import javax.naming.ConfigurationException;
-
+import edu.cmu.lti.oaqa.bio.bioasq.services.GoPubMedService;
+import edu.cmu.lti.oaqa.bio.bioasq.services.LinkedLifeDataServiceResponse;
+import edu.cmu.lti.oaqa.type.input.Question;
+import edu.cmu.lti.oaqa.type.kb.Triple;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
-import org.apache.uima.cas.FSIterator;
 import org.apache.uima.cas.FeatureStructure;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
-
-import util.TypeConstants;
 import util.TypeFactory;
-import edu.cmu.lti.oaqa.bio.bioasq.services.GoPubMedService;
-import edu.cmu.lti.oaqa.bio.bioasq.services.LinkedLifeDataServiceResponse;
-import edu.cmu.lti.oaqa.type.input.*;
-import edu.cmu.lti.oaqa.type.kb.Triple;
-import edu.cmu.lti.oaqa.type.retrieval.TripleSearchResult;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * @author hanz
- *
  */
 public class TripleRetrieval extends JCasAnnotator_ImplBase {
+
   private GoPubMedService service;
 
   /**
@@ -38,10 +32,10 @@ public class TripleRetrieval extends JCasAnnotator_ImplBase {
     try {
       service = new GoPubMedService("project.properties");
     } catch (org.apache.commons.configuration.ConfigurationException e) {
-      System.out.println("ConfigurationException occurred: " + e.getMessage());
+      System.err.println("ERROR: Initialize PubMed service error in Document Retrieval.");
+      System.exit(1);
     }
-
-  };
+  }
 
   public ArrayList<HashMap<String, String>> getTriples(String text) throws ClientProtocolException,
           IOException {
@@ -57,7 +51,6 @@ public class TripleRetrieval extends JCasAnnotator_ImplBase {
       t.put("OBJ", relation.getObj());
       t.put("SCORE", score.toString());
       triples.add(t);
-
     }
     return triples;
   }
@@ -79,9 +72,9 @@ public class TripleRetrieval extends JCasAnnotator_ImplBase {
           triple.addToIndexes();
         }
       } catch (Exception e) {
-        System.out.println("Exception occurred: " + e.getMessage());
+        e.printStackTrace();
+        System.err.println("ERROR: " + e.getMessage());
       }
     }
-
   }
 }
