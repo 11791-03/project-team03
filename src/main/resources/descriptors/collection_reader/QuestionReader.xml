@@ -49,7 +49,7 @@
             <nameValuePair>
                 <name>InputFile</name>
                 <value>
-                    <string>/BioASQ-SampleData1B.json</string>
+                    <string>/questions.json</string>
                 </value>
             </nameValuePair>
             <nameValuePair>

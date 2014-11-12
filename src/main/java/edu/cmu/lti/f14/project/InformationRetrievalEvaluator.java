@@ -9,8 +9,6 @@ import edu.cmu.lti.oaqa.type.kb.Triple;
 import edu.cmu.lti.oaqa.type.retrieval.Document;
 import json.gson.TestQuestion;
 import json.gson.TestSet;
-import json.gson.TrainingQuestion;
-import json.gson.TrainingSet;
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
@@ -24,7 +22,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -42,6 +39,17 @@ public class InformationRetrievalEvaluator extends JCasAnnotator_ImplBase {
   private double[] conceptsCounts = new double[6];
 
   private double[] triplesCounts = new double[6];
+
+  private static double apAtK(Set<String> golden, List<String> results, int k) {
+    assert k < results.size();
+    double pos = 0.;
+    for (int i = 0; i < k; i++) {
+      if (golden.contains(results.get(i))) {
+        pos++;
+      }
+    }
+    return pos / (k + 1);
+  }
 
   /**
    * Initialize the golden results.
@@ -83,18 +91,6 @@ public class InformationRetrievalEvaluator extends JCasAnnotator_ImplBase {
       // cannot evaluate current question
       return;
     }
-    /*
-     * try { FSIterator<FeatureStructure> documents = (FSIterator<FeatureStructure>)
-     * aJCas.getIndexRepository
-     * ().getAllIndexedFS(aJCas.getRequiredType("edu.cmu.lti.oaqa.type.retrieval.Document"));
-     * FSIterator<FeatureStructure> concepts = (FSIterator<FeatureStructure>)
-     * aJCas.getIndexRepository
-     * ().getAllIndexedFS(aJCas.getRequiredType("edu.cmu.lti.oaqa.type.retrieval.Concept"));
-     * FSIterator<FeatureStructure> triples = (FSIterator<FeatureStructure>)
-     * aJCas.getIndexRepository
-     * ().getAllIndexedFS(aJCas.getRequiredType("edu.cmu.lti.oaqa.type.retrieval.Triple")); } catch
-     * (CASException e) { // TODO Auto-generated catch block e.printStackTrace(); }
-     */
 
     Collection<Document> documents = JCasUtil.select(aJCas, Document.class);
     Collection<Concept> concepts = JCasUtil.select(aJCas, Concept.class);
@@ -105,26 +101,35 @@ public class InformationRetrievalEvaluator extends JCasAnnotator_ImplBase {
     List<json.gson.Triple> goldenTriples = goldenResult.getTriples();
 
     if (goldenDocuments != null) {
-      compareToGroundTruth(documentsCounts, goldenResult.getDocuments(),
-      // goldenResult.getDocuments()
-              documents.stream().map(Document::getUri).collect(toList()));
+      compareToGroundTruth(
+              documentsCounts,
+              goldenDocuments,
+              documents
+                      .stream()
+                      .map(Document::getUri)
+                      .collect(toList()));
     }
     if (goldenConcepts != null) {
-      compareToGroundTruth(conceptsCounts, goldenConcepts,
-      // goldenConcepts);
-              concepts.stream().map(Concept::getUris).map(i -> i.getNthElement(0)) // only one URI
-                                                                                   // for every
-                                                                                   // concept
+      compareToGroundTruth(
+              conceptsCounts,
+              goldenConcepts,
+              concepts
+                      .stream()
+                      .map(Concept::getUris)
+                      .map(i -> i.getNthElement(0))
                       .collect(toList()));
     }
     if (goldenTriples != null) {
-      compareToGroundTruth(triplesCounts, goldenTriples.stream().map(json.gson.Triple::toString)
-              .collect(toList()),
-      // goldenTriples
-      // .stream()
-      // .map(json.gson.Triple::toString)
-      // .collect(toList()));
-              triples.stream().map(this::convertTripleToString).collect(toList()));
+      compareToGroundTruth(
+              triplesCounts,
+              goldenTriples
+                      .stream()
+                      .map(Object::toString)
+                      .collect(toList()),
+              triples
+                      .stream()
+                      .map(this::convertTripleToString)
+                      .collect(toList()));
     }
   }
 
@@ -132,16 +137,16 @@ public class InformationRetrievalEvaluator extends JCasAnnotator_ImplBase {
   public void collectionProcessComplete() throws AnalysisEngineProcessException {
     super.collectionProcessComplete();
     // calculate precision & recall
-    double documentPrecision = ((double) documentsCounts[0])
+    double documentPrecision = documentsCounts[0]
             / (documentsCounts[0] + documentsCounts[1]);
-    double conceptPrecision = ((double) conceptsCounts[0])
+    double conceptPrecision = conceptsCounts[0]
             / (conceptsCounts[0] + conceptsCounts[1]);
-    double triplePrecision = ((double) triplesCounts[0]) / (triplesCounts[0] + triplesCounts[1]);
+    double triplePrecision = triplesCounts[0] / (triplesCounts[0] + triplesCounts[1]);
 
-    double documentRecall = ((double) documentsCounts[0])
+    double documentRecall = documentsCounts[0]
             / (documentsCounts[0] + documentsCounts[2]);
-    double conceptRecall = ((double) conceptsCounts[0]) / (conceptsCounts[0] + conceptsCounts[2]);
-    double tripleRecall = ((double) triplesCounts[0]) / (triplesCounts[0] + triplesCounts[2]);
+    double conceptRecall = conceptsCounts[0] / (conceptsCounts[0] + conceptsCounts[2]);
+    double tripleRecall = triplesCounts[0] / (triplesCounts[0] + triplesCounts[2]);
 
     double documentMAP = documentsCounts[3] / documentsCounts[5];
     double conceptMAP = conceptsCounts[3] / conceptsCounts[5];
@@ -164,26 +169,14 @@ public class InformationRetrievalEvaluator extends JCasAnnotator_ImplBase {
             triplePrecision, tripleRecall, 2 * triplePrecision * tripleRecall
                     / (triplePrecision + tripleRecall), tripleMAP, tripleGMAP));
   }
-  
-  private static double apAtK(Set<String> golden, List<String> results, int k) {
-    assert k < results.size();
-    double pos = 0.;
-    for(int i=0; i<k; i++) {
-      if(golden.contains(results.get(i))) {
-        pos++;
-      }
-    }
-    return pos / (k+1);
-  }
 
-  private void compareToGroundTruth(double[] counts, List<String> golden, List<String> originalResults) {
-    
-    Set<String> intersection = Sets.newHashSet(originalResults);
-    List<String> results = Lists.newArrayList(Sets.newLinkedHashSet(originalResults));
-    Set<String> goldenSet = Sets.newHashSet(golden);
-    assert originalResults.size() != results.size();
-    assert 0 == 1;
+  private void compareToGroundTruth(double[] counts, List<String> golden,
+          List<String> results) {
+    Set<String> intersection = Sets.newLinkedHashSet(results);
+    // remove the duplicates and reserve the order
     intersection.retainAll(golden);
+    Set<String> goldenSet = Sets.newHashSet(golden);
+
     double intersectionSize = intersection.size();
     // index for true positive = 0
     counts[0] += intersectionSize;
@@ -191,32 +184,16 @@ public class InformationRetrievalEvaluator extends JCasAnnotator_ImplBase {
     counts[1] += results.size() - intersectionSize;
     // index for false negative = 2
     counts[2] += golden.size() - intersectionSize;
-    double trueCount = 0;
+
+    int trueCount = 0;
     double ap = 0;
     for (int r = 0; r < results.size(); r++) {
       if (goldenSet.contains(results.get(r))) {
         trueCount++;
-        assert trueCount < (r + 1);
-        ap += trueCount / (r + 1);
+        ap += ((double)trueCount) / (r + 1);
       }
     }
     ap /= golden.size();
-    
-    List<Double> aps = Lists.newArrayList();
-    for(int r=0; r<results.size(); r++) {
-      if(goldenSet.contains(results.get(r))) {
-        aps.add(apAtK(goldenSet,results,r));
-      }
-    }
-    
-    double sumAP = 0;
-    for(double d:aps) {
-      sumAP += d;
-    }
-    
-    System.out.println("my AP: " + (sumAP/golden.size()));
-    assert sumAP/golden.size() == ap;
-    ap = sumAP/golden.size();
 
     // sumAPrecision
     counts[3] += ap;
