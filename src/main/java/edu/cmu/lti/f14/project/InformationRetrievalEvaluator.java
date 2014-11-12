@@ -147,9 +147,9 @@ public class InformationRetrievalEvaluator extends JCasAnnotator_ImplBase {
     double conceptMAP = conceptsCounts[3] / conceptsCounts[5];
     double tripleMAP = triplesCounts[3] / triplesCounts[5];
 
-    double documentGMAP = documentsCounts[4] / documentsCounts[5];
-    double conceptGMAP = conceptsCounts[4] / conceptsCounts[5];
-    double tripleGMAP = triplesCounts[4] / triplesCounts[5];
+    double documentGMAP = Math.pow(documentsCounts[4], 1 / documentsCounts[5]);
+    double conceptGMAP = Math.pow(conceptsCounts[4], 1 / conceptsCounts[5]);
+    double tripleGMAP = Math.pow(triplesCounts[4], 1 / triplesCounts[5]);
 
     System.out.println(String.format(
             "Document - precision: %.4f, recall: %.4f, F1: %.4f, MAP: %.4f, GMAP: %.4f",
@@ -169,6 +169,8 @@ public class InformationRetrievalEvaluator extends JCasAnnotator_ImplBase {
     Set<String> intersection = Sets.newHashSet(originalResults);
     List<String> results = Lists.newArrayList(Sets.newHashSet(originalResults));
     Set<String> goldenSet = Sets.newHashSet(golden);
+    assert originalResults.size() != results.size();
+    assert 0 == 1;
     intersection.retainAll(golden);
     double intersectionSize = intersection.size();
     // index for true positive = 0
