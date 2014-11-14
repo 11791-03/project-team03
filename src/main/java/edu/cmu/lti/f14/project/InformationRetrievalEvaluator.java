@@ -167,8 +167,4 @@ public class InformationRetrievalEvaluator extends JCasAnnotator_ImplBase {
     return Math.exp(l.stream().mapToDouble(s -> Math.log(s.getAp() + EPSILON)).average()
             .orElse(Double.NaN));
   }
-
-  private String convertTripleToString(Triple t) {
-    return String.format("o: %s, p: %s, s: %s", t.getObject(), t.getPredicate(), t.getSubject());
-  }
 }
