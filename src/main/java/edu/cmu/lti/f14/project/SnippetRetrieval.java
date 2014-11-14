@@ -1,19 +1,24 @@
 package edu.cmu.lti.f14.project;
 
-import edu.cmu.lti.oaqa.bio.bioasq.services.GoPubMedService;
-import edu.cmu.lti.oaqa.bio.bioasq.services.PubMedSearchServiceResponse;
-import edu.cmu.lti.oaqa.type.input.Question;
 import edu.cmu.lti.oaqa.type.retrieval.Document;
-import org.apache.commons.configuration.ConfigurationException;
-import org.apache.uima.UimaContext;
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
-import org.apache.uima.cas.FeatureStructure;
+import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
-import org.apache.uima.resource.ResourceInitializationException;
-import util.TypeFactory;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * Snippet retrieval component in pipeline.
@@ -22,48 +27,35 @@ import java.io.IOException;
  */
 public class SnippetRetrieval extends JCasAnnotator_ImplBase {
 
-  private static final String URI_PREFIX = "http://www.ncbi.nlm.nih.gov/pubmed/";
+  private static final String URI_PREFIX = "http://metal.lti.cs.cmu.edu:30002/pmc/";
 
-  private GoPubMedService service;
-
-  /**
-   * Initialize the PubMed service.
-   */
-  @Override
-  public void initialize(UimaContext aContext) throws ResourceInitializationException {
-    try {
-      service = new GoPubMedService("project.properties");
-    } catch (ConfigurationException e) {
-      System.err.println("ERROR: Initialize PubMed service error in Document Retrieval.");
-      System.exit(1);
-    }
-  }
+  private static final CloseableHttpClient httpClient = HttpClients.createDefault();
 
   /**
    * Input the preprocessed texts to PubMed and retrieve the documents.
    */
   @Override
   public void process(JCas aJCas) throws AnalysisEngineProcessException {
-    for (FeatureStructure featureStructure : aJCas.getAnnotationIndex(Question.type)) {
-      Question question = (Question) featureStructure;
-      String query = question.getPreprocessedText();
-      if (query == null || query.isEmpty())
-        return;
+    Collection<Document> documents = JCasUtil.select(aJCas, Document.class);
+    List<String> pmids = documents
+            .stream()
+            .map(Document::getDocId)
+            .filter(Objects::nonNull)
+            .collect(toList());
 
-      PubMedSearchServiceResponse.Result pubMedResult = null;
-
-      try {
-        pubMedResult = service.findPubMedCitations(query, 0);
+    for (String pmid : pmids) {
+      String url = URI_PREFIX + pmid;
+      HttpGet httpGet = new HttpGet(url);
+      try (CloseableHttpResponse response = httpClient.execute(httpGet)) {
+        HttpEntity entity = response.getEntity();
+        BufferedReader rd = new BufferedReader(
+                new InputStreamReader(entity.getContent()));
+        String line;
+        while ((line = rd.readLine()) != null) {
+          System.out.println(line);
+        }
       } catch (IOException e) {
-        System.err.println("ERROR: Search PubMed in Document Retrieval Failed.");
-        System.exit(1);
-      }
-
-      for (PubMedSearchServiceResponse.Document pubMedDocument : pubMedResult.getDocuments()) {
-        String pmid = pubMedDocument.getPmid();
-        Document document = TypeFactory
-                .createDocument(aJCas, URI_PREFIX + pmid, pmid);
-        document.addToIndexes();
+        e.printStackTrace();
       }
     }
   }

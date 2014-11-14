@@ -62,7 +62,8 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
       for (PubMedSearchServiceResponse.Document pubMedDocument : pubMedResult.getDocuments()) {
         String pmid = pubMedDocument.getPmid();
         Document document = TypeFactory
-                .createDocument(aJCas, URI_PREFIX + pmid, pmid);
+                .createDocument(aJCas, URI_PREFIX + pmid,
+                        pubMedDocument.isFulltextAvailable() ? pmid : null);
         document.addToIndexes();
       }
     }
