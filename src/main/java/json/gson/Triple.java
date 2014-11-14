@@ -1,5 +1,8 @@
 package json.gson;
 
+import lombok.ToString;
+
+@ToString
 public final class Triple {
 
   private String s;
@@ -13,6 +16,13 @@ public final class Triple {
     this.s = s;
     this.p = p;
     this.o = o;
+  }
+
+  public Triple(edu.cmu.lti.oaqa.type.kb.Triple t) {
+    super();
+    this.s = t.getSubject();
+    this.p = t.getPredicate();
+    this.o = t.getObject();
   }
 
   @Override
@@ -76,8 +86,4 @@ public final class Triple {
     this.o = o;
   }
 
-  @Override
-  public String toString() {
-    return String.format("o: %s, p: %s, s: %s", o, p, s);
-  }
 }

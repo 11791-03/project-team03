@@ -1,14 +1,16 @@
 package edu.cmu.lti.f14.project;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
-import edu.cmu.lti.oaqa.type.input.Question;
-import edu.cmu.lti.oaqa.type.kb.Concept;
-import edu.cmu.lti.oaqa.type.kb.Triple;
-import edu.cmu.lti.oaqa.type.retrieval.Document;
+import static java.util.stream.Collectors.toList;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import json.gson.TestQuestion;
 import json.gson.TestSet;
+import lombok.Data;
+
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
@@ -18,12 +20,14 @@ import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.tcas.Annotation;
 import org.apache.uima.resource.ResourceInitializationException;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 
-import static java.util.stream.Collectors.toList;
+import edu.cmu.lti.oaqa.type.input.Question;
+import edu.cmu.lti.oaqa.type.kb.Concept;
+import edu.cmu.lti.oaqa.type.kb.Triple;
+import edu.cmu.lti.oaqa.type.retrieval.Document;
 
 /**
  * Evaluator for intermediate results - Document, Concept and Triple
@@ -34,11 +38,11 @@ public class InformationRetrievalEvaluator extends JCasAnnotator_ImplBase {
 
   private Map<String, json.gson.Question> goldenStandards;
 
-  private double[] documentsCounts = new double[6];
+  private List<Stats> docStats = Lists.newArrayList();
 
-  private double[] conceptsCounts = new double[6];
+  private List<Stats> conceptStats = Lists.newArrayList();
 
-  private double[] triplesCounts = new double[6];
+  private List<Stats> tripStats = Lists.newArrayList();
 
   /**
    * Initialize the golden results.
@@ -90,105 +94,78 @@ public class InformationRetrievalEvaluator extends JCasAnnotator_ImplBase {
     List<json.gson.Triple> goldenTriples = goldenResult.getTriples();
 
     if (goldenDocuments != null) {
-      compareToGroundTruth(
-              documentsCounts,
-              goldenDocuments,
-              documents
-                      .stream()
-                      .map(Document::getUri)
-                      .collect(toList()));
+      Stats docStat = new Stats(goldenDocuments, documents.stream().map(Document::getUri)
+              .collect(toList()));
+      docStats.add(docStat);
     }
     if (goldenConcepts != null) {
-      compareToGroundTruth(
-              conceptsCounts,
-              goldenConcepts,
-              concepts
-                      .stream()
-                      .map(Concept::getUris)
-                      .map(i -> i.getNthElement(0))
-                      .collect(toList()));
+      Stats conceptStat = new Stats(goldenConcepts, concepts.stream().map(Concept::getUris)
+              .map(i -> i.getNthElement(0)).collect(toList()));
+      conceptStats.add(conceptStat);
     }
     if (goldenTriples != null) {
-      compareToGroundTruth(
-              triplesCounts,
-              goldenTriples
-                      .stream()
-                      .map(Object::toString)
-                      .collect(toList()),
-              triples
-                      .stream()
-                      .map(this::convertTripleToString)
-                      .collect(toList()));
+      Stats tripStat = new Stats(goldenTriples.stream().map(Object::toString).collect(toList()),
+              triples.stream().map(t -> new json.gson.Triple(t).toString()).collect(toList()));
+      tripStats.add(tripStat);
     }
   }
 
   @Override
   public void collectionProcessComplete() throws AnalysisEngineProcessException {
     super.collectionProcessComplete();
-    // calculate precision & recall
-    double documentPrecision = documentsCounts[0]
-            / (documentsCounts[0] + documentsCounts[1]);
-    double conceptPrecision = conceptsCounts[0]
-            / (conceptsCounts[0] + conceptsCounts[1]);
-    double triplePrecision = triplesCounts[0] / (triplesCounts[0] + triplesCounts[1]);
-
-    double documentRecall = documentsCounts[0]
-            / (documentsCounts[0] + documentsCounts[2]);
-    double conceptRecall = conceptsCounts[0] / (conceptsCounts[0] + conceptsCounts[2]);
-    double tripleRecall = triplesCounts[0] / (triplesCounts[0] + triplesCounts[2]);
-
-    double documentMAP = documentsCounts[3] / documentsCounts[5];
-    double conceptMAP = conceptsCounts[3] / conceptsCounts[5];
-    double tripleMAP = triplesCounts[3] / triplesCounts[5];
-
-    double documentGMAP = Math.pow(documentsCounts[4], 1 / documentsCounts[5]);
-    double conceptGMAP = Math.pow(conceptsCounts[4], 1 / conceptsCounts[5]);
-    double tripleGMAP = Math.pow(triplesCounts[4], 1 / triplesCounts[5]);
-
-    System.out.println(String.format(
-            "Document - precision: %.4f, recall: %.4f, F1: %.4f, MAP: %.4f, GMAP: %.4f",
-            documentPrecision, documentRecall, 2 * documentPrecision * documentRecall
-                    / (documentPrecision + documentRecall), documentMAP, documentGMAP));
-    System.out.println(String.format(
-            "Concept - precision: %.4f, recall: %.4f, F1: %.4f, MAP: %.4f, GMAP: %.4f",
-            conceptPrecision, conceptRecall, 2 * conceptPrecision * conceptRecall
-                    / (conceptPrecision + conceptRecall), conceptMAP, conceptGMAP));
-    System.out.println(String.format(
-            "Triple - precision: %.4f, recall: %.4f, F1: %.4f, MAP: %.4f, GMAP: %.4f",
-            triplePrecision, tripleRecall, 2 * triplePrecision * tripleRecall
-                    / (triplePrecision + tripleRecall), tripleMAP, tripleGMAP));
+    printStats(docStats, "Document");
+    printStats(conceptStats, "Concept");
+    printStats(tripStats, "Triple");
   }
 
-  private void compareToGroundTruth(double[] counts, List<String> golden,
-          List<String> results) {
-    Set<String> intersection = Sets.newLinkedHashSet(results);
-    // remove the duplicates and reserve the order
-    intersection.retainAll(golden);
-    Set<String> goldenSet = Sets.newHashSet(golden);
+  private void printStats(List<Stats> s, String type) {
+    double precision = calculatePrecision(s);
+    double recall = calculateRecall(s);
+    double f1 = 2 * precision * recall / (precision + recall);
+    System.out.println(String.format(
+            "%s - precision: %.4f, recall: %.4f, F1: %.4f, MAP: %.4f, GMAP: %.4f", type, precision,
+            recall, f1, calculateMAP(s), calculateGMAP(s)));
+  }
 
-    double intersectionSize = intersection.size();
-    // index for true positive = 0
-    counts[0] += intersectionSize;
-    // index for false positive = 1
-    counts[1] += results.size() - intersectionSize;
-    // index for false negative = 2
-    counts[2] += golden.size() - intersectionSize;
+  @Data
+  class Stats {
+    private double truePositive, falsePositive, falseNegative, ap;
 
-    int trueCount = 0;
-    double ap = 0;
-    for (int r = 0; r < results.size(); r++) {
-      if (goldenSet.contains(results.get(r))) {
-        trueCount++;
-        ap += ((double)trueCount) / (r + 1);
+    Stats(List<String> golden, List<String> results) {
+      Set<String> intersection = Sets.newLinkedHashSet(results);
+      intersection.retainAll(golden);
+      Set<String> goldenSet = Sets.newHashSet(golden);
+      truePositive = intersection.size();
+      falsePositive = results.size() - truePositive;
+      falseNegative = golden.size() - truePositive;
+      int trueCount = 0;
+      for (int r = 0; r < results.size(); r++) {
+        if (goldenSet.contains(results.get(r))) {
+          trueCount++;
+          ap += ((double) trueCount) / (r + 1);
+        }
       }
+      ap /= golden.size();
     }
-    ap /= golden.size();
+  }
 
-    // sumAPrecision
-    counts[3] += ap;
-    // productAPrecision
-    counts[4] *= ap == 0 ? EPSILON : ap;
-    counts[5]++;
+  static double calculateRecall(List<Stats> l) {
+    return l.stream().mapToDouble(s -> s.getTruePositive()).sum()
+            / l.stream().mapToDouble(s -> s.getTruePositive() + s.getFalseNegative()).sum();
+  }
+
+  static double calculatePrecision(List<Stats> l) {
+    return l.stream().mapToDouble(s -> s.getTruePositive()).sum()
+            / l.stream().mapToDouble(s -> s.getTruePositive() + s.getFalsePositive()).sum();
+  }
+
+  static double calculateMAP(List<Stats> l) {
+    return l.stream().mapToDouble(s -> s.getAp()).average().orElse(Double.NaN);
+  }
+
+  static double calculateGMAP(List<Stats> l) {
+    return Math.exp(l.stream().mapToDouble(s -> Math.log(s.getAp() + EPSILON)).average()
+            .orElse(Double.NaN));
   }
 
   private String convertTripleToString(Triple t) {
