@@ -27,7 +27,7 @@ import static java.util.stream.Collectors.toList;
  */
 public class SnippetRetrieval extends JCasAnnotator_ImplBase {
 
-  private static final String URI_PREFIX = "http://metal.lti.cs.cmu.edu:30002/pmc/";
+  private static final String URI_PREFIX = "http://gold.lti.cs.cmu.edu:30002/pmc/";
 
   private static final CloseableHttpClient httpClient = HttpClients.createDefault();
 
