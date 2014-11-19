@@ -18,6 +18,7 @@ import java.io.IOException;
 /**
  *
  */
+
 public class ConceptRetrieval extends JCasAnnotator_ImplBase {
 
   private GoPubMedService service;
@@ -27,12 +28,14 @@ public class ConceptRetrieval extends JCasAnnotator_ImplBase {
    */
   @Override
   public void initialize(UimaContext aContext) throws ResourceInitializationException {
+    /*
     try {
       service = new GoPubMedService("project.properties");
     } catch (ConfigurationException e) {
       System.err.println("ERROR: Initialize PubMed service error in Document Retrieval.");
       System.exit(1);
     }
+    */
   }
 
   /**
@@ -40,6 +43,7 @@ public class ConceptRetrieval extends JCasAnnotator_ImplBase {
    */
   @Override
   public void process(JCas aJCas) throws AnalysisEngineProcessException {
+    /*
     for (FeatureStructure featureStructure : aJCas.getAnnotationIndex(Question.type)) {
       Question question = (Question) featureStructure;
       try {
@@ -76,9 +80,12 @@ public class ConceptRetrieval extends JCasAnnotator_ImplBase {
         System.err.println("ERROR: " + e.getMessage());
       }
     }
+    */
   }
 
   private void createConcept(JCas jcas, Concept c) {
+    /*
     TypeFactory.createConcept(jcas, c.getUri()).addToIndexes();
+    */
   }
 }

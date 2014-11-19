@@ -20,7 +20,9 @@ import java.io.IOException;
  *
  * @author junjiah
  */
+
 public class DocumentRetrieval extends JCasAnnotator_ImplBase {
+
 
   private static final String URI_PREFIX = "http://www.ncbi.nlm.nih.gov/pubmed/";
 
@@ -29,21 +31,27 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
   /**
    * Initialize the PubMed service.
    */
+  
   @Override
+  
   public void initialize(UimaContext aContext) throws ResourceInitializationException {
+   /*
     try {
       service = new GoPubMedService("project.properties");
     } catch (ConfigurationException e) {
       System.err.println("ERROR: Initialize PubMed service error in Document Retrieval.");
       System.exit(1);
     }
+    */
   }
-
+  
   /**
    * Input the preprocessed texts to PubMed and retrieve the documents.
    */
+  
   @Override
   public void process(JCas aJCas) throws AnalysisEngineProcessException {
+    /*
     for (FeatureStructure featureStructure : aJCas.getAnnotationIndex(Question.type)) {
       Question question = (Question) featureStructure;
       String query = question.getPreprocessedText();
@@ -66,5 +74,7 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
         document.addToIndexes();
       }
     }
+    */
   }
+  
 }

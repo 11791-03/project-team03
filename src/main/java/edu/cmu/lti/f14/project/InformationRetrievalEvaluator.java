@@ -3,12 +3,15 @@ package edu.cmu.lti.f14.project;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+
 import edu.cmu.lti.oaqa.type.input.Question;
 import edu.cmu.lti.oaqa.type.kb.Concept;
 import edu.cmu.lti.oaqa.type.kb.Triple;
 import edu.cmu.lti.oaqa.type.retrieval.Document;
+import edu.cmu.lti.oaqa.type.retrieval.TripleSearchResult;
 import json.gson.TestQuestion;
 import json.gson.TestSet;
+
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
@@ -83,8 +86,11 @@ public class InformationRetrievalEvaluator extends JCasAnnotator_ImplBase {
 
     Collection<Document> documents = JCasUtil.select(aJCas, Document.class);
     Collection<Concept> concepts = JCasUtil.select(aJCas, Concept.class);
+    
     Collection<Triple> triples = JCasUtil.select(aJCas, Triple.class);
+    //Collection<TripleSearchResult> triples=JCasUtil.select(aJCas,TripleSearchResult.class);
 
+      
     List<String> goldenDocuments = goldenResult.getDocuments();
     List<String> goldenConcepts = goldenResult.getConcepts();
     List<json.gson.Triple> goldenTriples = goldenResult.getTriples();
@@ -115,10 +121,14 @@ public class InformationRetrievalEvaluator extends JCasAnnotator_ImplBase {
                       .stream()
                       .map(Object::toString)
                       .collect(toList()),
-              triples
-                      .stream()
-                      .map(this::convertTripleToString)
+              triples.stream().map(this::convertTripleToString)
                       .collect(toList()));
+      if (triples
+      .stream()
+      .map(this::convertTripleToString)
+      .collect(toList()).size()!=0){
+        System.out.print("fuck");
+      }
     }
   }
 
