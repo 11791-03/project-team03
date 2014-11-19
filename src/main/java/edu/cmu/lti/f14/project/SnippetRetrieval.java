@@ -1,15 +1,17 @@
 package edu.cmu.lti.f14.project;
 
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+import com.aliasi.chunk.Chunk;
+import com.aliasi.chunk.Chunking;
+import com.aliasi.sentences.MedlineSentenceModel;
+import com.aliasi.sentences.SentenceChunker;
+import com.aliasi.sentences.SentenceModel;
+import com.aliasi.tokenizer.IndoEuropeanTokenizerFactory;
+import com.aliasi.tokenizer.Tokenizer;
+import com.aliasi.tokenizer.TokenizerFactory;
+import edu.cmu.lti.f14.project.util.CosineSimilarity;
+import edu.cmu.lti.f14.project.util.Similarity;
+import edu.cmu.lti.oaqa.type.input.Question;
+import edu.cmu.lti.oaqa.type.retrieval.Document;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.uima.UimaContext;
@@ -19,23 +21,11 @@ import org.apache.uima.cas.FeatureStructure;
 import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
-
 import util.TypeFactory;
 
-import com.aliasi.chunk.Chunk;
-import com.aliasi.chunk.Chunking;
-import com.aliasi.sentences.MedlineSentenceModel;
-import com.aliasi.sentences.SentenceChunker;
-import com.aliasi.sentences.SentenceModel;
-import com.aliasi.tokenizer.IndoEuropeanTokenizerFactory;
-import com.aliasi.tokenizer.Tokenizer;
-import com.aliasi.tokenizer.TokenizerFactory;
-
-import edu.cmu.lti.f14.project.util.CosineSimilarity;
-import edu.cmu.lti.f14.project.util.Similarity;
-import edu.cmu.lti.oaqa.type.input.Question;
-import edu.cmu.lti.oaqa.type.retrieval.Document;
-import edu.stanford.nlp.util.Maps;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.util.*;
 
 /**
  * Snippet retrieval component in pipeline.
@@ -82,7 +72,7 @@ public class SnippetRetrieval extends JCasAnnotator_ImplBase {
       String query = question.getPreprocessedText();
       Collection<Document> documents = JCasUtil.select(aJCas, Document.class);
 
-      List<SentenceScore> sentenceScores = new ArrayList<>();
+      List<Sentence> sentences = new ArrayList<>();
 
       for (Document d : documents) {
         String text = d.getText();
@@ -90,7 +80,7 @@ public class SnippetRetrieval extends JCasAnnotator_ImplBase {
           continue;
 
         Chunking chunking = SENTENCE_CHUNKER.chunk(text.toCharArray(), 0, text.length());
-        Set<Chunk> sentences = chunking.chunkSet();
+        Set<Chunk> sentenceBoundaries = chunking.chunkSet();
         String slice = chunking.charSequence().toString();
 
         List<String> tokenList = new ArrayList<>();
@@ -98,61 +88,25 @@ public class SnippetRetrieval extends JCasAnnotator_ImplBase {
         Tokenizer tokenizer = TOKENIZER_FACTORY.tokenizer(text.toCharArray(), 0, text.length());
         tokenizer.tokenize(tokenList, whiteList);
 
-        String st = "";
-        for (Chunk sentence : sentences) {
-          int start = sentence.start();
-          int end = sentence.end();
-          // TODO: store into cache
-          // System.out.println("SENTENCE -----:");
-          // System.out.println(slice.substring(start, end));
+        String st;
+        for (Chunk sentenceBoundary : sentenceBoundaries) {
+          int start = sentenceBoundary.start();
+          int end = sentenceBoundary.end();
           st = slice.substring(start, end);
-          sentenceScores.add(new SentenceScore(sentence, d, st, similarity.computeSimilarity(st,
+          sentences.add(new Sentence(sentenceBoundary, d, st, similarity.computeSimilarity(st,
                   query)));
         }
       }
-      Collections.sort(sentenceScores);
-      SentenceScore s;
-      for (int i = 0; i < Math.min(TOP_K, sentenceScores.size()); i++) {
-        s = sentenceScores.get(i);
-        TypeFactory.createPassage(aJCas, s.document.getUri(), s.text, s.document.getDocId(),
-                s.sentence.start(), s.sentence.end(), "ABSTRACT", "ABSTRACT").addToIndexes();
+      Collections.sort(sentences);
+      Sentence s;
+      for (int i = 0; i < Math.min(TOP_K, sentences.size()); i++) {
+        s = sentences.get(i);
+        TypeFactory.createPassage(aJCas, s.referencedDocument.getUri(), s.text,
+                s.referencedDocument.getDocId(),
+                s.boundary.start(), s.boundary.end(), "ABSTRACT", "ABSTRACT").addToIndexes();
       }
     }
   }
-
-  private class SentenceScore implements Comparable<SentenceScore> {
-    public Chunk sentence;
-
-    public Document document;
-
-    public String text;
-
-    public double sim;
-
-    public SentenceScore(Chunk sen, Document doc, String t, double sim) {
-      this.sentence = sen;
-      this.document = doc;
-      this.text = t;
-      this.sim = sim;
-    }
-
-    @Override
-    public int compareTo(SentenceScore o) {
-      return this.sim > o.sim ? 1 : -1;
-    }
-  }
-
-  // for full texts, currently not useful
-
-  /*
-   * List<String> pmids = documents .stream() .map(Document::getDocId) .filter(Objects::nonNull)
-   * .collect(toList());
-   * 
-   * for (String pmid : pmids) { String url = FULLTEXT_URI_PREFIX + pmid; HttpGet httpGet = new
-   * HttpGet(url); try (CloseableHttpResponse response = httpClient.execute(httpGet)) { HttpEntity
-   * entity = response.getEntity(); System.out.println(EntityUtils.toString(entity)); } catch
-   * (IOException e) { e.printStackTrace(); } }
-   */
 
   @Override
   public void collectionProcessComplete() throws AnalysisEngineProcessException {
@@ -162,5 +116,27 @@ public class SnippetRetrieval extends JCasAnnotator_ImplBase {
     }
 
     super.collectionProcessComplete();
+  }
+
+  private class Sentence implements Comparable<Sentence> {
+    public Chunk boundary;
+
+    public Document referencedDocument;
+
+    public String text;
+
+    public double sim;
+
+    public Sentence(Chunk boundary, Document doc, String t, double sim) {
+      this.boundary = boundary;
+      this.referencedDocument = doc;
+      this.text = t;
+      this.sim = sim;
+    }
+
+    @Override
+    public int compareTo(Sentence o) {
+      return this.sim > o.sim ? 1 : -1;
+    }
   }
 }
