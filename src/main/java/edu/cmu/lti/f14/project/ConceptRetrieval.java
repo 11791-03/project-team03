@@ -54,7 +54,7 @@ public class ConceptRetrieval extends JCasAnnotator_ImplBase {
     for (FeatureStructure featureStructure : aJCas.getAnnotationIndex(Question.type)) {
       Question question = (Question) featureStructure;
       Collection<Document> documents = JCasUtil.select(aJCas, Document.class);
-      int cPerPage = 100;
+      int cPerPage = 10;
       // for(Document d : documents)
       // {
       // System.out.println(d.toString());
@@ -98,8 +98,8 @@ public class ConceptRetrieval extends JCasAnnotator_ImplBase {
   }
 
   private void createConcept(JCas jcas, Concept c, double score) {
-    // System.out.print(">" + c.getLabel());
-    // System.out.println("-->\t\t\t" + c.getUri());
+     System.out.print(">" + c.getLabel());
+     System.out.println("-->\t\t\t" + c.getUri());
     if (score > 0.5)
       if (validConcept(jcas, c.getLabel().toLowerCase())) {
         conceptsSoFar.add(c.getLabel().toLowerCase());
