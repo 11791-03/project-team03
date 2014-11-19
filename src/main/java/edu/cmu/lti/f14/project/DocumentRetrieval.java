@@ -60,10 +60,11 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
       }
 
       for (PubMedSearchServiceResponse.Document pubMedDocument : pubMedResult.getDocuments()) {
+        // TODO: rerank!
         String pmid = pubMedDocument.getPmid();
         Document document = TypeFactory
-                .createDocument(aJCas, URI_PREFIX + pmid,
-                        pubMedDocument.isFulltextAvailable() ? pmid : null);
+                .createDocument(aJCas, URI_PREFIX + pmid, pubMedDocument.getDocumentAbstract(),
+                        -1, query, pubMedDocument.getTitle(), pmid);
         document.addToIndexes();
       }
     }
