@@ -1,5 +1,7 @@
 package json.gson;
 
+import edu.cmu.lti.oaqa.type.retrieval.Passage;
+
 public final class Snippet {
 
   private String document;
@@ -23,6 +25,11 @@ public final class Snippet {
     this.offsetInEndSection = offsetInEndSection;
     this.beginSection = beginSection;
     this.endSection = endSection;
+  }
+
+  public Snippet(Passage t) {
+    this(t.getDocId(), t.getText(), t.getOffsetInBeginSection(), t.getOffsetInEndSection(), t
+            .getBeginSection(), t.getEndSection());
   }
 
   @Override

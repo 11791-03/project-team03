@@ -28,6 +28,7 @@ import edu.cmu.lti.oaqa.type.input.Question;
 import edu.cmu.lti.oaqa.type.kb.Concept;
 import edu.cmu.lti.oaqa.type.kb.Triple;
 import edu.cmu.lti.oaqa.type.retrieval.Document;
+import edu.cmu.lti.oaqa.type.retrieval.Passage;
 
 /**
  * Evaluator for intermediate results - Document, Concept and Triple
@@ -43,6 +44,8 @@ public class InformationRetrievalEvaluator extends JCasAnnotator_ImplBase {
   private List<Stats> conceptStats = Lists.newArrayList();
 
   private List<Stats> tripStats = Lists.newArrayList();
+
+  private List<Stats> snippetStats = Lists.newArrayList();
 
   /**
    * Initialize the golden results.
@@ -88,10 +91,12 @@ public class InformationRetrievalEvaluator extends JCasAnnotator_ImplBase {
     Collection<Document> documents = JCasUtil.select(aJCas, Document.class);
     Collection<Concept> concepts = JCasUtil.select(aJCas, Concept.class);
     Collection<Triple> triples = JCasUtil.select(aJCas, Triple.class);
+    Collection<Passage> snippets = JCasUtil.select(aJCas, Passage.class);
 
     List<String> goldenDocuments = goldenResult.getDocuments();
     List<String> goldenConcepts = goldenResult.getConcepts();
     List<json.gson.Triple> goldenTriples = goldenResult.getTriples();
+    List<json.gson.Snippet> goldenSnippets = goldenResult.getSnippets();
 
     if (goldenDocuments != null) {
       Stats docStat = new Stats(goldenDocuments, documents.stream().map(Document::getUri)
@@ -108,6 +113,12 @@ public class InformationRetrievalEvaluator extends JCasAnnotator_ImplBase {
               triples.stream().map(t -> new json.gson.Triple(t).toString()).collect(toList()));
       tripStats.add(tripStat);
     }
+    if (goldenSnippets != null) {
+      Stats snippetStat = new Stats(
+              goldenSnippets.stream().map(Object::toString).collect(toList()), snippets.stream()
+                      .map(t -> new json.gson.Snippet(t).toString()).collect(toList()));
+      snippetStats.add(snippetStat);
+    }
   }
 
   @Override
@@ -116,6 +127,7 @@ public class InformationRetrievalEvaluator extends JCasAnnotator_ImplBase {
     printStats(docStats, "Document");
     printStats(conceptStats, "Concept");
     printStats(tripStats, "Triple");
+    printStats(snippetStats, "Snippet");
   }
 
   private void printStats(List<Stats> s, String type) {
