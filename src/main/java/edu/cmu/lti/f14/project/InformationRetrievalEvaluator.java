@@ -5,11 +5,9 @@ import static java.util.stream.Collectors.toList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import json.gson.TestQuestion;
 import json.gson.TestSet;
-import lombok.Data;
 
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
@@ -22,8 +20,8 @@ import org.apache.uima.resource.ResourceInitializationException;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 
+import edu.cmu.lti.f14.project.util.Stats;
 import edu.cmu.lti.oaqa.type.input.Question;
 import edu.cmu.lti.oaqa.type.kb.Concept;
 import edu.cmu.lti.oaqa.type.kb.Triple;
@@ -124,59 +122,10 @@ public class InformationRetrievalEvaluator extends JCasAnnotator_ImplBase {
   @Override
   public void collectionProcessComplete() throws AnalysisEngineProcessException {
     super.collectionProcessComplete();
-    printStats(docStats, "Document");
-    printStats(conceptStats, "Concept");
-    printStats(tripStats, "Triple");
-    printStats(snippetStats, "Snippet");
+    Stats.printStats(docStats, "Document", EPSILON);
+    Stats.printStats(conceptStats, "Concept", EPSILON);
+    Stats.printStats(tripStats, "Triple", EPSILON);
+    Stats.printStats(snippetStats, "Snippet", EPSILON);
   }
 
-  private void printStats(List<Stats> s, String type) {
-    double precision = calculatePrecision(s);
-    double recall = calculateRecall(s);
-    double f1 = 2 * precision * recall / (precision + recall);
-    System.out.println(String.format(
-            "%s - precision: %.4f, recall: %.4f, F1: %.4f, MAP: %.4f, GMAP: %.4f", type, precision,
-            recall, f1, calculateMAP(s), calculateGMAP(s)));
-  }
-
-  @Data
-  class Stats {
-    private double truePositive, falsePositive, falseNegative, ap;
-
-    Stats(List<String> golden, List<String> results) {
-      Set<String> intersection = Sets.newLinkedHashSet(results);
-      intersection.retainAll(golden);
-      Set<String> goldenSet = Sets.newHashSet(golden);
-      truePositive = intersection.size();
-      falsePositive = results.size() - truePositive;
-      falseNegative = golden.size() - truePositive;
-      int trueCount = 0;
-      for (int r = 0; r < results.size(); r++) {
-        if (goldenSet.contains(results.get(r))) {
-          trueCount++;
-          ap += ((double) trueCount) / (r + 1);
-        }
-      }
-      ap /= golden.size();
-    }
-  }
-
-  static double calculateRecall(List<Stats> l) {
-    return l.stream().mapToDouble(s -> s.getTruePositive()).sum()
-            / l.stream().mapToDouble(s -> s.getTruePositive() + s.getFalseNegative()).sum();
-  }
-
-  static double calculatePrecision(List<Stats> l) {
-    return l.stream().mapToDouble(s -> s.getTruePositive()).sum()
-            / l.stream().mapToDouble(s -> s.getTruePositive() + s.getFalsePositive()).sum();
-  }
-
-  static double calculateMAP(List<Stats> l) {
-    return l.stream().mapToDouble(s -> s.getAp()).average().orElse(Double.NaN);
-  }
-
-  static double calculateGMAP(List<Stats> l) {
-    return Math.exp(l.stream().mapToDouble(s -> Math.log(s.getAp() + EPSILON)).average()
-            .orElse(Double.NaN));
-  }
 }
