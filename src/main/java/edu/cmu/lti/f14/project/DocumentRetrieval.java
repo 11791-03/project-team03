@@ -24,7 +24,9 @@ import java.util.*;
  *
  * @author junjiah
  */
+
 public class DocumentRetrieval extends JCasAnnotator_ImplBase {
+
 
   private static final String URI_PREFIX = "http://www.ncbi.nlm.nih.gov/pubmed/";
 
@@ -37,8 +39,11 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
   /**
    * Initialize the PubMed service.
    */
+  
   @Override
+  
   public void initialize(UimaContext aContext) throws ResourceInitializationException {
+   /*
     try {
       service = new GoPubMedService("project.properties");
       similarity = (Similarity) similarityClass.getConstructors()[0].newInstance();
@@ -46,13 +51,16 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
       System.err.println("ERROR: Initialize PubMed service error in Document Retrieval.");
       System.exit(1);
     }
+    */
   }
-
+  
   /**
    * Input the preprocessed texts to PubMed and retrieve the documents.
    */
+  
   @Override
   public void process(JCas aJCas) throws AnalysisEngineProcessException {
+    
     for (FeatureStructure featureStructure : aJCas.getAnnotationIndex(Question.type)) {
       Question question = (Question) featureStructure;
       String query = question.getPreprocessedText();
@@ -90,8 +98,8 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
               .map(Map.Entry::getKey)
               .forEach(Document::addToIndexes);
     }
+    
   }
-
   private String retrieveDocumentJsonText(PubMedSearchServiceResponse.Document pubMedDocument) {
     // retrieve the document from the seb server
     // add the abstract to the json

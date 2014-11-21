@@ -88,9 +88,11 @@ public class InformationRetrievalEvaluator extends JCasAnnotator_ImplBase {
 
     Collection<Document> documents = JCasUtil.select(aJCas, Document.class);
     Collection<Concept> concepts = JCasUtil.select(aJCas, Concept.class);
+    
     Collection<Triple> triples = JCasUtil.select(aJCas, Triple.class);
     Collection<Passage> snippets = JCasUtil.select(aJCas, Passage.class);
 
+      
     List<String> goldenDocuments = goldenResult.getDocuments();
     List<String> goldenConcepts = goldenResult.getConcepts();
     List<json.gson.Triple> goldenTriples = goldenResult.getTriples();
