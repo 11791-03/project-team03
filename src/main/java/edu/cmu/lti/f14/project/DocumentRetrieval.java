@@ -6,12 +6,14 @@ import edu.cmu.lti.oaqa.bio.bioasq.services.GoPubMedService;
 import edu.cmu.lti.oaqa.bio.bioasq.services.PubMedSearchServiceResponse;
 import edu.cmu.lti.oaqa.type.input.Question;
 import edu.cmu.lti.oaqa.type.retrieval.Document;
+
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.FeatureStructure;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
+
 import util.TypeFactory;
 
 import java.io.IOException;
@@ -71,7 +73,8 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
       Map<Document, Double> documentScores = new HashMap<>();
       for (PubMedSearchServiceResponse.Document pubMedDocument : pubMedResult.getDocuments()) {
         String pmid = pubMedDocument.getPmid();
-        String text = pubMedDocument.getDocumentAbstract();
+//        String text = pubMedDocument.getDocumentAbstract();
+        String text = retrieveDocumentJsonText(pubMedDocument);
         Document document = TypeFactory
                 .createDocument(aJCas, URI_PREFIX + pmid, text, -1, query,
                         pubMedDocument.getTitle(), pmid);
@@ -87,5 +90,11 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
               .map(Map.Entry::getKey)
               .forEach(Document::addToIndexes);
     }
+  }
+
+  private String retrieveDocumentJsonText(PubMedSearchServiceResponse.Document pubMedDocument) {
+    // retrieve the document from the seb server
+    // add the abstract to the json
+    return "";
   }
 }

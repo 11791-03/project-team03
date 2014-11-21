@@ -34,7 +34,7 @@ import java.util.*;
  */
 public class SnippetRetrieval extends JCasAnnotator_ImplBase {
 
-  private static final String FULLTEXT_URI_PREFIX = "http://metal.lti.cs.cmu.edu:30002/pmc/";
+  private static final String FULLTEXT_URI_PREFIX = "http://gold.lti.cs.cmu.edu:30002/pmc/";
 
   private static final int TOP_K = 5;
 
@@ -136,6 +136,7 @@ public class SnippetRetrieval extends JCasAnnotator_ImplBase {
 
     @Override
     public int compareTo(Sentence o) {
+      //TODO check this
       return this.sim > o.sim ? 1 : -1;
     }
   }
