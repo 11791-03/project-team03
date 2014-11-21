@@ -27,7 +27,6 @@ import java.util.*;
 
 public class DocumentRetrieval extends JCasAnnotator_ImplBase {
 
-
   private static final String URI_PREFIX = "http://www.ncbi.nlm.nih.gov/pubmed/";
 
   private static Class similarityClass = CosineSimilarity.class;
@@ -39,11 +38,9 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
   /**
    * Initialize the PubMed service.
    */
-  
+
   @Override
-  
   public void initialize(UimaContext aContext) throws ResourceInitializationException {
-   /*
     try {
       service = new GoPubMedService("project.properties");
       similarity = (Similarity) similarityClass.getConstructors()[0].newInstance();
@@ -51,16 +48,16 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
       System.err.println("ERROR: Initialize PubMed service error in Document Retrieval.");
       System.exit(1);
     }
-    */
+
   }
-  
+
   /**
    * Input the preprocessed texts to PubMed and retrieve the documents.
    */
-  
+
   @Override
   public void process(JCas aJCas) throws AnalysisEngineProcessException {
-    
+
     for (FeatureStructure featureStructure : aJCas.getAnnotationIndex(Question.type)) {
       Question question = (Question) featureStructure;
       String query = question.getPreprocessedText();
@@ -81,11 +78,10 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
       Map<Document, Double> documentScores = new HashMap<>();
       for (PubMedSearchServiceResponse.Document pubMedDocument : pubMedResult.getDocuments()) {
         String pmid = pubMedDocument.getPmid();
-//        String text = pubMedDocument.getDocumentAbstract();
+        // String text = pubMedDocument.getDocumentAbstract();
         String text = retrieveDocumentJsonText(pubMedDocument);
-        Document document = TypeFactory
-                .createDocument(aJCas, URI_PREFIX + pmid, text, -1, query,
-                        pubMedDocument.getTitle(), pmid);
+        Document document = TypeFactory.createDocument(aJCas, URI_PREFIX + pmid, text, -1, query,
+                pubMedDocument.getTitle(), pmid);
         double score = similarity.computeSimilarity(text, query);
         documentScores.put(document, score);
       }
@@ -93,16 +89,14 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
       // sort document by its score
       List<Map.Entry<Document, Double>> scoreList = new ArrayList<>(documentScores.entrySet());
       Collections.sort(scoreList, (e1, e2) -> e1.getValue().compareTo(e2.getValue()));
-      scoreList
-              .stream()
-              .map(Map.Entry::getKey)
-              .forEach(Document::addToIndexes);
+      scoreList.stream().map(Map.Entry::getKey).forEach(Document::addToIndexes);
     }
-    
+
   }
+
   private String retrieveDocumentJsonText(PubMedSearchServiceResponse.Document pubMedDocument) {
     // retrieve the document from the seb server
     // add the abstract to the json
-    return "";
+    return pubMedDocument.getDocumentAbstract();
   }
 }
