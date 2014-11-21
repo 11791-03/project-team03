@@ -1,19 +1,26 @@
 package edu.cmu.lti.f14.project;
 
-import edu.cmu.lti.oaqa.bio.bioasq.services.GoPubMedService;
-import edu.cmu.lti.oaqa.bio.bioasq.services.OntologyServiceResponse;
-import edu.cmu.lti.oaqa.bio.bioasq.services.OntologyServiceResponse.Concept;
-import edu.cmu.lti.oaqa.type.input.Question;
+import java.io.IOException;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.FeatureStructure;
+import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
-import util.TypeFactory;
 
-import java.io.IOException;
+import util.TypeFactory;
+import edu.cmu.lti.oaqa.bio.bioasq.services.GoPubMedService;
+import edu.cmu.lti.oaqa.bio.bioasq.services.OntologyServiceResponse;
+import edu.cmu.lti.oaqa.bio.bioasq.services.OntologyServiceResponse.Concept;
+import edu.cmu.lti.oaqa.type.input.Question;
+import edu.cmu.lti.oaqa.type.retrieval.Document;
 
 /**
  *
@@ -22,6 +29,10 @@ import java.io.IOException;
 public class ConceptRetrieval extends JCasAnnotator_ImplBase {
 
   private GoPubMedService service;
+
+  private Set<String> conceptsSoFar;
+
+  private String processedQuestion;
 
   /**
    *
@@ -46,34 +57,42 @@ public class ConceptRetrieval extends JCasAnnotator_ImplBase {
     /*
     for (FeatureStructure featureStructure : aJCas.getAnnotationIndex(Question.type)) {
       Question question = (Question) featureStructure;
+      Collection<Document> documents = JCasUtil.select(aJCas, Document.class);
+      int cPerPage = 10;
+      // for(Document d : documents)
+      // {
+      // System.out.println(d.toString());
+      // }
+      conceptsSoFar = new HashSet<String>();
+      processedQuestion = question.getPreprocessedText();
       try {
         OntologyServiceResponse.Result diseaseOntologyResult = service
-                .findDiseaseOntologyEntitiesPaged(question.getPreprocessedText(), 0);
+                .findDiseaseOntologyEntitiesPaged(processedQuestion, 0, cPerPage);
         for (OntologyServiceResponse.Finding finding : diseaseOntologyResult.getFindings()) {
-          createConcept(aJCas, finding.getConcept());
+          createConcept(aJCas, finding.getConcept(), finding.getScore());
         }
 
         OntologyServiceResponse.Result geneOntologyResult = service.findGeneOntologyEntitiesPaged(
-                question.getPreprocessedText(), 0, 10);
+                processedQuestion, 0, cPerPage);
         for (OntologyServiceResponse.Finding finding : geneOntologyResult.getFindings()) {
-          createConcept(aJCas, finding.getConcept());
+          createConcept(aJCas, finding.getConcept(), finding.getScore());
         }
         OntologyServiceResponse.Result jochemResult = service.findJochemEntitiesPaged(
-                question.getPreprocessedText(), 0);
+                processedQuestion, 0, cPerPage);
         for (OntologyServiceResponse.Finding finding : jochemResult.getFindings()) {
-          createConcept(aJCas, finding.getConcept());
+          createConcept(aJCas, finding.getConcept(), finding.getScore());
         }
 
         OntologyServiceResponse.Result meshResult = service.findMeshEntitiesPaged(
-                question.getPreprocessedText(), 0);
+                processedQuestion, 0, cPerPage);
         for (OntologyServiceResponse.Finding finding : meshResult.getFindings()) {
-          createConcept(aJCas, finding.getConcept());
+          createConcept(aJCas, finding.getConcept(), finding.getScore());
         }
 
         OntologyServiceResponse.Result uniprotResult = service.findUniprotEntitiesPaged(
-                question.getPreprocessedText(), 0);
+                processedQuestion, 0, cPerPage);
         for (OntologyServiceResponse.Finding finding : uniprotResult.getFindings()) {
-          createConcept(aJCas, finding.getConcept());
+          createConcept(aJCas, finding.getConcept(), finding.getScore());
         }
       } catch (IOException e) {
         e.printStackTrace();
@@ -83,9 +102,32 @@ public class ConceptRetrieval extends JCasAnnotator_ImplBase {
     */
   }
 
-  private void createConcept(JCas jcas, Concept c) {
-    /*
-    TypeFactory.createConcept(jcas, c.getUri()).addToIndexes();
-    */
+  private void createConcept(JCas jcas, Concept c, double score) {
+     System.out.print(">" + c.getLabel());
+     System.out.println("-->\t\t\t" + c.getUri());
+    if (score > 0.5)
+      if (validConcept(jcas, c.getLabel().toLowerCase())) {
+        conceptsSoFar.add(c.getLabel().toLowerCase());
+        TypeFactory.createConcept(jcas, c.getUri()).addToIndexes();
+      }
+  }
+
+  private boolean validConcept(JCas jcas, String c) {
+    // return processedQuestion.contains(c.toLowerCase());
+
+    return true;
+
+    // this enhances the precision but harm the recall
+    // for(String t : processedQuestion.split(" "))
+    // if(c.toLowerCase().contains(t))
+    // return true;
+    // return false;
+
+    // Iterator<String> it = conceptsSoFar.iterator();
+    // while (it.hasNext())
+    // if (it.next().startsWith(c))
+    // return false;
+    // return true;
+
   }
 }

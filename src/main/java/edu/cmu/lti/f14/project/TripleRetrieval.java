@@ -86,8 +86,9 @@ public class TripleRetrieval extends JCasAnnotator_ImplBase {
     for (FeatureStructure featureStructure : aJCas.getAnnotationIndex(Question.type)) {
       Question question = (Question) featureStructure;
       try {
-        ArrayList<HashMap<String, String>> triples = getTriples(question.getText());
-        int rank = 1;
+
+        int rank=1;
+        ArrayList<HashMap<String, String>> triples = getTriples(question.getPreprocessedText());
         for (HashMap<String, String> t : triples) {
 
           Triple triple = TypeFactory
