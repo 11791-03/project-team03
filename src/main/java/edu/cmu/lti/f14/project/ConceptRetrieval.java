@@ -1,13 +1,11 @@
 package edu.cmu.lti.f14.project;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
+import edu.cmu.lti.oaqa.bio.bioasq.services.GoPubMedService;
+import edu.cmu.lti.oaqa.bio.bioasq.services.OntologyServiceResponse;
+import edu.cmu.lti.oaqa.bio.bioasq.services.OntologyServiceResponse.Concept;
+import edu.cmu.lti.oaqa.bio.bioasq.services.OntologyServiceResponse.Finding;
+import edu.cmu.lti.oaqa.type.input.Question;
+import edu.cmu.lti.oaqa.type.retrieval.Document;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
@@ -16,18 +14,11 @@ import org.apache.uima.cas.FeatureStructure;
 import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
-
 import util.TypeFactory;
-import edu.cmu.lti.oaqa.bio.bioasq.services.GoPubMedService;
-import edu.cmu.lti.oaqa.bio.bioasq.services.OntologyServiceResponse;
-import edu.cmu.lti.oaqa.bio.bioasq.services.OntologyServiceResponse.Concept;
-import edu.cmu.lti.oaqa.bio.bioasq.services.OntologyServiceResponse.Finding;
-import edu.cmu.lti.oaqa.type.input.Question;
-import edu.cmu.lti.oaqa.type.retrieval.Document;
 
-/**
- *
- */
+import java.io.IOException;
+import java.util.*;
+
 
 public class ConceptRetrieval extends JCasAnnotator_ImplBase {
 
@@ -42,14 +33,12 @@ public class ConceptRetrieval extends JCasAnnotator_ImplBase {
    */
   @Override
   public void initialize(UimaContext aContext) throws ResourceInitializationException {
-    
     try {
       service = new GoPubMedService("project.properties");
     } catch (ConfigurationException e) {
       System.err.println("ERROR: Initialize PubMed service error in Document Retrieval.");
       System.exit(1);
     }
-    
   }
 
   /**
@@ -57,7 +46,6 @@ public class ConceptRetrieval extends JCasAnnotator_ImplBase {
    */
   @Override
   public void process(JCas aJCas) throws AnalysisEngineProcessException {
-    
     for (FeatureStructure featureStructure : aJCas.getAnnotationIndex(Question.type)) {
       Question question = (Question) featureStructure;
       Collection<Document> documents = JCasUtil.select(aJCas, Document.class);
@@ -107,12 +95,11 @@ public class ConceptRetrieval extends JCasAnnotator_ImplBase {
         System.err.println("ERROR: " + e.getMessage());
       }
     }
-    
   }
 
   private void createConcept(JCas jcas, Concept c, double score) {
-     System.out.print(">" + c.getLabel());
-     System.out.println("-->\t\t\t" + c.getUri());
+    System.out.print(">" + c.getLabel());
+    System.out.println("-->\t\t\t" + c.getUri());
     // score 0.1 - Concept - precision: 0.0178, recall: 0.1357, F1: 0.0314, MAP: 0.0655, GMAP:
     // 0.0311
     // score 0.15 - Concept - precision: 0.0364, recall: 0.0929, F1: 0.0523, MAP: 0.0841, GMAP:
@@ -124,22 +111,6 @@ public class ConceptRetrieval extends JCasAnnotator_ImplBase {
         conceptsSoFar.add(c.getLabel().toLowerCase());
         TypeFactory.createConcept(jcas, c.getUri().replace("2014", "2012")).addToIndexes();
       }
-    }
-  }
-
-  private class ScoredConcept implements Comparable<ScoredConcept> {
-    OntologyServiceResponse.Finding finding;
-
-    double score;
-
-    public ScoredConcept(Finding f) {
-      this.finding = f;
-      this.score = f.getScore();
-    }
-
-    @Override
-    public int compareTo(ScoredConcept o) {
-      return this.score > o.score ? -1 : 1;
     }
   }
 
@@ -160,5 +131,21 @@ public class ConceptRetrieval extends JCasAnnotator_ImplBase {
     // return false;
     // return true;
 
+  }
+
+  private class ScoredConcept implements Comparable<ScoredConcept> {
+    OntologyServiceResponse.Finding finding;
+
+    double score;
+
+    public ScoredConcept(Finding f) {
+      this.finding = f;
+      this.score = f.getScore();
+    }
+
+    @Override
+    public int compareTo(ScoredConcept o) {
+      return this.score > o.score ? -1 : 1;
+    }
   }
 }
