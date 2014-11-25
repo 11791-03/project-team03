@@ -12,6 +12,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import edu.cmu.lti.f14.project.util.CosineSimilarity;
+import edu.cmu.lti.f14.project.util.Normalizer;
 import edu.cmu.lti.f14.project.util.Similarity;
 import edu.cmu.lti.oaqa.type.input.Question;
 import edu.cmu.lti.oaqa.type.kb.Concept;
@@ -105,10 +106,10 @@ public class SnippetRetrieval extends JCasAnnotator_ImplBase {
             start = sentenceBoundary.start();
             end = sentenceBoundary.end();
             st = slice.substring(start, end);
-            // TODO: normalize the document to calculate the score!
-            simWithQuestion = similarity.computeSimilarity(st, query);
-          simWithConcepts = similarity.computeSimilarity(st, concatenatedConcepts);
-//            simWithConcepts = 0;
+            String normalizedSentence = Normalizer.normalize(st);
+            simWithQuestion = similarity.computeSimilarity(normalizedSentence, query);
+            simWithConcepts = similarity
+                    .computeSimilarity(normalizedSentence, concatenatedConcepts);
             score = simWithQuestionWeight * simWithQuestion +
                     simWithConceptsWeight * simWithConcepts;
             sentences.add(new Sentence(sentenceBoundary, d, i, st, score));

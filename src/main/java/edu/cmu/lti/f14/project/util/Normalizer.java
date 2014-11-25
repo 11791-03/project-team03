@@ -2,7 +2,6 @@ package edu.cmu.lti.f14.project.util;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import util.StanfordLemmatizer;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -56,7 +55,7 @@ public class Normalizer {
   /**
    * Provides POS tags for normalized text.
    *
-   * @param text Nomalized text
+   * @param text Normalized text
    * @return A list of POS tags
    */
   public static List<String> posTag(String text) {
@@ -76,6 +75,10 @@ public class Normalizer {
     }
 
     return res;
+  }
+
+  public static String normalize(String text) {
+    return String.join(" ", tokenize(text));
   }
 
 }
