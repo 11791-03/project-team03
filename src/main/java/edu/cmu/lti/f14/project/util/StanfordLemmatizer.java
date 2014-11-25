@@ -1,4 +1,4 @@
-package util;
+package edu.cmu.lti.f14.project.util;
 
 /*
  *  Copyright 2014 Carnegie Mellon University

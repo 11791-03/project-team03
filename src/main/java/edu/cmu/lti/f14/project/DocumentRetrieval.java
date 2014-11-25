@@ -1,5 +1,6 @@
 package edu.cmu.lti.f14.project;
 
+import com.google.common.collect.Lists;
 import com.google.common.io.CharStreams;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -108,6 +109,16 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
 
   }
 
+  @Override
+  public void collectionProcessComplete() throws AnalysisEngineProcessException {
+    try {
+      httpClient.close();
+    } catch (IOException ignored) {
+    }
+
+    super.collectionProcessComplete();
+  }
+
   private String retrieveDocumentJsonText(PubMedSearchServiceResponse.Document pubMedDocument) {
     // retrieve the document from the seb server
     String pmid = pubMedDocument.getPmid();
@@ -137,13 +148,15 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
     return documentJson.toString();
   }
 
-  @Override
-  public void collectionProcessComplete() throws AnalysisEngineProcessException {
-    try {
-      httpClient.close();
-    } catch (IOException ignored) {
-    }
-
-    super.collectionProcessComplete();
+  /**
+   * Naive (currently) query formulation using simple query operators
+   * @param originalQuery Original query string
+   * @return expanded query string
+   */
+  private String queryFormulate(String originalQuery) {
+    // since all queries have been preprocessed, they are split by " "
+    List<String> tokens = Lists.newArrayList(originalQuery.split(" "));
+    // TODO:
+    return null;
   }
 }
