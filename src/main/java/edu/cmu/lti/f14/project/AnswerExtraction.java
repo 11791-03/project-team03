@@ -1,7 +1,10 @@
 package edu.cmu.lti.f14.project;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
@@ -52,7 +55,7 @@ public class AnswerExtraction extends JCasAnnotator_ImplBase {
       }
       // compute TF for each NE and create an answer with the NE name as text and the frequency as
       // ranks
-      List<String> selectedNEs = selectEntities(nes, question);
+      List<String> selectedNEs = selectEntities(aJCas, nes);
       // perform error analysis after this baseline
       // use ontology to enhance the results
       TypeFactory.createAnswer(aJCas, selectedNEs);
@@ -60,9 +63,37 @@ public class AnswerExtraction extends JCasAnnotator_ImplBase {
 
   }
 
-  private List<String> selectEntities(List<String> nes, Question question) {
-    // TODO Gowayyed Auto-generated method stub
-    return null;
+  private List<String> selectEntities(JCas aJCas, List<String> nes) {
+    List<NamedEntity> nesWithFreq = new ArrayList<NamedEntity>();
+    for (String ne : nes) {
+      int freq = 0;
+      for (FeatureStructure fs : aJCas.getAnnotationIndex(Passage.type)) {
+        Passage passage = (Passage) fs;
+        freq += StringUtils.countMatches(passage.getText(), ne);
+      }
+      nesWithFreq.add(new NamedEntity(ne, freq));
+    }
+    Collections.sort(nesWithFreq);
+    List<String> res = new ArrayList<String>();
+    for (int i = 0; i < 5; i++) { // TODO how to decide the number !!!
+      res.add(nesWithFreq.get(i).ne);
+    }
+    return res;
+  }
+  
+  private class NamedEntity implements Comparable<NamedEntity> {
+    String ne;
+    int freq;
+
+    public NamedEntity(String n, int f) {
+      this.ne = n;
+      this.freq = f;
+    }
+
+    @Override
+    public int compareTo(NamedEntity o) {
+      return this.freq > o.freq ? 1 : -1;
+    }
   }
 
   @Override
