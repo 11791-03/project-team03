@@ -107,8 +107,8 @@ public class SnippetRetrieval extends JCasAnnotator_ImplBase {
             st = slice.substring(start, end);
             // TODO: normalize the document to calculate the score!
             simWithQuestion = similarity.computeSimilarity(st, query);
-//          simWithConcepts = similarity.computeSimilarity(st, concatenatedConcepts);
-            simWithConcepts = 0;
+          simWithConcepts = similarity.computeSimilarity(st, concatenatedConcepts);
+//            simWithConcepts = 0;
             score = simWithQuestionWeight * simWithQuestion +
                     simWithConceptsWeight * simWithConcepts;
             sentences.add(new Sentence(sentenceBoundary, d, i, st, score));

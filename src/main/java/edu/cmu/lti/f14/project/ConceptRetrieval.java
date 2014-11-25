@@ -98,8 +98,8 @@ public class ConceptRetrieval extends JCasAnnotator_ImplBase {
   }
 
   private void createConcept(JCas jcas, Concept c, double score) {
-    System.out.print(">" + c.getLabel());
-    System.out.println("-->\t\t\t" + c.getUri());
+    System.out.println(">" + c.getLabel());
+//    System.out.println("-->\t\t\t" + c.getUri());
     // score 0.1 - Concept - precision: 0.0178, recall: 0.1357, F1: 0.0314, MAP: 0.0655, GMAP:
     // 0.0311
     // score 0.15 - Concept - precision: 0.0364, recall: 0.0929, F1: 0.0523, MAP: 0.0841, GMAP:
