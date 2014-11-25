@@ -1,18 +1,18 @@
 package edu.cmu.lti.f14.project.util;
 
+import com.aliasi.chunk.Chunk;
+import com.aliasi.chunk.Chunker;
+import com.aliasi.chunk.Chunking;
+import com.aliasi.util.AbstractExternalizable;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import com.aliasi.chunk.Chunk;
-import com.aliasi.chunk.Chunker;
-import com.aliasi.chunk.Chunking;
-import com.aliasi.util.AbstractExternalizable;
-
 public class NEChunker {
-  final static String modelPath = "/Users/as1986/Documents/DEIIS/ne-en-bio-genetag.hmmchunker";
+  final static String modelPath = "ne-en-bio-genetag.hmmchunker";
 
   Chunker ch;
 
@@ -36,7 +36,6 @@ public class NEChunker {
       toReturn.add(c.toString());
     }
     return toReturn;
-
   }
 
 }
