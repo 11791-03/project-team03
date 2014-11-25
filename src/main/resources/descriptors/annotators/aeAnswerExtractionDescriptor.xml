@@ -4,7 +4,7 @@
   <frameworkImplementation>org.apache.uima.java</frameworkImplementation>
   <primitive>true</primitive>  <annotatorImplementationName>edu.cmu.lti.f14.project.AnswerExtraction</annotatorImplementationName>
   <analysisEngineMetaData>
-    <name>aeConceptRetrievalDescriptor</name>
+    <name>aeAnswerExtractionDescriptor</name>
     <description/>
     <version>1.0</version>
     <vendor/>
