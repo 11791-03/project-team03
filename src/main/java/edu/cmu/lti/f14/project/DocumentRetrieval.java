@@ -78,7 +78,7 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
       if (query == null || query.isEmpty())
         return;
 
-      PubMedSearchServiceResponse.Result pubMedResult = null;
+      PubMedSearchServiceResponse.Result pubMedResult;
 
       try {
         pubMedResult = service.findPubMedCitations(query, 0);
