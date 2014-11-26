@@ -1,7 +1,9 @@
 package json.gson;
 
+import lombok.ToString;
 import edu.cmu.lti.oaqa.type.retrieval.Passage;
 
+@ToString(of = "text")
 public final class Snippet {
 
   private String document;
