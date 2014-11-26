@@ -110,7 +110,7 @@ public class ConceptRetrieval extends JCasAnnotator_ImplBase {
 //      System.out.println("selected:\t" + score);
       if (validConcept(jcas, c.getLabel().toLowerCase())) {
         conceptsSoFar.add(c.getLabel().toLowerCase());
-        TypeFactory.createConcept(jcas, c.getUri().replace("2014", "2012")).addToIndexes();
+        TypeFactory.createConcept(jcas, c.getLabel(), c.getUri().replace("2014", "2012")).addToIndexes();
       }
     }
   }
