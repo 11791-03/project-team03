@@ -59,9 +59,17 @@ public class Normalizer {
    * @return A list of POS tags
    */
   public static List<String> posTag(String text) {
+    StringTokenizer tokenizer = new StringTokenizer(text, " .,?!:;()<>[]\b\t\n\f\r\"\'\"");
+    String sent_trim="";
+    while (tokenizer.hasMoreElements()) {
+      String token = tokenizer.nextToken().trim();
+      if (!stopwords.contains(token))
+        sent_trim+=" "+StanfordLemmatizer.stemWord(token);
+    }
+        
     List<String> res = Lists.newArrayList();
-    String temp = posTagger.doPOSTagging(text);
-    StringTokenizer tokenizer = new StringTokenizer(temp);
+    String temp = posTagger.doPOSTagging(sent_trim);
+    tokenizer = new StringTokenizer(temp);
     while (tokenizer.hasMoreElements()) {
       String token = tokenizer.nextToken().trim();
       int index = 0;
@@ -71,7 +79,8 @@ public class Normalizer {
           break;
         }
       }
-      res.add(token.substring(index, token.length()));
+      if (token.substring(index, token.length()).equals("NN")||token.substring(index, token.length()).equals("NNs"));
+      res.add(token.substring(0,index));
     }
 
     return res;
