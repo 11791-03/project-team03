@@ -26,11 +26,13 @@ import com.aliasi.sentences.SentenceModel;
 import com.aliasi.tokenizer.IndoEuropeanTokenizerFactory;
 import com.aliasi.tokenizer.Tokenizer;
 import com.aliasi.tokenizer.TokenizerFactory;
+import com.google.common.base.Joiner;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import edu.cmu.lti.f14.project.util.CosineSimilarity;
+import edu.cmu.lti.f14.project.util.NEChunker;
 import edu.cmu.lti.f14.project.util.Normalizer;
 import edu.cmu.lti.f14.project.util.Similarity;
 import edu.cmu.lti.oaqa.type.input.Question;
@@ -55,7 +57,9 @@ public class SnippetRetrieval extends JCasAnnotator_ImplBase {
 
   private static final double simWithQuestionWeight = 0.;
 
-  private static final double simWithConceptsWeight = 1.;
+  private static final double simWithConceptsWeight = 0.;
+
+  private static final double simWithEntityWeight = 1.;
 
   private static Class similarityClass = CosineSimilarity.class;
 
@@ -83,6 +87,9 @@ public class SnippetRetrieval extends JCasAnnotator_ImplBase {
     for (FeatureStructure featureStructure : aJCas.getAnnotationIndex(Question.type)) {
       Question question = (Question) featureStructure;
       String query = question.getPreprocessedText();
+
+      List<String> nesInQuery = NEChunker.getInstance().chunk(query);
+
       Collection<Document> documents = JCasUtil.select(aJCas, Document.class);
       Collection<Concept> concepts = JCasUtil.select(aJCas, Concept.class);
 
@@ -110,17 +117,20 @@ public class SnippetRetrieval extends JCasAnnotator_ImplBase {
 
           String st;
           int start, end;
-          double simWithQuestion, simWithConcepts, score;
+          double simWithQuestion, simWithConcepts, simWithEntities, score;
           for (Chunk sentenceBoundary : sentenceBoundaries) {
             start = sentenceBoundary.start();
             end = sentenceBoundary.end();
             st = slice.substring(start, end);
             String normalizedSentence = Normalizer.normalize(st);
+            List<String> nesInSentence = NEChunker.getInstance().chunk(normalizedSentence);
+            simWithEntities = similarity.computeSimilarity(Joiner.on(" ").join(nesInSentence),
+                    Joiner.on(" ").join(nesInQuery));
             simWithQuestion = similarity.computeSimilarity(normalizedSentence, query);
             simWithConcepts = similarity
                     .computeSimilarity(normalizedSentence, concatenatedConcepts);
             score = simWithQuestionWeight * simWithQuestion + simWithConceptsWeight
-                    * simWithConcepts;
+                    * simWithConcepts + simWithEntityWeight * simWithEntities;
             sentences.add(new Sentence(sentenceBoundary, d, i, st, score));
           }
         }
