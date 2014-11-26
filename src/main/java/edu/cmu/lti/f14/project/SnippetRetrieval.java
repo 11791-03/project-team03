@@ -162,7 +162,7 @@ public class SnippetRetrieval extends JCasAnnotator_ImplBase {
     @Override
     public int compareTo(Sentence o) {
       //TODO check this
-      return this.score > o.score ? 1 : -1;
+      return this.score > o.score ? -1 : 1;
     }
   }
 }
