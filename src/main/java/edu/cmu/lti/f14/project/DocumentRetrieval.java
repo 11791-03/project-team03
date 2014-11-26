@@ -6,12 +6,13 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 import edu.cmu.lti.f14.project.util.CosineSimilarity;
+import edu.cmu.lti.f14.project.util.NEChunker;
 import edu.cmu.lti.f14.project.util.Similarity;
 import edu.cmu.lti.oaqa.bio.bioasq.services.GoPubMedService;
 import edu.cmu.lti.oaqa.bio.bioasq.services.PubMedSearchServiceResponse;
 import edu.cmu.lti.oaqa.type.input.Question;
+import edu.cmu.lti.oaqa.type.kb.Concept;
 import edu.cmu.lti.oaqa.type.retrieval.Document;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.uima.UimaContext;
@@ -24,6 +25,8 @@ import util.TypeFactory;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * Document retrieval component in pipeline.
@@ -118,14 +121,17 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
   private String retrieveDocumentJsonText(PubMedSearchServiceResponse.Document pubMedDocument) {
     // retrieve the document from the seb server
     String pmid = pubMedDocument.getPmid();
-    HttpGet httpGet = new HttpGet(FULLTEXT_URI_PREFIX + pmid);
     String fullTextString = null;
-  /*  try (CloseableHttpResponse response = httpClient.execute(httpGet)) {
+
+    /*
+    HttpGet httpGet = new HttpGet(FULLTEXT_URI_PREFIX + pmid);
+    try (CloseableHttpResponse response = httpClient.execute(httpGet)) {
       HttpEntity entity = response.getEntity();
       final InputStreamReader reader = new InputStreamReader(entity.getContent());
       fullTextString = CharStreams.toString(reader);
     } catch (Exception ignored) {
-    }*/
+    }
+    */
 
     JsonObject documentJson = new JsonObject();
     JsonArray sections = new JsonArray();
@@ -145,14 +151,61 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
   }
 
   /**
-   * Naive (currently) query formulation using simple query operators
+   * Query formulation using simple query operators
+   *
    * @param originalQuery Original query string
    * @return expanded query string
    */
-  private String queryFormulate(String originalQuery) {
-    // since all queries have been preprocessed, they are split by " "
-    List<String> tokens = Lists.newArrayList(originalQuery.split(" "));
-    // TODO:
-    return null;
+  private String queryFormulate(String originalQuery, Collection<Concept> concepts) {
+    NEChunker chunker = NEChunker.getInstance();
+    String namedEntities = chunker
+            .chunk(originalQuery)
+            .stream()
+            .map(s -> "\"" + s + "\"")
+            .limit(5)
+            .collect(Collectors.joining(" AND "));
+
+    String conceptsString = concepts
+            .stream()
+            .map(Concept::getName)
+            .map(s -> s.replace("_", " "))
+            .filter(s -> !s.isEmpty() && Pattern.matches("\\p{Punct}", s))
+            .limit(5)
+            .map(s -> "\"" + s + "\"")
+            .collect(Collectors.joining(" AND "));
+
+    List<String> bigrams = buildGrams(originalQuery, 2);
+    String bigramsString = bigrams
+            .stream()
+            .map(s -> "\"" + s + "\"")
+            .collect(Collectors.joining(" AND "));
+
+    return String.format("(\"%s\") OR (%s) OR (%s) OR (%s)", originalQuery, namedEntities,
+            conceptsString, bigramsString);
+  }
+
+  /**
+   * Build NGrams from Unigram string.
+   *
+   * @param s Original text
+   * @param N Number of consecutive words in a gram
+   * @return A list of N-Grams
+   */
+  private List<String> buildGrams(String s, int N) {
+    List<String> ngrams = Lists.newArrayList();
+    String grams[] = s.split(" ");
+    for (int n = 0; n <= N - 1; ++n) {
+      for (int i = 0; i < grams.length - n; ++i) {
+        StringBuilder gramBuilder = new StringBuilder(grams[i]);
+        for (int j = i; j < i + n; ++j) {
+          gramBuilder.append(" ").append(grams[j + 1]);
+        }
+        String gram = gramBuilder.toString();
+        if (gram.isEmpty() || gram.charAt(0) == ' ')
+          continue;
+        ngrams.add(gram);
+      }
+    }
+    return ngrams;
   }
 }
