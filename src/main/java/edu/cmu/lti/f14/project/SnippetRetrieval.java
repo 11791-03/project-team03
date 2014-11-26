@@ -1,5 +1,23 @@
 package edu.cmu.lti.f14.project;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+
+import org.apache.uima.UimaContext;
+import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
+import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
+import org.apache.uima.cas.FeatureStructure;
+import org.apache.uima.fit.util.JCasUtil;
+import org.apache.uima.jcas.JCas;
+import org.apache.uima.resource.ResourceInitializationException;
+
+import util.TypeFactory;
+
 import com.aliasi.chunk.Chunk;
 import com.aliasi.chunk.Chunking;
 import com.aliasi.sentences.MedlineSentenceModel;
@@ -19,19 +37,6 @@ import edu.cmu.lti.oaqa.type.input.Question;
 import edu.cmu.lti.oaqa.type.kb.Concept;
 import edu.cmu.lti.oaqa.type.retrieval.Document;
 
-import org.apache.uima.UimaContext;
-import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
-import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
-import org.apache.uima.cas.FeatureStructure;
-import org.apache.uima.fit.util.JCasUtil;
-import org.apache.uima.jcas.JCas;
-import org.apache.uima.resource.ResourceInitializationException;
-
-import util.TypeFactory;
-
-import java.lang.reflect.InvocationTargetException;
-import java.util.*;
-
 /**
  * Snippet retrieval component in pipeline.
  *
@@ -48,9 +53,9 @@ public class SnippetRetrieval extends JCasAnnotator_ImplBase {
   private static final SentenceChunker SENTENCE_CHUNKER = new SentenceChunker(TOKENIZER_FACTORY,
           SENTENCE_MODEL);
 
-  private static final double simWithQuestionWeight = 0.5;
+  private static final double simWithQuestionWeight = 0.;
 
-  private static final double simWithConceptsWeight = 0.5;
+  private static final double simWithConceptsWeight = 1.;
 
   private static Class similarityClass = CosineSimilarity.class;
 
@@ -114,8 +119,8 @@ public class SnippetRetrieval extends JCasAnnotator_ImplBase {
             simWithQuestion = similarity.computeSimilarity(normalizedSentence, query);
             simWithConcepts = similarity
                     .computeSimilarity(normalizedSentence, concatenatedConcepts);
-            score = simWithQuestionWeight * simWithQuestion +
-                    simWithConceptsWeight * simWithConcepts;
+            score = simWithQuestionWeight * simWithQuestion + simWithConceptsWeight
+                    * simWithConcepts;
             sentences.add(new Sentence(sentenceBoundary, d, i, st, score));
           }
         }
@@ -127,8 +132,8 @@ public class SnippetRetrieval extends JCasAnnotator_ImplBase {
         String sectionNumber = "sections." + s.sectionNumber;
         // TODO: consider Title!
         TypeFactory.createPassage(aJCas, s.referencedDocument.getUri(), s.text,
-                s.referencedDocument.getDocId(),
-                s.boundary.start(), s.boundary.end(), sectionNumber, sectionNumber).addToIndexes();
+                s.referencedDocument.getDocId(), s.boundary.start(), s.boundary.end(),
+                sectionNumber, sectionNumber).addToIndexes();
       }
     }
   }
@@ -161,8 +166,8 @@ public class SnippetRetrieval extends JCasAnnotator_ImplBase {
 
     @Override
     public int compareTo(Sentence o) {
-      //TODO check this
-      return this.score > o.score ? -1 : 1;
+      // TODO check this
+      return Double.compare(this.score, o.score);
     }
   }
 }
