@@ -18,9 +18,11 @@ import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.tcas.Annotation;
 import org.apache.uima.resource.ResourceInitializationException;
 
+import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+import edu.cmu.lti.f14.project.util.NEChunker;
 import edu.cmu.lti.f14.project.util.Stats;
 import edu.cmu.lti.oaqa.type.input.Question;
 import edu.cmu.lti.oaqa.type.kb.Concept;
@@ -78,8 +80,14 @@ public class InformationRetrievalEvaluator extends JCasAnnotator_ImplBase {
     FSIterator<Annotation> iter = aJCas.getAnnotationIndex(Question.type).iterator();
     json.gson.Question goldenResult = null;
     if (iter.hasNext()) {
-      String questionId = ((Question) (iter.next())).getId();
+      Question q = ((Question) (iter.next()));
+      String questionId = q.getId();
       goldenResult = goldenStandards.get(questionId);
+
+      System.out.println("Query: " + q.getPreprocessedText());
+      System.out.println("NEs in the query: "
+              + Joiner.on(" ").join(NEChunker.getInstance().chunk(q.getPreprocessedText())));
+
     }
 
     if (goldenResult == null) {
@@ -89,35 +97,35 @@ public class InformationRetrievalEvaluator extends JCasAnnotator_ImplBase {
 
     Collection<Document> documents = JCasUtil.select(aJCas, Document.class);
     Collection<Concept> concepts = JCasUtil.select(aJCas, Concept.class);
-    
+
     Collection<Triple> triples = JCasUtil.select(aJCas, Triple.class);
     Collection<Passage> snippets = JCasUtil.select(aJCas, Passage.class);
 
-      
     List<String> goldenDocuments = goldenResult.getDocuments();
     List<String> goldenConcepts = goldenResult.getConcepts();
     List<json.gson.Triple> goldenTriples = goldenResult.getTriples();
     List<json.gson.Snippet> goldenSnippets = goldenResult.getSnippets();
 
     if (goldenDocuments != null) {
-      Stats docStat = new Stats("documents", goldenDocuments, documents.stream().map(Document::getUri)
-              .collect(toList()));
+      Stats docStat = new Stats("documents", goldenDocuments, documents.stream()
+              .map(Document::getUri).collect(toList()));
       docStats.add(docStat);
     }
     if (goldenConcepts != null) {
-      Stats conceptStat = new Stats("concepts", goldenConcepts, concepts.stream().map(Concept::getUris)
-              .map(i -> i.getNthElement(0)).collect(toList()));
+      Stats conceptStat = new Stats("concepts", goldenConcepts, concepts.stream()
+              .map(Concept::getUris).map(i -> i.getNthElement(0)).collect(toList()));
       conceptStats.add(conceptStat);
     }
     if (goldenTriples != null) {
-      Stats tripStat = new Stats("triples", goldenTriples.stream().map(Object::toString).collect(toList()),
-              triples.stream().map(t -> new json.gson.Triple(t).toString()).collect(toList()));
+      Stats tripStat = new Stats("triples", goldenTriples.stream().map(Object::toString)
+              .collect(toList()), triples.stream().map(t -> new json.gson.Triple(t).toString())
+              .collect(toList()));
       tripStats.add(tripStat);
     }
     if (goldenSnippets != null) {
-      Stats snippetStat = new Stats("snippets",
-              goldenSnippets.stream().map(Object::toString).collect(toList()), snippets.stream()
-                      .map(t -> new json.gson.Snippet(t).toString()).collect(toList()));
+      Stats snippetStat = new Stats("snippets", goldenSnippets.stream().map(Object::toString)
+              .collect(toList()), snippets.stream().map(t -> new json.gson.Snippet(t).toString())
+              .collect(toList()));
       snippetStats.add(snippetStat);
     }
   }

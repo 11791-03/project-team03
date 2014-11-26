@@ -38,7 +38,8 @@ public class NEChunker {
       return null;
     Chunking chunked = ch.chunk(toChunk);
     Set<Chunk> chunks = chunked.chunkSet();
-    return chunks.stream().map(Chunk::toString).collect(Collectors.toList());
+    return chunks.stream().map(c -> toChunk.substring(c.start(), c.end()))
+            .collect(Collectors.toList());
   }
 
 }

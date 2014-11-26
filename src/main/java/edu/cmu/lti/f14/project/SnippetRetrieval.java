@@ -57,7 +57,7 @@ public class SnippetRetrieval extends JCasAnnotator_ImplBase {
 
   private static final double simWithQuestionWeight = 0.;
 
-  private static final double simWithConceptsWeight = 0.;
+  private static final double simWithConceptsWeight = 1.5;
 
   private static final double simWithEntityWeight = 1.;
 

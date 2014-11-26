@@ -5,6 +5,7 @@ import java.util.Set;
 
 import lombok.Data;
 
+import com.google.common.base.Joiner;
 import com.google.common.collect.Sets;
 
 @Data
@@ -12,13 +13,20 @@ public class Stats {
   private double truePositive, falsePositive, falseNegative, ap;
 
   public Stats(String type, List<String> golden, List<String> results) {
-    if (type.equals("snippets")) {
+    if (true) {
+      System.out.println("for " + type);
       System.out.println(" GOLDEN ARE ");
-      for (String s : golden)
+      for (String s : golden) {
         System.out.println(s);
+        System.out.println("NEs in the golden: "
+                + Joiner.on(" ").join(NEChunker.getInstance().chunk(s)));
+      }
       System.out.println(" RETRIEVED ARE ");
-      for (String s : results)
+      for (String s : results) {
         System.out.println(s);
+        System.out.println("NEs in the retrieved: "
+                + Joiner.on(" ").join(NEChunker.getInstance().chunk(s)));
+      }
     }
     Set<String> intersection = Sets.newLinkedHashSet(results);
     intersection.retainAll(golden);
