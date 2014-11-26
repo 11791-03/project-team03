@@ -72,7 +72,7 @@ public class AnswerExtraction extends JCasAnnotator_ImplBase {
     }
     Collections.sort(nesWithFreq);
     List<String> res = new ArrayList<>();
-    for (int i = 0; i < 5; i++) { // TODO how to decide the number !!!
+    for (int i = 0; i < Math.min(nesWithFreq.size(), 5); i++) { // TODO how to decide the number !!!
       res.add(nesWithFreq.get(i).ne);
     }
     return res;
