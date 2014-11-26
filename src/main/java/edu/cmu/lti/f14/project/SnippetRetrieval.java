@@ -1,23 +1,5 @@
 package edu.cmu.lti.f14.project;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
-import org.apache.uima.UimaContext;
-import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
-import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
-import org.apache.uima.cas.FeatureStructure;
-import org.apache.uima.fit.util.JCasUtil;
-import org.apache.uima.jcas.JCas;
-import org.apache.uima.resource.ResourceInitializationException;
-
-import util.TypeFactory;
-
 import com.aliasi.chunk.Chunk;
 import com.aliasi.chunk.Chunking;
 import com.aliasi.sentences.MedlineSentenceModel;
@@ -30,7 +12,6 @@ import com.google.common.base.Joiner;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
 import edu.cmu.lti.f14.project.util.CosineSimilarity;
 import edu.cmu.lti.f14.project.util.NEChunker;
 import edu.cmu.lti.f14.project.util.Normalizer;
@@ -38,6 +19,18 @@ import edu.cmu.lti.f14.project.util.Similarity;
 import edu.cmu.lti.oaqa.type.input.Question;
 import edu.cmu.lti.oaqa.type.kb.Concept;
 import edu.cmu.lti.oaqa.type.retrieval.Document;
+import org.apache.uima.UimaContext;
+import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
+import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
+import org.apache.uima.cas.FeatureStructure;
+import org.apache.uima.fit.util.JCasUtil;
+import org.apache.uima.jcas.JCas;
+import org.apache.uima.resource.ResourceInitializationException;
+import util.TypeFactory;
+
+import java.lang.reflect.InvocationTargetException;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Snippet retrieval component in pipeline.
@@ -149,11 +142,10 @@ public class SnippetRetrieval extends JCasAnnotator_ImplBase {
   }
 
   String concatenateConcepts(Collection<Concept> concepts) {
-    Iterator<Concept> it = concepts.iterator();
-    String res = "";
-    while (it.hasNext())
-      res += it.next().getName() + " ";
-    return res;
+    return concepts
+            .stream()
+            .map(Concept::getName)
+            .collect(Collectors.joining(" "));
   }
 
   private class Sentence implements Comparable<Sentence> {
@@ -176,7 +168,6 @@ public class SnippetRetrieval extends JCasAnnotator_ImplBase {
 
     @Override
     public int compareTo(Sentence o) {
-      // TODO check this
       return Double.compare(o.score, this.score);
     }
   }
