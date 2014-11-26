@@ -1,21 +1,16 @@
 package edu.cmu.lti.f14.project;
 
 import com.google.common.collect.Lists;
-import com.google.common.io.CharStreams;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
-
 import edu.cmu.lti.f14.project.util.CosineSimilarity;
 import edu.cmu.lti.f14.project.util.Similarity;
 import edu.cmu.lti.oaqa.bio.bioasq.services.GoPubMedService;
 import edu.cmu.lti.oaqa.bio.bioasq.services.PubMedSearchServiceResponse;
 import edu.cmu.lti.oaqa.type.input.Question;
 import edu.cmu.lti.oaqa.type.retrieval.Document;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -25,11 +20,9 @@ import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.FeatureStructure;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
-
 import util.TypeFactory;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.*;
 
 /**
@@ -127,12 +120,12 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
     String pmid = pubMedDocument.getPmid();
     HttpGet httpGet = new HttpGet(FULLTEXT_URI_PREFIX + pmid);
     String fullTextString = null;
-    try (CloseableHttpResponse response = httpClient.execute(httpGet)) {
+  /*  try (CloseableHttpResponse response = httpClient.execute(httpGet)) {
       HttpEntity entity = response.getEntity();
       final InputStreamReader reader = new InputStreamReader(entity.getContent());
       fullTextString = CharStreams.toString(reader);
     } catch (Exception ignored) {
-    }
+    }*/
 
     JsonObject documentJson = new JsonObject();
     JsonArray sections = new JsonArray();
