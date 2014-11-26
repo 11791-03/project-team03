@@ -1,24 +1,22 @@
 package edu.cmu.lti.f14.project;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
+import com.google.common.collect.Lists;
+import edu.cmu.lti.f14.project.util.NEChunker;
+import edu.cmu.lti.oaqa.type.input.Question;
+import edu.cmu.lti.oaqa.type.retrieval.Passage;
 import org.apache.commons.lang.StringUtils;
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.FeatureStructure;
+import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
-
 import util.TypeFactory;
 
-import com.google.common.collect.Lists;
-
-import edu.cmu.lti.f14.project.util.NEChunker;
-import edu.cmu.lti.oaqa.type.input.Question;
-import edu.cmu.lti.oaqa.type.retrieval.Passage;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Answer Extraction
@@ -40,7 +38,6 @@ public class AnswerExtraction extends JCasAnnotator_ImplBase {
    */
   @Override
   public void process(JCas aJCas) throws AnalysisEngineProcessException {
-
     for (FeatureStructure featureStructure : aJCas.getAnnotationIndex(Question.type)) {
       Question question = (Question) featureStructure;
       String query = question.getPreprocessedText();
@@ -49,8 +46,7 @@ public class AnswerExtraction extends JCasAnnotator_ImplBase {
       // we have here a list of strings (snippets)
       // extract NEs
       List<String> nes = Lists.newArrayList();
-      for (FeatureStructure fs : aJCas.getAnnotationIndex(Passage.type)) {
-        Passage passage = (Passage) fs;
+      for (Passage passage : JCasUtil.select(aJCas, Passage.class)) {
         String text = passage.getText();
         // TODO Cheng extract NEs here
         nes.addAll(chunker.chunk(text));
@@ -69,20 +65,25 @@ public class AnswerExtraction extends JCasAnnotator_ImplBase {
     List<NamedEntity> nesWithFreq = new ArrayList<NamedEntity>();
     for (String ne : nes) {
       int freq = 0;
-      for (FeatureStructure fs : aJCas.getAnnotationIndex(Passage.type)) {
-        Passage passage = (Passage) fs;
+      for (Passage passage : JCasUtil.select(aJCas, Passage.class)) {
         freq += StringUtils.countMatches(passage.getText(), ne);
       }
       nesWithFreq.add(new NamedEntity(ne, freq));
     }
     Collections.sort(nesWithFreq);
-    List<String> res = new ArrayList<String>();
+    List<String> res = new ArrayList<>();
     for (int i = 0; i < 5; i++) { // TODO how to decide the number !!!
       res.add(nesWithFreq.get(i).ne);
     }
     return res;
   }
-  
+
+  @Override
+  public void collectionProcessComplete() throws AnalysisEngineProcessException {
+
+    super.collectionProcessComplete();
+  }
+
   private class NamedEntity implements Comparable<NamedEntity> {
     String ne;
     int freq;
@@ -96,11 +97,5 @@ public class AnswerExtraction extends JCasAnnotator_ImplBase {
     public int compareTo(NamedEntity o) {
       return this.freq > o.freq ? 1 : -1;
     }
-  }
-
-  @Override
-  public void collectionProcessComplete() throws AnalysisEngineProcessException {
-
-    super.collectionProcessComplete();
   }
 }
