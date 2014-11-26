@@ -56,7 +56,8 @@ public class AnswerExtraction extends JCasAnnotator_ImplBase {
       List<String> selectedNEs = selectEntities(aJCas, nes);
       // perform error analysis after this baseline
       // use ontology to enhance the results
-      TypeFactory.createAnswer(aJCas, selectedNEs);
+      for(String ans : selectedNEs)
+        TypeFactory.createAnswer(aJCas, ans);
     }
 
   }
