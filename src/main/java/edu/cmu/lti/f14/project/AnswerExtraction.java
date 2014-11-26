@@ -1,9 +1,9 @@
 package edu.cmu.lti.f14.project;
 
-import com.google.common.collect.Lists;
-import edu.cmu.lti.f14.project.util.NEChunker;
-import edu.cmu.lti.oaqa.type.input.Question;
-import edu.cmu.lti.oaqa.type.retrieval.Passage;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
@@ -12,11 +12,14 @@ import org.apache.uima.cas.FeatureStructure;
 import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
+
 import util.TypeFactory;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import com.google.common.collect.Lists;
+
+import edu.cmu.lti.f14.project.util.NEChunker;
+import edu.cmu.lti.oaqa.type.input.Question;
+import edu.cmu.lti.oaqa.type.retrieval.Passage;
 
 /**
  * Answer Extraction
@@ -30,7 +33,7 @@ public class AnswerExtraction extends JCasAnnotator_ImplBase {
   @Override
   public void initialize(UimaContext aContext) throws ResourceInitializationException {
     super.initialize(aContext);
-    chunker = new NEChunker();
+    chunker = NEChunker.getInstance();
   }
 
   /**
@@ -56,7 +59,7 @@ public class AnswerExtraction extends JCasAnnotator_ImplBase {
       List<String> selectedNEs = selectEntities(aJCas, nes);
       // perform error analysis after this baseline
       // use ontology to enhance the results
-      for(String ans : selectedNEs)
+      for (String ans : selectedNEs)
         TypeFactory.createAnswer(aJCas, ans);
     }
 
@@ -87,6 +90,7 @@ public class AnswerExtraction extends JCasAnnotator_ImplBase {
 
   private class NamedEntity implements Comparable<NamedEntity> {
     String ne;
+
     int freq;
 
     public NamedEntity(String n, int f) {
