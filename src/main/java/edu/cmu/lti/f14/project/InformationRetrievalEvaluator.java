@@ -74,6 +74,7 @@ public class InformationRetrievalEvaluator extends JCasAnnotator_ImplBase {
    */
   @Override
   public void process(JCas aJCas) throws AnalysisEngineProcessException {
+    System.out.println("RUNNING INFORMATION RETRIEVAL EVALUATOR");
     FSIterator<Annotation> iter = aJCas.getAnnotationIndex(Question.type).iterator();
     json.gson.Question goldenResult = null;
     if (iter.hasNext()) {
@@ -99,22 +100,22 @@ public class InformationRetrievalEvaluator extends JCasAnnotator_ImplBase {
     List<json.gson.Snippet> goldenSnippets = goldenResult.getSnippets();
 
     if (goldenDocuments != null) {
-      Stats docStat = new Stats(goldenDocuments, documents.stream().map(Document::getUri)
+      Stats docStat = new Stats("documents", goldenDocuments, documents.stream().map(Document::getUri)
               .collect(toList()));
       docStats.add(docStat);
     }
     if (goldenConcepts != null) {
-      Stats conceptStat = new Stats(goldenConcepts, concepts.stream().map(Concept::getUris)
+      Stats conceptStat = new Stats("concepts", goldenConcepts, concepts.stream().map(Concept::getUris)
               .map(i -> i.getNthElement(0)).collect(toList()));
       conceptStats.add(conceptStat);
     }
     if (goldenTriples != null) {
-      Stats tripStat = new Stats(goldenTriples.stream().map(Object::toString).collect(toList()),
+      Stats tripStat = new Stats("triples", goldenTriples.stream().map(Object::toString).collect(toList()),
               triples.stream().map(t -> new json.gson.Triple(t).toString()).collect(toList()));
       tripStats.add(tripStat);
     }
     if (goldenSnippets != null) {
-      Stats snippetStat = new Stats(
+      Stats snippetStat = new Stats("snippets",
               goldenSnippets.stream().map(Object::toString).collect(toList()), snippets.stream()
                       .map(t -> new json.gson.Snippet(t).toString()).collect(toList()));
       snippetStats.add(snippetStat);

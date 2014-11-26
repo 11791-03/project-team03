@@ -46,6 +46,7 @@ public class ConceptRetrieval extends JCasAnnotator_ImplBase {
    */
   @Override
   public void process(JCas aJCas) throws AnalysisEngineProcessException {
+    System.out.println("RUNNING CONCEPT RETRIEVAL");
     for (FeatureStructure featureStructure : aJCas.getAnnotationIndex(Question.type)) {
       Question question = (Question) featureStructure;
       Collection<Document> documents = JCasUtil.select(aJCas, Document.class);

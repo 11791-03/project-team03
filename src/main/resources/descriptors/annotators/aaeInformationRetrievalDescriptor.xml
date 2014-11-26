@@ -5,39 +5,39 @@
 	<primitive>false</primitive>
 	<delegateAnalysisEngineSpecifiers>
 		<delegateAnalysisEngine key="aeDocumentRetrievalDescriptor">
-			<import location="aeDocumentRetrievalDescriptor.xml" />
+			<import location="aeDocumentRetrievalDescriptor.xml"/>
 		</delegateAnalysisEngine>
 		<delegateAnalysisEngine key="aeConceptRetrievalDescriptor">
-			<import location="aeConceptRetrievalDescriptor.xml" />
+			<import location="aeConceptRetrievalDescriptor.xml"/>
 		</delegateAnalysisEngine>
 		<delegateAnalysisEngine key="aeTripleRetrievalDescriptor">
-			<import location="aeTripleRetrievalDescriptor.xml" />
+			<import location="aeTripleRetrievalDescriptor.xml"/>
 		</delegateAnalysisEngine>
 		<delegateAnalysisEngine key="aeSnippetRetrievalDescriptor">
-			<import location="aeSnippetRetrievalDescriptor.xml" />
+			<import location="aeSnippetRetrievalDescriptor.xml"/>
 		</delegateAnalysisEngine>
 	</delegateAnalysisEngineSpecifiers>
 	<analysisEngineMetaData>
 		<name>aaeInformationRetrievalDescriptor</name>
-		<description />
+		<description/>
 		<version>1.0</version>
-		<vendor />
-		<configurationParameters />
-		<configurationParameterSettings />
+		<vendor/>
+		<configurationParameters/>
+		<configurationParameterSettings/>
 		<flowConstraints>
 			<fixedFlow>
-				<node>aeDocumentRetrievalDescriptor</node>
 				<node>aeConceptRetrievalDescriptor</node>
+				<node>aeDocumentRetrievalDescriptor</node>
 				<node>aeTripleRetrievalDescriptor</node>
 				<node>aeSnippetRetrievalDescriptor</node>
 			</fixedFlow>
 		</flowConstraints>
-		<fsIndexCollection />
+		<fsIndexCollection/>
 		<capabilities>
 			<capability>
-				<inputs />
-				<outputs />
-				<languagesSupported />
+				<inputs/>
+				<outputs/>
+				<languagesSupported/>
 			</capability>
 		</capabilities>
 		<operationalProperties>
@@ -46,5 +46,5 @@
 			<outputsNewCASes>false</outputsNewCASes>
 		</operationalProperties>
 	</analysisEngineMetaData>
-	<resourceManagerConfiguration />
+	<resourceManagerConfiguration/>
 </analysisEngineDescription>

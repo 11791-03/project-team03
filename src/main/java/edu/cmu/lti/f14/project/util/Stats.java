@@ -11,7 +11,15 @@ import com.google.common.collect.Sets;
 public class Stats {
   private double truePositive, falsePositive, falseNegative, ap;
 
-  public Stats(List<String> golden, List<String> results) {
+  public Stats(String type, List<String> golden, List<String> results) {
+    if (type.equals("snippets")) {
+      System.out.println(" GOLDEN ARE ");
+      for (String s : golden)
+        System.out.println(s);
+      System.out.println(" RETRIEVED ARE ");
+      for (String s : results)
+        System.out.println(s);
+    }
     Set<String> intersection = Sets.newLinkedHashSet(results);
     intersection.retainAll(golden);
     Set<String> goldenSet = Sets.newHashSet(golden);

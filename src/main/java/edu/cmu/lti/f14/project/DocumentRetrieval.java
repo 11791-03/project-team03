@@ -6,12 +6,14 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
+
 import edu.cmu.lti.f14.project.util.CosineSimilarity;
 import edu.cmu.lti.f14.project.util.Similarity;
 import edu.cmu.lti.oaqa.bio.bioasq.services.GoPubMedService;
 import edu.cmu.lti.oaqa.bio.bioasq.services.PubMedSearchServiceResponse;
 import edu.cmu.lti.oaqa.type.input.Question;
 import edu.cmu.lti.oaqa.type.retrieval.Document;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -23,6 +25,7 @@ import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.FeatureStructure;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
+
 import util.TypeFactory;
 
 import java.io.IOException;
@@ -72,7 +75,7 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
    */
   @Override
   public void process(JCas aJCas) throws AnalysisEngineProcessException {
-
+    System.out.println("RUNNING DOCUMENT RETRIEVAL");
     for (FeatureStructure featureStructure : aJCas.getAnnotationIndex(Question.type)) {
       Question question = (Question) featureStructure;
       String query = question.getPreprocessedText();
