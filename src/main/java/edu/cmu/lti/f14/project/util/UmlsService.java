@@ -58,7 +58,11 @@ public class UmlsService {
       myPsf.setPageLn(50);
       List<UiLabel> uiLabels = utsFinderService.findAtoms(singleUseTicket, UMLS_RELEASE, "atom",
               searchWord, "words", myPsf);
-      return uiLabels.stream().map(UiLabel::getLabel).collect(toList());
+      return uiLabels
+              .stream()
+              .map(u -> u.getLabel().toLowerCase())
+              .distinct()
+              .collect(toList());
     } catch (Exception e) {
       return Lists.newArrayList();
     }
