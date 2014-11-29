@@ -35,11 +35,10 @@ public class UmlsService {
     try {
       String pw;
       try {
-        pw = new String(Base64.decodeBase64("YWJjZGVmZw=="), "UTF-8");
+        pw = new String(Base64.decodeBase64("MTE3OTFzdWNrcyE="), "UTF-8");
       } catch (UnsupportedEncodingException e) {
         pw = "";
       }
-      System.out.println(pw);
       ticketGrantingTicket = securityService.getProxyGrantTicket("junjiah", pw);
     } catch (UtsFault_Exception e) {
       e.printStackTrace();
