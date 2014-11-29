@@ -17,7 +17,6 @@ import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.FeatureStructure;
-import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
 import util.TypeFactory;
@@ -81,7 +80,8 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
 
       try {
         pubMedResult = service
-                .findPubMedCitations(queryExpand(question.getText(), JCasUtil.select(aJCas, Concept.class)), 0);
+//                .findPubMedCitations(queryExpand(question.getText(), JCasUtil.select(aJCas, Concept.class)), 0);
+                .findPubMedCitations(query, 0);
       } catch (IOException e) {
         e.printStackTrace();
         System.err.println("ERROR: Search PubMed in Document Retrieval Failed.");
@@ -137,7 +137,8 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
 
     JsonObject documentJson = new JsonObject();
     JsonArray sections = new JsonArray();
-    sections.add(new JsonPrimitive(pubMedDocument.getDocumentAbstract()));
+    String documentAbstract = pubMedDocument.getDocumentAbstract();
+    sections.add(new JsonPrimitive(documentAbstract == null ? "" : documentAbstract));
     documentJson.addProperty("pmid", pmid);
 
     if (fullTextString != null && !fullTextString.isEmpty()) {
