@@ -6,8 +6,9 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 import edu.cmu.lti.f14.project.util.CosineSimilarity;
-import edu.cmu.lti.f14.project.util.NEChunker;
+import edu.cmu.lti.f14.project.util.NamedEntityChunker;
 import edu.cmu.lti.f14.project.util.Similarity;
+import edu.cmu.lti.f14.project.util.UmlsService;
 import edu.cmu.lti.oaqa.bio.bioasq.services.GoPubMedService;
 import edu.cmu.lti.oaqa.bio.bioasq.services.PubMedSearchServiceResponse;
 import edu.cmu.lti.oaqa.type.input.Question;
@@ -19,6 +20,7 @@ import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.FeatureStructure;
+import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
 import util.TypeFactory;
@@ -81,7 +83,8 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
       PubMedSearchServiceResponse.Result pubMedResult;
 
       try {
-        pubMedResult = service.findPubMedCitations(query, 0);
+        pubMedResult = service
+                .findPubMedCitations(queryExpand(query, JCasUtil.select(aJCas, Concept.class)), 0);
       } catch (IOException e) {
         e.printStackTrace();
         System.err.println("ERROR: Search PubMed in Document Retrieval Failed.");
@@ -92,7 +95,6 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
       Map<Document, Double> documentScores = new HashMap<>();
       for (PubMedSearchServiceResponse.Document pubMedDocument : pubMedResult.getDocuments()) {
         String pmid = pubMedDocument.getPmid();
-        // String text = pubMedDocument.getDocumentAbstract();
         String text = retrieveDocumentJsonText(pubMedDocument);
         Document document = TypeFactory.createDocument(aJCas, URI_PREFIX + pmid, text, -1, query,
                 retrieveDocumentJsonText(pubMedDocument), pmid);
@@ -157,7 +159,7 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
    * @return expanded query string
    */
   private String queryFormulate(String originalQuery, Collection<Concept> concepts) {
-    NEChunker chunker = NEChunker.getInstance();
+    NamedEntityChunker chunker = NamedEntityChunker.getInstance();
     String namedEntities = chunker
             .chunk(originalQuery)
             .stream()
@@ -182,6 +184,18 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
 
     return String.format("(\"%s\") OR (%s) OR (%s) OR (%s)", originalQuery, namedEntities,
             conceptsString, bigramsString);
+  }
+
+  private String queryExpand(String originalQuery, Collection<Concept> concepts) {
+    UmlsService umlsService = UmlsService.getInstance();
+    NamedEntityChunker chunker = NamedEntityChunker.getInstance();
+    String namedEntitySynonym = chunker
+            .chunk(originalQuery)
+            .stream()
+            .flatMap(s -> umlsService.getSynonyms(s).stream())
+            .limit(5)
+            .collect(Collectors.joining(" AND "));
+    return String.format("(\"%s\") OR (%s)", originalQuery, namedEntitySynonym);
   }
 
   /**
