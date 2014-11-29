@@ -10,27 +10,27 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class NEChunker {
+public class NamedEntityChunker {
   final static String modelPath = "/ne-en-bio-genetag.HmmChunker";
 
-  private static NEChunker neChunker = null;
+  private static NamedEntityChunker namedEntityChunker = null;
 
   Chunker ch = null;
 
-  private NEChunker() {
+  private NamedEntityChunker() {
     try {
-      ch = (Chunker) AbstractExternalizable.readResourceObject(NEChunker.class, modelPath);
+      ch = (Chunker) AbstractExternalizable.readResourceObject(NamedEntityChunker.class, modelPath);
     } catch (ClassNotFoundException | IOException e) {
       e.printStackTrace();
       System.exit(1);
     }
   }
 
-  public static NEChunker getInstance() {
-    if (neChunker == null) {
-      neChunker = new NEChunker();
+  public static NamedEntityChunker getInstance() {
+    if (namedEntityChunker == null) {
+      namedEntityChunker = new NamedEntityChunker();
     }
-    return neChunker;
+    return namedEntityChunker;
   }
 
   public List<String> chunk(String toChunk) {

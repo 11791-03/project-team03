@@ -22,7 +22,7 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import edu.cmu.lti.f14.project.util.NEChunker;
+import edu.cmu.lti.f14.project.util.NamedEntityChunker;
 import edu.cmu.lti.f14.project.util.Stats;
 import edu.cmu.lti.oaqa.type.input.Question;
 import edu.cmu.lti.oaqa.type.kb.Concept;
@@ -86,7 +86,7 @@ public class InformationRetrievalEvaluator extends JCasAnnotator_ImplBase {
 
       System.out.println("Query: " + q.getPreprocessedText());
       System.out.println("NEs in the query: "
-              + Joiner.on(" ").join(NEChunker.getInstance().chunk(q.getPreprocessedText())));
+              + Joiner.on(" ").join(NamedEntityChunker.getInstance().chunk(q.getPreprocessedText())));
 
     }
 

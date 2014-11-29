@@ -17,7 +17,7 @@ import util.TypeFactory;
 
 import com.google.common.collect.Lists;
 
-import edu.cmu.lti.f14.project.util.NEChunker;
+import edu.cmu.lti.f14.project.util.NamedEntityChunker;
 import edu.cmu.lti.oaqa.type.input.Question;
 import edu.cmu.lti.oaqa.type.retrieval.Passage;
 
@@ -28,12 +28,12 @@ import edu.cmu.lti.oaqa.type.retrieval.Passage;
  */
 
 public class AnswerExtraction extends JCasAnnotator_ImplBase {
-  NEChunker chunker;
+  NamedEntityChunker chunker;
 
   @Override
   public void initialize(UimaContext aContext) throws ResourceInitializationException {
     super.initialize(aContext);
-    chunker = NEChunker.getInstance();
+    chunker = NamedEntityChunker.getInstance();
   }
 
   /**

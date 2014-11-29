@@ -13,7 +13,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import edu.cmu.lti.f14.project.util.CosineSimilarity;
-import edu.cmu.lti.f14.project.util.NEChunker;
+import edu.cmu.lti.f14.project.util.NamedEntityChunker;
 import edu.cmu.lti.f14.project.util.Normalizer;
 import edu.cmu.lti.f14.project.util.Similarity;
 import edu.cmu.lti.oaqa.type.input.Question;
@@ -81,7 +81,7 @@ public class SnippetRetrieval extends JCasAnnotator_ImplBase {
       Question question = (Question) featureStructure;
       String query = question.getPreprocessedText();
 
-      List<String> nesInQuery = NEChunker.getInstance().chunk(query);
+      List<String> nesInQuery = NamedEntityChunker.getInstance().chunk(query);
 
       Collection<Document> documents = JCasUtil.select(aJCas, Document.class);
       Collection<Concept> concepts = JCasUtil.select(aJCas, Concept.class);
@@ -116,7 +116,7 @@ public class SnippetRetrieval extends JCasAnnotator_ImplBase {
             end = sentenceBoundary.end();
             st = slice.substring(start, end);
             String normalizedSentence = Normalizer.normalize(st);
-            List<String> nesInSentence = NEChunker.getInstance().chunk(normalizedSentence);
+            List<String> nesInSentence = NamedEntityChunker.getInstance().chunk(normalizedSentence);
             simWithEntities = similarity.computeSimilarity(Joiner.on(" ").join(nesInSentence),
                     Joiner.on(" ").join(nesInQuery));
             simWithQuestion = similarity.computeSimilarity(normalizedSentence, query);

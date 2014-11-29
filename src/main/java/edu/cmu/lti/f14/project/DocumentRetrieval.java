@@ -6,7 +6,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 import edu.cmu.lti.f14.project.util.CosineSimilarity;
-import edu.cmu.lti.f14.project.util.NEChunker;
+import edu.cmu.lti.f14.project.util.NamedEntityChunker;
 import edu.cmu.lti.f14.project.util.Similarity;
 import edu.cmu.lti.oaqa.bio.bioasq.services.GoPubMedService;
 import edu.cmu.lti.oaqa.bio.bioasq.services.PubMedSearchServiceResponse;
@@ -157,7 +157,7 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
    * @return expanded query string
    */
   private String queryFormulate(String originalQuery, Collection<Concept> concepts) {
-    NEChunker chunker = NEChunker.getInstance();
+    NamedEntityChunker chunker = NamedEntityChunker.getInstance();
     String namedEntities = chunker
             .chunk(originalQuery)
             .stream()
