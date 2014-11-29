@@ -1,0 +1,464 @@
+{
+        "questions": [
+                {
+                        "body": "What is the most prominent sequence consensus for the polyadenylation site?", 
+                        "type": "list", 
+                        "id": "5133b9455274a5fb0700000c"
+                }, 
+                {
+                        "body": "Which extra thyroid tissues have thyrotropin (TSH) receptors?", 
+                        "type": "list", 
+                        "id": "513f45abbee46bd34c000013"
+                }, 
+                {
+                        "body": "Tumors of which three organs are classically associated with the multiple endocrine neoplasia type 1 syndrome?", 
+                        "type": "list", 
+                        "id": "51477de5d24251bc05000020"
+                }, 
+                {
+                        "body": "Which acetylcholinesterase inhibitors are used for treatment of myasthenia gravis?", 
+                        "type": "list", 
+                        "id": "5149199dd24251bc05000040"
+                }, 
+                {
+                        "body": "In which isochores are Alu elements enriched?", 
+                        "type": "list", 
+                        "id": "515bd543298dcd4e51000001"
+                }, 
+                {
+                        "body": "Which forms of cancer is the Tpl2 gene associated with?", 
+                        "type": "list", 
+                        "id": "515bf6d6298dcd4e51000004"
+                }, 
+                {
+                        "body": "Which species may be used for the biotechnological production of itaconic acid?", 
+                        "type": "list", 
+                        "id": "515ffc2b298dcd4e51000035"
+                }, 
+                {
+                        "body": "Which histone marks are deposited by Set7?", 
+                        "type": "list", 
+                        "id": "5160412d298dcd4e5100003c"
+                }, 
+                {
+                        "body": "What is the inheritance pattern of Emery-Dreifuss muscular dystrophy? ", 
+                        "type": "list", 
+                        "id": "51656c94298dcd4e51000058"
+                }, 
+                {
+                        "body": "Name the major classes of small  non coding RNAs in mammalians?", 
+                        "type": "list", 
+                        "id": "517295c18ed59a060a000016"
+                }, 
+                {
+                        "body": "Which drugs are utilized to treat eosinophilic esophagitis?", 
+                        "type": "list", 
+                        "id": "518ba4b5310faafe08000005"
+                }, 
+                {
+                        "body": "Which microRNAs are involved in exercise adaptation?", 
+                        "type": "list", 
+                        "id": "518cca6f310faafe0800000a"
+                }, 
+                {
+                        "body": "List co-morbidities that may occur together with \"Stiff man Syndrome\"", 
+                        "type": "list", 
+                        "id": "515df86a298dcd4e5100002e"
+                }, 
+                {
+                        "body": "Which are the inhibitors of histone methyltransferases?", 
+                        "type": "list", 
+                        "id": "5166f41a298dcd4e5100005b"
+                }, 
+                {
+                        "body": "Name the factors required for selenoprotein synthesis in eukaryotes", 
+                        "type": "list", 
+                        "id": "51766e438ed59a060a000031"
+                }, 
+                {
+                        "body": "List some ways to reverse Tau hyperphosphorylation in Tauopathies?", 
+                        "type": "list", 
+                        "id": "517775c78ed59a060a000033"
+                }, 
+                {
+                        "body": "What are the effects of ILK ablation?", 
+                        "type": "list", 
+                        "id": "5179602c8ed59a060a00003d"
+                }, 
+                {
+                        "body": "Which deiodinases are best known to be present in brain?", 
+                        "type": "list", 
+                        "id": "517a8bab8ed59a060a000040"
+                }, 
+                {
+                        "body": "Which deiodinases are present in skeletal  muscle?", 
+                        "type": "list", 
+                        "id": "517a8bef8ed59a060a000041"
+                }, 
+                {
+                        "body": "Where is X-ray free electron laser used?", 
+                        "type": "list", 
+                        "id": "51475d5cd24251bc0500001b"
+                }, 
+                {
+                        "body": "Which are the families of mammalian DNA-(cytosine-5)-methyltransferases?", 
+                        "type": "list", 
+                        "id": "516c3960298dcd4e51000073"
+                }, 
+                {
+                        "body": "By which methods can we evaluate the reliability of a phylogenetic tree?", 
+                        "type": "list", 
+                        "id": "516ec97f298dcd4e51000087"
+                }, 
+                {
+                        "body": "Which genes are more frequently affected by somatic mutations in Chronic Lymphocytic Leukemia", 
+                        "type": "list", 
+                        "id": "5171a1498ed59a060a000012"
+                }, 
+                {
+                        "body": "What type of cancers and inherited diseases have been associated to mutations in the Notch pathway?", 
+                        "type": "list", 
+                        "id": "5173eb428ed59a060a000021"
+                }, 
+                {
+                        "body": "Which mitochondrial genes are regulated by thyroid hormone?", 
+                        "type": "list", 
+                        "id": "517539e68ed59a060a000028"
+                }, 
+                {
+                        "body": "Which dediodinases are present in kidney?", 
+                        "type": "list", 
+                        "id": "517a8c238ed59a060a000042"
+                }, 
+                {
+                        "body": "Which drugs are utilized to treat amiodarone-induced thyroitoxicosis?", 
+                        "type": "list", 
+                        "id": "518cb4b5310faafe08000006"
+                }, 
+                {
+                        "body": "Which are the best treatment options to treat Helicobacter pylori?", 
+                        "type": "list", 
+                        "id": "518cb5ab310faafe08000008"
+                }, 
+                {
+                        "body": "Which are currently available software tools for detecting rare codon clusters in coding sequences?", 
+                        "type": "list", 
+                        "id": "51be411b047fa84d1d000006"
+                }, 
+                {
+                        "body": "What is the treatment of neuropathic pain in children?", 
+                        "type": "list", 
+                        "id": "515da6e2298dcd4e51000010"
+                }, 
+                {
+                        "body": "What are the advantages of the top down mass spectrometric analysis of histones?", 
+                        "type": "list", 
+                        "id": "51630226298dcd4e5100004d"
+                }, 
+                {
+                        "body": "Which genes does thyroid hormone receptor beta1 regulate in the liver?", 
+                        "type": "list", 
+                        "id": "516c0ebc298dcd4e5100006e"
+                }, 
+                {
+                        "body": "In which proteins is the chromodomain present?", 
+                        "type": "list", 
+                        "id": "517137c18ed59a060a000001"
+                }, 
+                {
+                        "body": "Name five popular  computer  programs used to identify genes in genomic sequences", 
+                        "type": "list", 
+                        "id": "51716a438ed59a060a00000a"
+                }, 
+                {
+                        "body": "Which are the bioinformatics tools for gene structure prediction?\n", 
+                        "type": "list", 
+                        "id": "51740da48ed59a060a000024"
+                }, 
+                {
+                        "body": "Which viruses are best known to cause myocarditis?", 
+                        "type": "list", 
+                        "id": "517a8c918ed59a060a000043"
+                }, 
+                {
+                        "body": "What is the treatment of acute myocarditis?", 
+                        "type": "list", 
+                        "id": "517a8cc68ed59a060a000044"
+                }, 
+                {
+                        "body": "Which genes does thyroid hormone receptor alpha1 regulate in the heart?", 
+                        "type": "list", 
+                        "id": "515c4f05298dcd4e51000006"
+                }, 
+                {
+                        "body": "Which genes does thyroid hormone receptor beta1 regulate in the heart?", 
+                        "type": "list", 
+                        "id": "515c4f1f298dcd4e51000007"
+                }, 
+                {
+                        "body": "Which cellular processes are regulated by Nanog?", 
+                        "type": "list", 
+                        "id": "515d1ff7298dcd4e51000009"
+                }, 
+                {
+                        "body": "What are the current treatments for generalised anxiety disorder in teenagers?", 
+                        "type": "list", 
+                        "id": "515db20e298dcd4e51000014"
+                }, 
+                {
+                        "body": "List all clinical trials of the polypill.", 
+                        "type": "list", 
+                        "id": "515de572298dcd4e51000021"
+                }, 
+                {
+                        "body": "List all approved indications for Glivec", 
+                        "type": "list", 
+                        "id": "515de748298dcd4e51000023"
+                }, 
+                {
+                        "body": "List all reported treatment options for anxiety in autism spectrum disorder.", 
+                        "type": "list", 
+                        "id": "515de993298dcd4e51000024"
+                }, 
+                {
+                        "body": "List the endoscopic diagnoses that have been reported in children with autism", 
+                        "type": "list", 
+                        "id": "515deafd298dcd4e51000025"
+                }, 
+                {
+                        "body": "Which species may be used for the biotechnological production of itaconic acid?", 
+                        "type": "list", 
+                        "id": "515ffc2b298dcd4e51000035"
+                }, 
+                {
+                        "body": "Which are the most commonly reported pathological states associated with the formation of DNA G-quadruplexes?", 
+                        "type": "list", 
+                        "id": "51600ab3298dcd4e51000036"
+                }, 
+                {
+                        "body": "Against which organisms has reverse vaccinology been used?", 
+                        "type": "list", 
+                        "id": "51601071298dcd4e51000038"
+                }, 
+                {
+                        "body": "Which histone marks are deposited by Set7?", 
+                        "type": "list", 
+                        "id": "5160412d298dcd4e5100003c"
+                }, 
+                {
+                        "body": "Global quantitative phosphoproteomic analyses are emerging. List the preferred technologies for the enrichment for phosphorylated peptides?", 
+                        "type": "list", 
+                        "id": "516281e6298dcd4e51000040"
+                }, 
+                {
+                        "body": "The protein neprilysin  has an positive effect on Alzheimer disease, how can it be delivered to the brain?", 
+                        "type": "list", 
+                        "id": "5162e44f298dcd4e5100004a"
+                }, 
+                {
+                        "body": "Which genes does thyroid hormone receptor alpha1 regulate in the liver?", 
+                        "type": "list", 
+                        "id": "516c0ed3298dcd4e5100006f"
+                }, 
+                {
+                        "body": "Which anticancer drugs target human topoisomerase II?", 
+                        "type": "list", 
+                        "id": "516e5f25298dcd4e5100007d"
+                }, 
+                {
+                        "body": "Which are the synonyms of prostate-specific antigen?", 
+                        "type": "list", 
+                        "id": "5171651e8ed59a060a000009"
+                }, 
+                {
+                        "body": "What are the computational methods for the prediction of beta-barrel transmembrane proteins?", 
+                        "type": "list", 
+                        "id": "5149a61ed24251bc05000044"
+                }, 
+                {
+                        "body": "Which are the available biomedical text mining tools for the detection of protein-protein interactions?", 
+                        "type": "list", 
+                        "id": "5149aafcd24251bc05000045"
+                }, 
+                {
+                        "body": "Which are the state-of-the-art computational tools for the prediction of gene fusion events?", 
+                        "type": "list", 
+                        "id": "5149af96d24251bc05000046"
+                }, 
+                {
+                        "body": "What are the generic versions of Viagra?", 
+                        "type": "list", 
+                        "id": "5150f401d24251bc05000075"
+                }, 
+                {
+                        "body": "What are the symptoms of abacavir hypersensitivity?", 
+                        "type": "list", 
+                        "id": "51542dc3d24251bc0500007e"
+                }, 
+                {
+                        "body": "Which diseases is microRNA 132 (miR-132) implicated in?", 
+                        "type": "list", 
+                        "id": "5156be75d24251bc05000088"
+                }, 
+                {
+                        "body": "Carbapenemase-producing gram-negative bacteria is a major health concern because their resistance to antibiotics.\nList the most frequent carbapenemases found in Enterobacteriaceae.", 
+                        "type": "list", 
+                        "id": "515870cdd24251bc0500008f"
+                }, 
+                {
+                        "body": "Proteomic analyses have revealed proteins associated with the triple-negative breast cancers. List some proposed proteins.", 
+                        "type": "list", 
+                        "id": "51595fb0d24251bc0500009c"
+                }, 
+                {
+                        "body": "Which compounds exist that are thyroid hormone analogs?", 
+                        "type": "list", 
+                        "id": "515993f3d24251bc050000a0"
+                }, 
+                {
+                        "body": "What are the effects of depleting protein  km23-1 (DYNLRB1)  in a cell?", 
+                        "type": "list", 
+                        "id": "515a7ffdd24251bc050000a5"
+                }, 
+                {
+                        "body": "Where can we find the protein lacritin?", 
+                        "type": "list", 
+                        "id": "515b30d8d24251bc050000b0"
+                }, 
+                {
+                        "body": "A common problem in proteomics is the contamination of samples with exogenous proteins (often from other species). These proteins can be found in specific databases. List some contaminants.", 
+                        "type": "list", 
+                        "id": "515d7693298dcd4e5100000c"
+                }, 
+                {
+                        "body": "List all clinical trials of the polypill.", 
+                        "type": "list", 
+                        "id": "515db020298dcd4e51000011"
+                }, 
+                {
+                        "body": "What are the reported adverse effects of gabapentin used in children?", 
+                        "type": "list", 
+                        "id": "515db70c298dcd4e51000017"
+                }, 
+                {
+                        "body": "What are the known families of deadenylases?", 
+                        "type": "list", 
+                        "id": "5162c8a8298dcd4e51000047"
+                }, 
+                {
+                        "body": "What is the treatment of triiodothyronine toxicosis?", 
+                        "type": "list", 
+                        "id": "518cb6ab310faafe08000009"
+                }, 
+                {
+                        "body": "Which are the most widely reported side-effects in the treatment of Crohn's disease?", 
+                        "type": "list", 
+                        "id": "511a20f3df1ebcce7d00000c"
+                }, 
+                {
+                        "body": "Which are the plant DNA (cytosine-5) methyltransferase families?", 
+                        "type": "list", 
+                        "id": "511a4d391159fa8212000003"
+                }, 
+                {
+                        "body": "Which are the main histone modifications associated with enhancers?", 
+                        "type": "list", 
+                        "id": "5131bef65274a5fb07000008"
+                }, 
+                {
+                        "body": "Which are the main causes of fetal echogenic bowel?", 
+                        "type": "list", 
+                        "id": "5131fa145274a5fb07000009"
+                }, 
+                {
+                        "body": "Which human genes are more commonly related to craniosynostosis?", 
+                        "type": "list", 
+                        "id": "513ce3c8bee46bd34c000008"
+                }, 
+                {
+                        "body": "Which drugs may interfere thyroxine absorption?", 
+                        "type": "list", 
+                        "id": "513f3d1fbee46bd34c000010"
+                }, 
+                {
+                        "body": "Which are the major transcription factors regulating glycolysis in mammals?", 
+                        "type": "list", 
+                        "id": "514168ab23fec9037500000a"
+                }, 
+                {
+                        "body": "The CXCR2 receptor is targeted in cancer. Name five antagonists.", 
+                        "type": "list", 
+                        "id": "5141bcd423fec9037500000d"
+                }, 
+                {
+                        "body": "Which are the available biomedical text mining tools for the detection of protein-protein interactions?", 
+                        "type": "list", 
+                        "id": "514217a6d24251bc05000005"
+                }, 
+                {
+                        "body": "The protein NONO forms heterodimers. With which proteins?", 
+                        "type": "list", 
+                        "id": "514241fcd24251bc05000006"
+                }, 
+                {
+                        "body": "What are the computational tools for the prediction of beta-barrel transmembrane proteins?", 
+                        "type": "list", 
+                        "id": "51434c74d24251bc0500000c"
+                }, 
+                {
+                        "body": "Which scales are recommended by the American Heart Association for depression screening in cardiovascular patients? ", 
+                        "type": "list", 
+                        "id": "51486f7dd24251bc0500002e"
+                }, 
+                {
+                        "body": "Which two catechol-O-methyl transferase (COMT) inhibitors can be used for treatment of Parkinson disease?", 
+                        "type": "list", 
+                        "id": "51487ef9d24251bc05000031"
+                }, 
+                {
+                        "body": "Which genes are involved in patient response to warfarin?", 
+                        "type": "list", 
+                        "id": "5148885ad24251bc05000032"
+                }, 
+                {
+                        "body": "Mutation of which gene and which chromosome cause Neurofibromatosis type I?", 
+                        "type": "list", 
+                        "id": "5148e1d6d24251bc0500003a"
+                }, 
+                {
+                        "body": "Which diseases can Oncotype DX be used for?", 
+                        "type": "list", 
+                        "id": "514a11add24251bc05000054"
+                }, 
+                {
+                        "body": "Which are the DNA (cytosine-5-)-methyltransferases inhibitors?", 
+                        "type": "list", 
+                        "id": "5165932e298dcd4e51000059"
+                }, 
+                {
+                        "body": "Which genes are regulated by MEF-2 in the heart?", 
+                        "type": "list", 
+                        "id": "517539af8ed59a060a000026"
+                }, 
+                {
+                        "body": "Which genes are regulated by TRalpha2  in the heart?", 
+                        "type": "list", 
+                        "id": "517539ca8ed59a060a000027"
+                }, 
+                {
+                        "body": "What are the major classes of retrotransposons active in the human genome?", 
+                        "type": "list", 
+                        "id": "517843638ed59a060a000036"
+                }, 
+                {
+                        "body": "Which are the known human transmembrane nucleoporins?", 
+                        "type": "list", 
+                        "id": "51bdb644047fa84d1d000001"
+                }, 
+                {
+                        "body": "Which are the Atg8 homologs in human?", 
+                        "type": "list", 
+                        "id": "51bdf045047fa84d1d000003"
+                }
+        ]
+}

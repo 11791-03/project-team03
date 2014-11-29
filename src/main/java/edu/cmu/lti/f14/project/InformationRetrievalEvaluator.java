@@ -2,6 +2,7 @@ package edu.cmu.lti.f14.project;
 
 import static java.util.stream.Collectors.toList;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -25,8 +26,8 @@ import com.google.common.collect.Maps;
 import edu.cmu.lti.f14.project.util.NEChunker;
 import edu.cmu.lti.f14.project.util.Stats;
 import edu.cmu.lti.oaqa.type.input.Question;
-import edu.cmu.lti.oaqa.type.kb.Concept;
 import edu.cmu.lti.oaqa.type.kb.Triple;
+import edu.cmu.lti.oaqa.type.retrieval.ConceptSearchResult;
 import edu.cmu.lti.oaqa.type.retrieval.Document;
 import edu.cmu.lti.oaqa.type.retrieval.Passage;
 
@@ -52,7 +53,7 @@ public class InformationRetrievalEvaluator extends JCasAnnotator_ImplBase {
    */
   @Override
   public void initialize(UimaContext aContext) throws ResourceInitializationException {
-    String filePath = "/BioASQ-SampleData1B.json";
+    String filePath = "/BioASQ-trainingDataset2b-3.json";
     goldenStandards = Maps.newHashMap();
     List<json.gson.Question> questions = Lists.newArrayList();
 
@@ -96,7 +97,7 @@ public class InformationRetrievalEvaluator extends JCasAnnotator_ImplBase {
     }
 
     Collection<Document> documents = JCasUtil.select(aJCas, Document.class);
-    Collection<Concept> concepts = JCasUtil.select(aJCas, Concept.class);
+    Collection<ConceptSearchResult> concepts = JCasUtil.select(aJCas, ConceptSearchResult.class);
 
     Collection<Triple> triples = JCasUtil.select(aJCas, Triple.class);
     Collection<Passage> snippets = JCasUtil.select(aJCas, Passage.class);
@@ -113,7 +114,7 @@ public class InformationRetrievalEvaluator extends JCasAnnotator_ImplBase {
     }
     if (goldenConcepts != null) {
       Stats conceptStat = new Stats("concepts", goldenConcepts, concepts.stream()
-              .map(Concept::getUris).map(i -> i.getNthElement(0)).collect(toList()));
+              .map(ConceptSearchResult::getUri).map(i -> i).collect(toList()));
       conceptStats.add(conceptStat);
     }
     if (goldenTriples != null) {
@@ -138,5 +139,4 @@ public class InformationRetrievalEvaluator extends JCasAnnotator_ImplBase {
     Stats.printStats(tripStats, "Triple", EPSILON);
     Stats.printStats(snippetStats, "Snippet", EPSILON);
   }
-
 }

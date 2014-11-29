@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!--
 	 ***************************************************************
 	 * Licensed to the Apache Software Foundation (ASF) under one
@@ -49,7 +50,7 @@
             <nameValuePair>
                 <name>InputFile</name>
                 <value>
-                    <string>/questions.json</string>
+                    <string>/BioASQ-trainingDataset2b-list.json</string>
                 </value>
             </nameValuePair>
             <nameValuePair>
@@ -60,7 +61,8 @@
             </nameValuePair>
         </configurationParameterSettings>
 
-        <capabilities>
+        <typeSystemDescription/>
+    <capabilities>
             <capability>
                 <inputs/>
                 <outputs/>

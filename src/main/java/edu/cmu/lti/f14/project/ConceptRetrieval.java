@@ -19,7 +19,6 @@ import util.TypeFactory;
 import java.io.IOException;
 import java.util.*;
 
-
 public class ConceptRetrieval extends JCasAnnotator_ImplBase {
 
   private GoPubMedService service;
@@ -99,18 +98,20 @@ public class ConceptRetrieval extends JCasAnnotator_ImplBase {
   }
 
   private void createConcept(JCas jcas, Concept c, double score) {
-//    System.out.println(">" + c.getLabel());
-//    System.out.println("-->\t\t\t" + c.getUri());
+    // System.out.println(">" + c.getLabel());
+    // System.out.println("-->\t\t\t" + c.getUri());
     // score 0.1 - Concept - precision: 0.0178, recall: 0.1357, F1: 0.0314, MAP: 0.0655, GMAP:
     // 0.0311
     // score 0.15 - Concept - precision: 0.0364, recall: 0.0929, F1: 0.0523, MAP: 0.0841, GMAP:
     // 0.0321
-//    System.out.println(score);
+    // System.out.println(score);
     if (score > 0.15) {
-//      System.out.println("selected:\t" + score);
+      // System.out.println("selected:\t" + score);
       if (validConcept(jcas, c.getLabel().toLowerCase())) {
         conceptsSoFar.add(c.getLabel().toLowerCase());
-        TypeFactory.createConcept(jcas, c.getLabel(), c.getUri().replace("2014", "2012")).addToIndexes();
+        String uri = c.getUri().replace("2014", "2012");
+        TypeFactory.createConceptSearchResult(jcas,
+                TypeFactory.createConcept(jcas, c.getLabel(), uri), uri).addToIndexes();
       }
     }
   }
