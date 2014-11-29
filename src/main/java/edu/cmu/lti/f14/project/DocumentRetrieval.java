@@ -8,11 +8,13 @@ import com.google.gson.JsonPrimitive;
 import edu.cmu.lti.f14.project.util.CosineSimilarity;
 import edu.cmu.lti.f14.project.util.NamedEntityChunker;
 import edu.cmu.lti.f14.project.util.Similarity;
+import edu.cmu.lti.f14.project.util.UmlsService;
 import edu.cmu.lti.oaqa.bio.bioasq.services.GoPubMedService;
 import edu.cmu.lti.oaqa.bio.bioasq.services.PubMedSearchServiceResponse;
 import edu.cmu.lti.oaqa.type.input.Question;
 import edu.cmu.lti.oaqa.type.kb.Concept;
 import edu.cmu.lti.oaqa.type.retrieval.Document;
+import gov.nih.nlm.uts.webservice.finder.UtsFault_Exception;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.uima.UimaContext;
@@ -92,7 +94,6 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
       Map<Document, Double> documentScores = new HashMap<>();
       for (PubMedSearchServiceResponse.Document pubMedDocument : pubMedResult.getDocuments()) {
         String pmid = pubMedDocument.getPmid();
-        // String text = pubMedDocument.getDocumentAbstract();
         String text = retrieveDocumentJsonText(pubMedDocument);
         Document document = TypeFactory.createDocument(aJCas, URI_PREFIX + pmid, text, -1, query,
                 retrieveDocumentJsonText(pubMedDocument), pmid);
@@ -182,6 +183,19 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
 
     return String.format("(\"%s\") OR (%s) OR (%s) OR (%s)", originalQuery, namedEntities,
             conceptsString, bigramsString);
+  }
+
+  private String queryExpand(String originalQuery, Collection<Concept> concepts) {
+    UmlsService umlsService = UmlsService.getInstance();
+    List<String> synonyms;
+    try {
+      synonyms = umlsService.getSynonyms("");
+    } catch (UtsFault_Exception e) {
+      e.printStackTrace();
+    } catch (gov.nih.nlm.uts.webservice.security.UtsFault_Exception e) {
+      e.printStackTrace();
+    }
+    return null;
   }
 
   /**

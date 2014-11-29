@@ -50,7 +50,7 @@ public class UmlsService {
     }
   }
 
-  private static UmlsService getInstance() {
+  public static UmlsService getInstance() {
     if (umlsService == null)
       umlsService = new UmlsService();
     return umlsService;
