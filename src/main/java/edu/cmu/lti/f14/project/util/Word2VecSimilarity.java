@@ -32,7 +32,7 @@ public class Word2VecSimilarity extends Similarity {
   // return the sentences vec
   private ArrayList<Double> getWordVec(String s) {
     ArrayList<Double> vectorList;
-    vectorList = (ArrayList<Double>) service.getVector(s, 10);
+    vectorList = (ArrayList<Double>) service.getVector(s);
     return vectorList;
   }
 

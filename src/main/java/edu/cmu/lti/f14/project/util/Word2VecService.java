@@ -16,7 +16,7 @@ import java.util.List;
 import static java.util.stream.Collectors.toList;
 
 public class Word2VecService {
-  private static final String QUERY_URL = "http://128.2.190.10:3000/?query=%s&n=%d";
+  private static final String QUERY_URL = "http://128.2.190.10:3000/?w=%s";
 
   private static final CloseableHttpClient httpClient = HttpClients.createDefault();
 
@@ -31,11 +31,11 @@ public class Word2VecService {
     return word2VecService;
   }
 
-  public List<Double> getVector(String words, int n) {
+  public List<Double> getVector(String words) {
     HttpGet httpGet = null;
     try {
       httpGet = new HttpGet(
-              String.format(QUERY_URL, URLEncoder.encode(words.toLowerCase(), "UTF-8"), n));
+              String.format(QUERY_URL, URLEncoder.encode(words.toLowerCase(), "UTF-8")));
     } catch (UnsupportedEncodingException ignored) {
     }
     String vectorString = "";
@@ -46,7 +46,7 @@ public class Word2VecService {
     } catch (Exception ignored) {
     }
 
-    if (!vectorString.equals("NOTHING")) {
+    if (!vectorString.equals("NO WORD")) {
       return Arrays.asList(vectorString.split(" "))
               .stream()
               .map(Double::parseDouble)
