@@ -12,10 +12,7 @@ import com.google.common.base.Joiner;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import edu.cmu.lti.f14.project.util.CosineSimilarity;
-import edu.cmu.lti.f14.project.util.NamedEntityChunker;
-import edu.cmu.lti.f14.project.util.Normalizer;
-import edu.cmu.lti.f14.project.util.Similarity;
+import edu.cmu.lti.f14.project.util.*;
 import edu.cmu.lti.oaqa.type.input.Question;
 import edu.cmu.lti.oaqa.type.kb.Concept;
 import edu.cmu.lti.oaqa.type.retrieval.Document;
@@ -54,7 +51,7 @@ public class SnippetRetrieval extends JCasAnnotator_ImplBase {
 
   private static final double simWithEntityWeight = 1.;
 
-  private static Class similarityClass = CosineSimilarity.class;
+  private static Class similarityClass = Word2VecSimilarity.class;
 
   private JsonParser jsonParser = new JsonParser();
 
@@ -68,6 +65,7 @@ public class SnippetRetrieval extends JCasAnnotator_ImplBase {
     } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
             | InvocationTargetException | SecurityException e) {
       e.printStackTrace();
+      System.exit(1);
     }
   }
 
@@ -90,12 +88,12 @@ public class SnippetRetrieval extends JCasAnnotator_ImplBase {
 
       String concatenatedConcepts = concatenateConcepts(concepts);
 
-      for (Document d : documents) {
-        JsonObject textJson = jsonParser.parse(d.getText()).getAsJsonObject();
-        JsonArray sections = textJson.getAsJsonArray("sections");
+      for (Document document : documents) {
+        JsonObject jsonText = jsonParser.parse(document.getText()).getAsJsonObject();
+        JsonArray sections = jsonText.getAsJsonArray("sections");
 
-        for (int i = 0; i < sections.size(); ++i) {
-          String text = sections.get(i).getAsString();
+        for (int sectionNumber = 0; sectionNumber < sections.size(); ++sectionNumber) {
+          String text = sections.get(sectionNumber).getAsString();
           if (text == null)
             continue;
 
@@ -108,14 +106,14 @@ public class SnippetRetrieval extends JCasAnnotator_ImplBase {
           Tokenizer tokenizer = TOKENIZER_FACTORY.tokenizer(text.toCharArray(), 0, text.length());
           tokenizer.tokenize(tokenList, whiteList);
 
-          String st;
+          String originalSentence;
           int start, end;
           double simWithQuestion, simWithConcepts, simWithEntities, score;
           for (Chunk sentenceBoundary : sentenceBoundaries) {
             start = sentenceBoundary.start();
             end = sentenceBoundary.end();
-            st = slice.substring(start, end);
-            String normalizedSentence = Normalizer.normalize(st);
+            originalSentence = slice.substring(start, end);
+            String normalizedSentence = Normalizer.normalize(originalSentence);
             List<String> nesInSentence = NamedEntityChunker.getInstance().chunk(normalizedSentence);
             simWithEntities = similarity.computeSimilarity(Joiner.on(" ").join(nesInSentence),
                     Joiner.on(" ").join(nesInQuery));
@@ -124,18 +122,20 @@ public class SnippetRetrieval extends JCasAnnotator_ImplBase {
                     .computeSimilarity(normalizedSentence, concatenatedConcepts);
             score = simWithQuestionWeight * simWithQuestion + simWithConceptsWeight
                     * simWithConcepts + simWithEntityWeight * simWithEntities;
-            sentences.add(new Sentence(sentenceBoundary, d, i, st, score));
+            sentences.add(new Sentence(sentenceBoundary, document, sectionNumber, originalSentence,
+                    score));
           }
         }
       }
       Collections.sort(sentences);
-      Sentence s;
+//      Sentence s;
       for (int i = 0; i < Math.min(TOP_K, sentences.size()); i++) {
-        s = sentences.get(i);
-        String sectionNumber = "sections." + s.sectionNumber;
+        Sentence sentence = sentences.get(i);
+        String sectionNumber = "sections." + sentence.sectionNumber;
         // TODO: consider Title!
-        TypeFactory.createPassage(aJCas, s.referencedDocument.getUri(), s.text,
-                s.referencedDocument.getDocId(), s.boundary.start(), s.boundary.end(),
+        TypeFactory.createPassage(aJCas, sentence.referencedDocument.getUri(), sentence.text,
+                sentence.referencedDocument.getDocId(), sentence.boundary.start(),
+                sentence.boundary.end(),
                 sectionNumber, sectionNumber).addToIndexes();
       }
     }
