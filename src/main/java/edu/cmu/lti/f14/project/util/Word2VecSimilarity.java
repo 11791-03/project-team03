@@ -31,7 +31,7 @@ public class Word2VecSimilarity extends Similarity {
       sum1+=v1.get(i)*v1.get(i);
       sum2+=v2.get(i)*v2.get(i);
     }
-    return sum/(sum1*sum2);
+    return sum/Math.sqrt(sum1*sum2);
 
   }
 
