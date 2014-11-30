@@ -10,9 +10,10 @@ import java.util.Map;
 public class CosineSimilarity extends Similarity {
 
   public static void main(String[] args) {
-    System.out.println(new CosineSimilarity().computeSimilarity("A B C D", "C D E F ")); // should be 0.5
+    System.out.println(new CosineSimilarity().computeSimilarity("A B C D", "C D E F ")); // should
+                                                                                         // be 0.5
   }
-  
+
   @Override
   public double computeSimilarity(String s1, String s2) {
     Map<String, Integer> m1 = tokenize(s1);
@@ -20,13 +21,14 @@ public class CosineSimilarity extends Similarity {
     ArrayList<String> tokensUnion = getTokensUnion(m1, m2);
     return computeCosineSimilarity(getVector(m1, tokensUnion), getVector(m2, tokensUnion));
   }
-  private Map<String, Integer> tokenize(String str)
-  {
+
+  private Map<String, Integer> tokenize(String str) {
     Map<String, Integer> res = new HashMap<>();
     List<String> tokens1 = Arrays.asList(str.split(" "));
     tokens1.stream().forEach(s -> res.put(s, Collections.frequency(tokens1, s)));
     return res;
   }
+
   /**
    * This function is used in computing the cosine similarities. It computes the union of two tokens
    * list.
@@ -92,6 +94,18 @@ public class CosineSimilarity extends Similarity {
       b2 += Math.pow(bi, 2);
     }
     return ab / (Math.sqrt(a2) * Math.sqrt(b2));
+  }
+
+  public static double computeCosineSimilarity(List<Double> a, List<Double> b) {
+    if (a.size() != b.size()) {
+      throw new IllegalArgumentException("mismatch between vector dimensions");
+    }
+
+    double to_return = 0;
+    for (int i = 0; i < a.size(); i++) {
+      to_return += a.get(i) * b.get(i);
+    }
+    return to_return;
   }
 
 }

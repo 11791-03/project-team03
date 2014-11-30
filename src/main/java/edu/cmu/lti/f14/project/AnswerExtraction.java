@@ -2,7 +2,10 @@ package edu.cmu.lti.f14.project;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.uima.UimaContext;
@@ -16,8 +19,12 @@ import org.apache.uima.resource.ResourceInitializationException;
 import util.TypeFactory;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
+import edu.cmu.lti.f14.project.util.CosineSimilarity;
 import edu.cmu.lti.f14.project.util.NamedEntityChunker;
+import edu.cmu.lti.f14.project.util.Normalizer;
+import edu.cmu.lti.f14.project.util.WordVectorService;
 import edu.cmu.lti.oaqa.type.input.Question;
 import edu.cmu.lti.oaqa.type.retrieval.Passage;
 
@@ -48,15 +55,17 @@ public class AnswerExtraction extends JCasAnnotator_ImplBase {
         return;
       // we have here a list of strings (snippets)
       // extract NEs
-      List<String> nes = Lists.newArrayList();
+      Set<String> nes = new HashSet<String>();
       for (Passage passage : JCasUtil.select(aJCas, Passage.class)) {
         String text = passage.getText();
         // TODO Cheng extract NEs here
         nes.addAll(chunker.chunk(text));
+        nes.addAll(Normalizer.retrieveImportantWords(text));
       }
       // compute TF for each NE and create an answer with the NE name as text and the frequency as
       // ranks
-      List<String> selectedNEs = selectEntities(aJCas, nes);
+      // List<String> selectedNEs = selectEntities(aJCas, Lists.newArrayList(nes));
+      List<String> selectedNEs = selectEntitiesWithEmbeddings(aJCas, Lists.newArrayList(nes), query);
       // perform error analysis after this baseline
       // use ontology to enhance the results
       for (String ans : selectedNEs)
@@ -64,6 +73,17 @@ public class AnswerExtraction extends JCasAnnotator_ImplBase {
 
     }
 
+  }
+
+  private List<String> selectEntitiesWithEmbeddings(JCas aJCas, List<String> nes, String query) {
+    WordVectorService service = WordVectorService.getInstance();
+    TreeMap<String, Double> mapping = Maps.newTreeMap();
+    List<Double> queryEmbeddings = service.getVector(query);
+    for (String ne : nes) {
+      mapping.put(ne,
+              CosineSimilarity.computeCosineSimilarity(queryEmbeddings, service.getVector(ne)));
+    }
+    return Lists.newArrayList(mapping.descendingKeySet());
   }
 
   private List<String> selectEntities(JCas aJCas, List<String> nes) {
