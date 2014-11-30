@@ -1,12 +1,13 @@
 package edu.cmu.lti.f14.project;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeMap;
-
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import edu.cmu.lti.f14.project.util.CosineSimilarity;
+import edu.cmu.lti.f14.project.util.NamedEntityChunker;
+import edu.cmu.lti.f14.project.util.Normalizer;
+import edu.cmu.lti.f14.project.util.Word2VecService;
+import edu.cmu.lti.oaqa.type.input.Question;
+import edu.cmu.lti.oaqa.type.retrieval.Passage;
 import org.apache.commons.lang.StringUtils;
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
@@ -15,18 +16,9 @@ import org.apache.uima.cas.FeatureStructure;
 import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
-
 import util.TypeFactory;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-
-import edu.cmu.lti.f14.project.util.CosineSimilarity;
-import edu.cmu.lti.f14.project.util.NamedEntityChunker;
-import edu.cmu.lti.f14.project.util.Normalizer;
-import edu.cmu.lti.f14.project.util.WordVectorService;
-import edu.cmu.lti.oaqa.type.input.Question;
-import edu.cmu.lti.oaqa.type.retrieval.Passage;
+import java.util.*;
 
 /**
  * Answer Extraction
@@ -55,7 +47,7 @@ public class AnswerExtraction extends JCasAnnotator_ImplBase {
         return;
       // we have here a list of strings (snippets)
       // extract NEs
-      Set<String> nes = new HashSet<String>();
+      Set<String> nes = new HashSet<>();
       for (Passage passage : JCasUtil.select(aJCas, Passage.class)) {
         String text = passage.getText();
         // TODO Cheng extract NEs here
@@ -76,7 +68,7 @@ public class AnswerExtraction extends JCasAnnotator_ImplBase {
   }
 
   private List<String> selectEntitiesWithEmbeddings(JCas aJCas, List<String> nes, String query) {
-    WordVectorService service = WordVectorService.getInstance();
+    Word2VecService service = Word2VecService.getInstance();
     TreeMap<String, Double> mapping = Maps.newTreeMap();
     List<Double> queryEmbeddings = service.getVector(query);
     for (String ne : nes) {
@@ -87,7 +79,7 @@ public class AnswerExtraction extends JCasAnnotator_ImplBase {
   }
 
   private List<String> selectEntities(JCas aJCas, List<String> nes) {
-    List<NamedEntity> nesWithFreq = new ArrayList<NamedEntity>();
+    List<NamedEntity> nesWithFreq = new ArrayList<>();
     for (String ne : nes) {
       int freq = 0;
       for (Passage passage : JCasUtil.select(aJCas, Passage.class)) {
