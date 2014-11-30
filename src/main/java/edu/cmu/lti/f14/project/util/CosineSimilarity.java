@@ -37,18 +37,10 @@ public class CosineSimilarity extends Similarity {
    */
   private ArrayList<String> getTokensUnion(Map<String, Integer> map, Map<String, Integer> map2) {
     ArrayList<String> res = new ArrayList<String>();
-    for (String ts : map.keySet()) {
-      if (!res.contains(ts)) // This if is redundant because tokens should be unique in the
-                             // first place.
-      {
-        res.add(ts);
-      }
-    }
-    for (String ts : map2.keySet()) {
-      if (!res.contains(ts)) {
-        res.add(ts);
-      }
-    }
+    // This if is redundant because tokens should be unique in the
+    // first place.
+    map.keySet().stream().filter(ts -> !res.contains(ts)).forEach(res::add);
+    map2.keySet().stream().filter(ts -> !res.contains(ts)).forEach(res::add);
     return res;
   }
 
@@ -56,14 +48,14 @@ public class CosineSimilarity extends Similarity {
    * This method create the vector as a {@link HashMap} by taking an existing vector and a union of
    * tokens.
    * 
-   * @param map
+   * @param token
    * @param tokensUnion
    * @return
    */
   private Map<String, Integer> getVector(Map<String, Integer> token, ArrayList<String> tokensUnion) {
     Map<String, Integer> vector = new HashMap<String, Integer>();
 
-    boolean found = false;
+    boolean found;
     for (String s : tokensUnion) {
       found = false;
       for (String t : token.keySet()) {
@@ -90,8 +82,8 @@ public class CosineSimilarity extends Similarity {
     double ab = 0;
     double a2 = 0;
     double b2 = 0;
-    double ai = 0;
-    double bi = 0;
+    double ai;
+    double bi;
     for (String s : queryVector.keySet()) {
       ai = queryVector.get(s);
       bi = docVector.get(s);

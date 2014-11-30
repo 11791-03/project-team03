@@ -9,8 +9,7 @@ public class Word2VecSimilarity extends Similarity {
   private Word2VecService service;
 
   public Word2VecSimilarity() {
-    service = new Word2VecService();
-
+    service = Word2VecService.getInstance();
   }
 
   @Override
@@ -30,12 +29,11 @@ public class Word2VecSimilarity extends Similarity {
 
   }
 
-  // return the sents vec
+  // return the sentences vec
   private ArrayList<Double> getWordVec(String s) {
-    ArrayList<Double> vectorList = new ArrayList<Double>();
+    ArrayList<Double> vectorList;
     vectorList = (ArrayList<Double>) service.getVector(s, 10);
     return vectorList;
-
   }
 
 }

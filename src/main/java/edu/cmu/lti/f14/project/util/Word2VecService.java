@@ -22,6 +22,8 @@ public class Word2VecService {
 
   private static Word2VecService word2VecService = null;
 
+  private Word2VecService() {}
+
   public static Word2VecService getInstance() {
     if (word2VecService == null) {
       word2VecService = new Word2VecService();
