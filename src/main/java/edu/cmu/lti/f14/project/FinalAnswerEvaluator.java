@@ -7,9 +7,18 @@ import java.util.List;
 import java.util.Map;
 
 import json.gson.TestListQuestion;
+import com.google.common.base.Joiner;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import edu.cmu.lti.f14.project.util.NamedEntityChunker;
+import edu.cmu.lti.f14.project.util.Stats;
+import edu.cmu.lti.oaqa.type.input.Question;
+import edu.cmu.lti.oaqa.type.kb.Triple;
+import edu.cmu.lti.oaqa.type.retrieval.ConceptSearchResult;
+import edu.cmu.lti.oaqa.type.retrieval.Document;
+import edu.cmu.lti.oaqa.type.retrieval.Passage;
 import json.gson.TestQuestion;
 import json.gson.TestSet;
-
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
@@ -19,18 +28,11 @@ import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.tcas.Annotation;
 import org.apache.uima.resource.ResourceInitializationException;
 
-import com.google.common.base.Joiner;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
-import edu.cmu.lti.f14.project.util.NamedEntityChunker;
-import edu.cmu.lti.f14.project.util.Stats;
-import edu.cmu.lti.oaqa.type.answer.Answer;
-import edu.cmu.lti.oaqa.type.input.Question;
-import edu.cmu.lti.oaqa.type.kb.Triple;
-import edu.cmu.lti.oaqa.type.retrieval.ConceptSearchResult;
-import edu.cmu.lti.oaqa.type.retrieval.Document;
-import edu.cmu.lti.oaqa.type.retrieval.Passage;
+import static java.util.stream.Collectors.toList;
 
 /**
  * Evaluator for intermediate results - Document, Concept and Triple

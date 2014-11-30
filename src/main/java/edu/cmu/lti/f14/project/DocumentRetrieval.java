@@ -92,7 +92,8 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
 
       try {
         pubMedResult = service
-                .findPubMedCitations(queryExpand(query, JCasUtil.select(aJCas, Concept.class)), 0);
+//                .findPubMedCitations(queryExpand(question.getText(), JCasUtil.select(aJCas, Concept.class)), 0);
+                .findPubMedCitations(query, 0);
       } catch (IOException e) {
         e.printStackTrace();
         System.err.println("ERROR: Search PubMed in Document Retrieval Failed.");
@@ -113,7 +114,10 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
       // sort document by its score
       List<Map.Entry<Document, Double>> scoreList = new ArrayList<>(documentScores.entrySet());
       Collections.sort(scoreList, (e1, e2) -> e1.getValue().compareTo(e2.getValue()));
-      scoreList.stream().map(Map.Entry::getKey).forEach(Document::addToIndexes);
+      scoreList
+              .stream()
+              .map(Map.Entry::getKey)
+              .forEach(Document::addToIndexes);
     }
 
   }
@@ -165,13 +169,13 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
   /**
    * Query formulation using simple query operators
    *
-   * @param originalQuery Original query string
+   * @param preprocessedQuery Original query string
    * @return expanded query string
    */
-  private String queryFormulate(String originalQuery, Collection<Concept> concepts) {
+  private String queryFormulate(String preprocessedQuery, Collection<Concept> concepts) {
     NamedEntityChunker chunker = NamedEntityChunker.getInstance();
     String namedEntities = chunker
-            .chunk(originalQuery)
+            .chunk(preprocessedQuery)
             .stream()
             .map(s -> "\"" + s + "\"")
             .limit(5)
@@ -186,26 +190,30 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
             .map(s -> "\"" + s + "\"")
             .collect(Collectors.joining(" AND "));
 
-    List<String> bigrams = buildGrams(originalQuery, 2);
+    List<String> bigrams = buildGrams(preprocessedQuery, 2);
     String bigramsString = bigrams
             .stream()
             .map(s -> "\"" + s + "\"")
             .collect(Collectors.joining(" AND "));
 
-    return String.format("(\"%s\") OR (%s) OR (%s) OR (%s)", originalQuery, namedEntities,
+    return String.format("(\"%s\") OR (%s) OR (%s) OR (%s)", preprocessedQuery, namedEntities,
             conceptsString, bigramsString);
   }
 
   private String queryExpand(String originalQuery, Collection<Concept> concepts) {
     UmlsService umlsService = UmlsService.getInstance();
-    NamedEntityChunker chunker = NamedEntityChunker.getInstance();
-    String namedEntitySynonym = chunker
-            .chunk(originalQuery)
+    List<String> nouns = Normalizer.retrieveImportantWords(originalQuery);
+    String synonyms = nouns
             .stream()
-            .flatMap(s -> umlsService.getSynonyms(s).stream())
-            .limit(5)
+            .map(s1 -> umlsService
+                            .getSynonyms(s1)
+                            .stream()
+                            .limit(5)
+                            .map(i -> '"' + i + '"')
+                            .collect(Collectors.joining(" OR ")))
+            .map(s2 -> '(' + s2 + ')')
             .collect(Collectors.joining(" AND "));
-    return String.format("(\"%s\") OR (%s)", originalQuery, namedEntitySynonym);
+    return synonyms;
   }
 
   /**
