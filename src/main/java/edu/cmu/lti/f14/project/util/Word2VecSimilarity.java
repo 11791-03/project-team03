@@ -1,20 +1,15 @@
 package edu.cmu.lti.f14.project.util;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class Word2VecSimilarity extends Similarity {
 
   private static final int vec_length = 200;
 
-  private WordVectorService service;
+  private Word2VecService service;
 
   public Word2VecSimilarity() {
-    service = new WordVectorService();
+    service = new Word2VecService();
 
   }
 
@@ -38,7 +33,7 @@ public class Word2VecSimilarity extends Similarity {
   // return the sents vec
   private ArrayList<Double> getWordVec(String s) {
     ArrayList<Double> vectorList = new ArrayList<Double>();
-    vectorList = (ArrayList<Double>) service.getVector(s);
+    vectorList = (ArrayList<Double>) service.getVector(s, 10);
     return vectorList;
 
   }

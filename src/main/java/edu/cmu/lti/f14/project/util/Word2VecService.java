@@ -15,24 +15,25 @@ import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
-public class WordVectorService {
-  private static final String SERVER_ADDRESS = "http://128.2.190.10:3000/?w=";
+public class Word2VecService {
+  private static final String QUERY_URL = "http://128.2.190.10:3000/?query=%s&n=%d";
 
   private static final CloseableHttpClient httpClient = HttpClients.createDefault();
 
-  private static WordVectorService wordVectorService = null;
+  private static Word2VecService word2VecService = null;
 
-  public static WordVectorService getInstance() {
-    if (wordVectorService == null) {
-      wordVectorService = new WordVectorService();
+  public static Word2VecService getInstance() {
+    if (word2VecService == null) {
+      word2VecService = new Word2VecService();
     }
-    return wordVectorService;
+    return word2VecService;
   }
 
-  public List<Double> getVector(String words) {
+  public List<Double> getVector(String words, int n) {
     HttpGet httpGet = null;
     try {
-      httpGet = new HttpGet(SERVER_ADDRESS + URLEncoder.encode(words.toLowerCase(), "UTF-8"));
+      httpGet = new HttpGet(
+              String.format(QUERY_URL, URLEncoder.encode(words.toLowerCase(), "UTF-8"), n));
     } catch (UnsupportedEncodingException ignored) {
     }
     String vectorString = "";
