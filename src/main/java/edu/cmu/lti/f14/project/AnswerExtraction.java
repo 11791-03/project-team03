@@ -18,6 +18,7 @@ import util.TypeFactory;
 import com.google.common.collect.Lists;
 
 import edu.cmu.lti.f14.project.util.NamedEntityChunker;
+import edu.cmu.lti.f14.project.util.UmlsService;
 import edu.cmu.lti.oaqa.type.input.Question;
 import edu.cmu.lti.oaqa.type.retrieval.Passage;
 
@@ -62,10 +63,9 @@ public class AnswerExtraction extends JCasAnnotator_ImplBase {
       for (String ans : selectedNEs)
         TypeFactory.createAnswer(aJCas, ans);
     }
-
   }
-
   private List<String> selectEntities(JCas aJCas, List<String> nes) {
+//    UmlsService.getInstance().getSynonyms();
     List<NamedEntity> nesWithFreq = new ArrayList<NamedEntity>();
     for (String ne : nes) {
       int freq = 0;

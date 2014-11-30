@@ -48,11 +48,11 @@ public class SnippetRetrieval extends JCasAnnotator_ImplBase {
   private static final SentenceChunker SENTENCE_CHUNKER = new SentenceChunker(TOKENIZER_FACTORY,
           SENTENCE_MODEL);
 
-  private static final double simWithQuestionWeight = 0.;
+  private static final double simWithQuestionWeight = 1;
 
-  private static final double simWithConceptsWeight = 1.5;
+  private static final double simWithConceptsWeight = 1;
 
-  private static final double simWithEntityWeight = 1.;
+  private static final double simWithEntitiesWeight = 1;
 
   private static Class similarityClass = CosineSimilarity.class;
 
@@ -123,12 +123,14 @@ public class SnippetRetrieval extends JCasAnnotator_ImplBase {
             simWithConcepts = similarity
                     .computeSimilarity(normalizedSentence, concatenatedConcepts);
             score = simWithQuestionWeight * simWithQuestion + simWithConceptsWeight
-                    * simWithConcepts + simWithEntityWeight * simWithEntities;
+                    * simWithConcepts + simWithEntitiesWeight * simWithEntities;
             sentences.add(new Sentence(sentenceBoundary, d, i, st, score));
           }
         }
       }
       Collections.sort(sentences);
+      for (Sentence s : sentences)
+        System.out.println(s.score);
       Sentence s;
       for (int i = 0; i < Math.min(TOP_K, sentences.size()); i++) {
         s = sentences.get(i);
