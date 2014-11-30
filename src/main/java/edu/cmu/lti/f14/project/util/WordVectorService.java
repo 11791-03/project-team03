@@ -8,6 +8,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.List;
@@ -29,7 +30,11 @@ public class WordVectorService {
   }
 
   public List<Double> getVector(String words) {
-    HttpGet httpGet = new HttpGet(SERVER_ADDRESS + URLEncoder.encode(words.toLowerCase()));
+    HttpGet httpGet = null;
+    try {
+      httpGet = new HttpGet(SERVER_ADDRESS + URLEncoder.encode(words.toLowerCase(), "UTF-8"));
+    } catch (UnsupportedEncodingException ignored) {
+    }
     String vectorString = "";
     try (CloseableHttpResponse response = httpClient.execute(httpGet)) {
       HttpEntity entity = response.getEntity();
