@@ -53,7 +53,7 @@ public class InformationRetrievalEvaluator extends JCasAnnotator_ImplBase {
    */
   @Override
   public void initialize(UimaContext aContext) throws ResourceInitializationException {
-    String filePath = "/BioASQ-trainingDataset2b-3.json";
+    String filePath = "/BioASQ-trainingDataset2b-b.json";
     goldenStandards = Maps.newHashMap();
     List<json.gson.Question> questions = Lists.newArrayList();
 
