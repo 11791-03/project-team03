@@ -16,7 +16,6 @@ import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.FeatureStructure;
-import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
 
@@ -30,6 +29,7 @@ import com.google.gson.JsonPrimitive;
 
 import edu.cmu.lti.f14.project.util.CosineSimilarity;
 import edu.cmu.lti.f14.project.util.NamedEntityChunker;
+import edu.cmu.lti.f14.project.util.Normalizer;
 import edu.cmu.lti.f14.project.util.Similarity;
 import edu.cmu.lti.f14.project.util.UmlsService;
 import edu.cmu.lti.oaqa.bio.bioasq.services.GoPubMedService;
