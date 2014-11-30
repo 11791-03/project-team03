@@ -10,6 +10,7 @@ import org.apache.http.impl.client.HttpClients;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.nio.channels.NonReadableChannelException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class Word2VecService {
     return word2VecService;
   }
 
-  public List<Double> getVector(String words) {
+  public List<Double> getVector(String words) throws NonReadableChannelException {
     HttpGet httpGet = null;
     try {
       httpGet = new HttpGet(
@@ -46,8 +47,9 @@ public class Word2VecService {
     } catch (Exception ignored) {
     }
 
-    if (vectorString.isEmpty() ||
-            vectorString.startsWith("NOTHING")) {
+    if (vectorString.isEmpty()) {
+      throw new NonReadableChannelException();
+    } else if (vectorString.startsWith("NOTHING")) {
       return null;
     } else {
       return Arrays.asList(vectorString.split(" "))
