@@ -1,17 +1,15 @@
 package edu.cmu.lti.f14.project;
 
-import com.google.common.base.Joiner;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import edu.cmu.lti.f14.project.util.NamedEntityChunker;
-import edu.cmu.lti.f14.project.util.Stats;
-import edu.cmu.lti.oaqa.type.input.Question;
-import edu.cmu.lti.oaqa.type.kb.Triple;
-import edu.cmu.lti.oaqa.type.retrieval.ConceptSearchResult;
-import edu.cmu.lti.oaqa.type.retrieval.Document;
-import edu.cmu.lti.oaqa.type.retrieval.Passage;
+import static java.util.stream.Collectors.toList;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+
+import json.gson.TestListQuestion;
 import json.gson.TestQuestion;
 import json.gson.TestSet;
+
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
@@ -21,11 +19,18 @@ import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.tcas.Annotation;
 import org.apache.uima.resource.ResourceInitializationException;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import com.google.common.base.Joiner;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
-import static java.util.stream.Collectors.toList;
+import edu.cmu.lti.f14.project.util.NamedEntityChunker;
+import edu.cmu.lti.f14.project.util.Stats;
+import edu.cmu.lti.oaqa.type.answer.Answer;
+import edu.cmu.lti.oaqa.type.input.Question;
+import edu.cmu.lti.oaqa.type.kb.Triple;
+import edu.cmu.lti.oaqa.type.retrieval.ConceptSearchResult;
+import edu.cmu.lti.oaqa.type.retrieval.Document;
+import edu.cmu.lti.oaqa.type.retrieval.Passage;
 
 /**
  * Evaluator for intermediate results - Document, Concept and Triple
@@ -38,6 +43,8 @@ public class FinalAnswerEvaluator extends JCasAnnotator_ImplBase {
 
   private List<Stats> docStats = Lists.newArrayList();
 
+  private List<Stats> ansStats = Lists.newArrayList();
+
   private List<Stats> conceptStats = Lists.newArrayList();
 
   private List<Stats> tripStats = Lists.newArrayList();
@@ -49,14 +56,15 @@ public class FinalAnswerEvaluator extends JCasAnnotator_ImplBase {
    */
   @Override
   public void initialize(UimaContext aContext) throws ResourceInitializationException {
+    // TODO move to config file
     String filePath = "/BioASQ-trainingDataset2b-b.json";
     goldenStandards = Maps.newHashMap();
-    List<json.gson.Question> questions = Lists.newArrayList();
+    List<TestQuestion> questions = Lists.newArrayList();
 
     try {
       List<? extends TestQuestion> gsonQuestions = TestSet.load(getClass().getResourceAsStream(
               String.class.cast(filePath)));
-      for (json.gson.Question q : gsonQuestions)
+      for (TestQuestion q : gsonQuestions)
         questions.add(q);
     } catch (Exception e) {
       e.printStackTrace();
@@ -73,23 +81,31 @@ public class FinalAnswerEvaluator extends JCasAnnotator_ImplBase {
    */
   @Override
   public void process(JCas aJCas) throws AnalysisEngineProcessException {
-    System.out.println("RUNNING INFORMATION RETRIEVAL EVALUATOR");
+    System.out.println("RUNNING FINAL ANSWER EVALUATOR");
     FSIterator<Annotation> iter = aJCas.getAnnotationIndex(Question.type).iterator();
-    json.gson.Question goldenResult = null;
+    TestListQuestion goldenResult = null;
     if (iter.hasNext()) {
       Question q = ((Question) (iter.next()));
       String questionId = q.getId();
-      goldenResult = goldenStandards.get(questionId);
+      goldenResult = (TestListQuestion) goldenStandards.get(questionId);
 
       System.out.println("Query: " + q.getPreprocessedText());
       System.out.println("NEs in the query: "
-              + Joiner.on(" ").join(NamedEntityChunker.getInstance().chunk(q.getPreprocessedText())));
+              + Joiner.on(" ")
+                      .join(NamedEntityChunker.getInstance().chunk(q.getPreprocessedText())));
 
     }
 
     if (goldenResult == null) {
       // cannot evaluate current question
       return;
+    }
+
+    Collection<Answer> answers = JCasUtil.select(aJCas, Answer.class);
+    List<List<String>> goldenAnswers2 = goldenResult.getExactAnswer();
+    List<String> goldenAnswers = Lists.newArrayList();
+    for (List<String> ls : goldenAnswers2) {
+      goldenAnswers.add(ls.get(0));
     }
 
     Collection<Document> documents = JCasUtil.select(aJCas, Document.class);
@@ -102,6 +118,22 @@ public class FinalAnswerEvaluator extends JCasAnnotator_ImplBase {
     List<String> goldenConcepts = goldenResult.getConcepts();
     List<json.gson.Triple> goldenTriples = goldenResult.getTriples();
     List<json.gson.Snippet> goldenSnippets = goldenResult.getSnippets();
+
+    if (goldenAnswers != null) {
+      System.out.println("golden:");
+      for(String ans: goldenAnswers) {
+        System.out.println(ans);
+      }
+      
+      Stats ansStat = new Stats("answers", goldenAnswers, answers.stream().map(Answer::getText)
+              .collect(toList()));
+      ansStats.add(ansStat);
+    }
+    
+    System.out.println("answers:");
+    for(Answer ans:answers) {
+      System.out.println(ans.getText());
+    }
 
     if (goldenDocuments != null) {
       Stats docStat = new Stats("documents", goldenDocuments, documents.stream()
@@ -134,5 +166,6 @@ public class FinalAnswerEvaluator extends JCasAnnotator_ImplBase {
     Stats.printStats(conceptStats, "Concept", EPSILON);
     Stats.printStats(tripStats, "Triple", EPSILON);
     Stats.printStats(snippetStats, "Snippet", EPSILON);
+    Stats.printStats(ansStats, "Answers", EPSILON);
   }
 }

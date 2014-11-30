@@ -162,6 +162,7 @@ public class SnippetRetrieval extends JCasAnnotator_ImplBase {
     public Sentence(Chunk boundary, Document doc, int secNum, String t, double sim) {
       this.boundary = boundary;
       this.referencedDocument = doc;
+      this.sectionNumber = secNum;
       this.text = t;
       this.score = sim;
     }

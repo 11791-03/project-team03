@@ -61,6 +61,7 @@ public class AnswerExtraction extends JCasAnnotator_ImplBase {
       // use ontology to enhance the results
       for (String ans : selectedNEs)
         TypeFactory.createAnswer(aJCas, ans);
+
     }
 
   }

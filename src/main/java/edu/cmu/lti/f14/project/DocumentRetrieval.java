@@ -1,16 +1,15 @@
 package edu.cmu.lti.f14.project;
 
-import com.google.common.collect.Lists;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonPrimitive;
-import edu.cmu.lti.f14.project.util.*;
-import edu.cmu.lti.oaqa.bio.bioasq.services.GoPubMedService;
-import edu.cmu.lti.oaqa.bio.bioasq.services.PubMedSearchServiceResponse;
-import edu.cmu.lti.oaqa.type.input.Question;
-import edu.cmu.lti.oaqa.type.kb.Concept;
-import edu.cmu.lti.oaqa.type.retrieval.Document;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.uima.UimaContext;
@@ -19,12 +18,25 @@ import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.cas.FeatureStructure;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
+
 import util.TypeFactory;
 
-import java.io.IOException;
-import java.util.*;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
+import com.google.common.collect.Lists;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
+
+import edu.cmu.lti.f14.project.util.CosineSimilarity;
+import edu.cmu.lti.f14.project.util.NamedEntityChunker;
+import edu.cmu.lti.f14.project.util.Normalizer;
+import edu.cmu.lti.f14.project.util.Similarity;
+import edu.cmu.lti.f14.project.util.UmlsService;
+import edu.cmu.lti.oaqa.bio.bioasq.services.GoPubMedService;
+import edu.cmu.lti.oaqa.bio.bioasq.services.PubMedSearchServiceResponse;
+import edu.cmu.lti.oaqa.type.input.Question;
+import edu.cmu.lti.oaqa.type.kb.Concept;
+import edu.cmu.lti.oaqa.type.retrieval.Document;
 
 /**
  * Document retrieval component in pipeline.
@@ -137,8 +149,9 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
 
     JsonObject documentJson = new JsonObject();
     JsonArray sections = new JsonArray();
-    String documentAbstract = pubMedDocument.getDocumentAbstract();
-    sections.add(new JsonPrimitive(documentAbstract == null ? "" : documentAbstract));
+    if(pubMedDocument.getDocumentAbstract()!=null) {
+    sections.add(new JsonPrimitive(pubMedDocument.getDocumentAbstract()));
+    }
     documentJson.addProperty("pmid", pmid);
 
     if (fullTextString != null && !fullTextString.isEmpty()) {
@@ -206,8 +219,10 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
   /**
    * Build NGrams from Unigram string.
    *
-   * @param s Original text
-   * @param N Number of consecutive words in a gram
+   * @param s
+   *          Original text
+   * @param N
+   *          Number of consecutive words in a gram
    * @return A list of N-Grams
    */
   private List<String> buildGrams(String s, int N) {
