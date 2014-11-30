@@ -46,13 +46,14 @@ public class Word2VecService {
     } catch (Exception ignored) {
     }
 
-    if (!vectorString.equals("NO WORD")) {
+    if (vectorString.isEmpty() ||
+            vectorString.startsWith("NOTHING")) {
+      return null;
+    } else {
       return Arrays.asList(vectorString.split(" "))
               .stream()
               .map(Double::parseDouble)
               .collect(toList());
-    } else {
-      return null;
     }
   }
 }
