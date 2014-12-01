@@ -10,6 +10,9 @@ public class Word2VecSimilarity extends Similarity {
 
   @Override
   public double computeSimilarity(String s1, String s2) {
+    if (s1.isEmpty() || s2.isEmpty())
+      return 0;
+
     try {
       return service.getSimilarity(s1, s2);
     } catch (NonReadableChannelException e) {

@@ -13,7 +13,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import edu.cmu.lti.f14.project.similarity.Similarity;
 import edu.cmu.lti.f14.project.similarity.Word2VecSimilarity;
-import edu.cmu.lti.f14.project.util.GenetagChunker;
+import edu.cmu.lti.f14.project.util.AbnerChunker;
+import edu.cmu.lti.f14.project.util.Normalizer;
 import edu.cmu.lti.oaqa.type.input.Question;
 import edu.cmu.lti.oaqa.type.retrieval.ConceptSearchResult;
 import edu.cmu.lti.oaqa.type.retrieval.Document;
@@ -82,20 +83,29 @@ public class SnippetRetrieval extends JCasAnnotator_ImplBase {
       String preprocessedQuery = question.getPreprocessedText(),
               originalQuery = question.getText();
 
-      List<String> nesInQuery = GenetagChunker.getInstance().chunk(preprocessedQuery);
-
       Collection<Document> documents = JCasUtil.select(aJCas, Document.class);
-      Collection<ConceptSearchResult> concepts = JCasUtil.select(aJCas, ConceptSearchResult.class);
-      String concatenatedConcepts = concepts
-              .stream()
-              .map(c -> c.getConcept().getName())
-              .distinct()
-              .collect(Collectors.joining(" "))
-              .replace("\"", "");
+
+      // build concept sentence if necessary
+      String concatenatedConcepts = null, concatenatedNamedEntities = null;
+      if (simWithConceptsWeight != 0) {
+        concatenatedConcepts = JCasUtil.select(aJCas, ConceptSearchResult.class)
+                .stream()
+                .map(c -> c.getConcept().getName())
+                .distinct()
+                .collect(Collectors.joining(" "))
+                .replace("\"", "");
+      }
+
+      // build NEs in the query
+      if (simWithEntitiesWeight != 0) {
+        concatenatedNamedEntities = AbnerChunker
+                .getInstance()
+                .chunk(preprocessedQuery)
+                .stream()
+                .collect(Collectors.joining(" "));
+      }
 
       List<Sentence> sentences = new ArrayList<>();
-
-//      System.out.println(">> concatenated concepts: " + concatenatedConcepts);
 
       for (Document document : documents) {
         JsonObject jsonText = jsonParser.parse(document.getText()).getAsJsonObject();
@@ -117,42 +127,36 @@ public class SnippetRetrieval extends JCasAnnotator_ImplBase {
 
           String originalSentence;
           int start, end;
-          double simWithQuestion, simWithConcepts, simWithEntities, score;
+          double simWithQuestion, simWithConcepts = 0, simWithEntities = 0;
           for (Chunk sentenceBoundary : sentenceBoundaries) {
             start = sentenceBoundary.start();
             end = sentenceBoundary.end();
             originalSentence = slice.substring(start, end);
 
-            // compare with named entities
-            /*
-            List<String> nesInSentence = GenetagChunker.getInstance().chunk(originalSentence);
-            if (nesInSentence.isEmpty()) {
-              simWithEntities = 0;
-            } else {
-              simWithEntities = similarity.computeSimilarity(String.join(" ", nesInSentence),
-                      // String.join(" ", nesInQuery)); // alternative 1
-                      originalQuery); // alternative 2
+            // build named entity string if necessary, then compare
+            if (concatenatedNamedEntities != null) {
+              String nesInSentence = AbnerChunker
+                      .getInstance()
+                      .chunk(Normalizer.normalize(originalSentence))
+                      .stream()
+                      .collect(Collectors.joining(" "));
+              simWithEntities = similarity
+                      .computeSimilarity(nesInSentence, concatenatedNamedEntities);
             }
-            */
 
             // compare with the question
             simWithQuestion = similarity.computeSimilarity(originalSentence, originalQuery);
 
             // compare with concatenated concepts
-/*
-            if (concatenatedConcepts.isEmpty()) {
-              simWithConcepts = 0;
-            } else {
+            if (concatenatedConcepts != null) {
               simWithConcepts = similarity
                       .computeSimilarity(originalSentence, concatenatedConcepts);
             }
-*/
 
             // weighted score
-            score = simWithQuestionWeight * simWithQuestion;
-//            + simWithConceptsWeight * simWithConcepts + simWithEntitiesWeight * simWithEntities;
-//            sentences.add(new Sentence(sentenceBoundary, d, i, st, score));
-//                    * simWithConcepts + simWithEntityWeight * simWithEntities;
+            double score = simWithQuestionWeight * simWithQuestion +
+                    simWithConceptsWeight * simWithConcepts +
+                    simWithEntitiesWeight * simWithEntities;
             // add to collection, for future ranking
             sentences.add(new Sentence(sentenceBoundary, document, sectionNumber, originalSentence,
                     score));
@@ -168,7 +172,7 @@ public class SnippetRetrieval extends JCasAnnotator_ImplBase {
                         sentence.referencedDocument.getDocId(), sentence.boundary.start(),
                         sentence.boundary.end(),
                         sectionNumber, sectionNumber);
-        passage.setRank(i+1); // rank always > 1
+        passage.setRank(i + 1); // rank always > 1
         passage.addToIndexes();
       }
     }
