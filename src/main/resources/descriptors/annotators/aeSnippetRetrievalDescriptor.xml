@@ -3,7 +3,7 @@
 <analysisEngineDescription xmlns="http://uima.apache.org/resourceSpecifier">
 	<frameworkImplementation>org.apache.uima.java</frameworkImplementation>
 	<primitive>true</primitive>
-	<annotatorImplementationName>edu.cmu.lti.f14.project.SnippetRetrieval
+	<annotatorImplementationName>edu.cmu.lti.f14.project.pipeline.SnippetRetrieval
 	</annotatorImplementationName>
 	<analysisEngineMetaData>
 		<name>aeSnippetRetrievalDescriptor</name>

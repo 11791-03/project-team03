@@ -1,4 +1,4 @@
-package edu.cmu.lti.f14.project.util;
+package edu.cmu.lti.f14.project.service;
 
 import com.google.common.collect.Lists;
 import gov.nih.nlm.uts.webservice.finder.Psf;

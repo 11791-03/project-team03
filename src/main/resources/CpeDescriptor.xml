@@ -58,7 +58,7 @@
         </casProcessor>
         <casProcessor deployment="integrated" name="aeFinalAnswerEvaluatorDescriptor">
             <descriptor>
-                <import location="../../../aeFinalAnswerEvaluatorDescriptor.xml"/>
+                <import location="descriptors/annotators/aeFinalAnswerEvaluatorDescriptor.xml"/>
             </descriptor>
             <deploymentParameters/>
             <errorHandling>

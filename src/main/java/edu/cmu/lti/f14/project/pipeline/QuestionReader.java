@@ -1,4 +1,4 @@
-package edu.cmu.lti.f14.project;
+package edu.cmu.lti.f14.project.pipeline;
 
 import com.google.common.collect.Lists;
 import json.JsonCollectionReaderHelper;

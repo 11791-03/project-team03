@@ -1,10 +1,13 @@
-package edu.cmu.lti.f14.project;
+package edu.cmu.lti.f14.project.pipeline;
 
 import com.google.common.collect.Lists;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
+import edu.cmu.lti.f14.project.service.UmlsService;
+import edu.cmu.lti.f14.project.similarity.CosineSimilarity;
+import edu.cmu.lti.f14.project.similarity.Similarity;
 import edu.cmu.lti.f14.project.util.*;
 import edu.cmu.lti.oaqa.bio.bioasq.services.GoPubMedService;
 import edu.cmu.lti.oaqa.bio.bioasq.services.PubMedSearchServiceResponse;

@@ -1,11 +1,11 @@
-package edu.cmu.lti.f14.project;
+package edu.cmu.lti.f14.project.pipeline;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import edu.cmu.lti.f14.project.util.NamedEntityChunker;
 import edu.cmu.lti.f14.project.util.Normalizer;
-import edu.cmu.lti.f14.project.util.Similarity;
-import edu.cmu.lti.f14.project.util.Word2VecSimilarity;
+import edu.cmu.lti.f14.project.similarity.Similarity;
+import edu.cmu.lti.f14.project.similarity.Word2VecSimilarity;
 import edu.cmu.lti.oaqa.type.input.Question;
 import edu.cmu.lti.oaqa.type.retrieval.Passage;
 import org.apache.commons.lang.StringUtils;

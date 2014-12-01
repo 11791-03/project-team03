@@ -1,4 +1,4 @@
-package edu.cmu.lti.f14.project;
+package edu.cmu.lti.f14.project.pipeline;
 
 import edu.cmu.lti.f14.project.util.Normalizer;
 import edu.cmu.lti.oaqa.type.input.Question;

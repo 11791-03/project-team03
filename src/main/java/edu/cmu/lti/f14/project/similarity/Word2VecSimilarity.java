@@ -1,4 +1,6 @@
-package edu.cmu.lti.f14.project.util;
+package edu.cmu.lti.f14.project.similarity;
+
+import edu.cmu.lti.f14.project.service.Word2VecService;
 
 import java.nio.channels.NonReadableChannelException;
 

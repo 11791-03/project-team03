@@ -1,4 +1,4 @@
-package edu.cmu.lti.f14.project;
+package edu.cmu.lti.f14.project.pipeline;
 
 import com.aliasi.chunk.Chunk;
 import com.aliasi.chunk.Chunking;
@@ -12,8 +12,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import edu.cmu.lti.f14.project.util.NamedEntityChunker;
-import edu.cmu.lti.f14.project.util.Similarity;
-import edu.cmu.lti.f14.project.util.Word2VecSimilarity;
+import edu.cmu.lti.f14.project.similarity.Similarity;
+import edu.cmu.lti.f14.project.similarity.Word2VecSimilarity;
 import edu.cmu.lti.oaqa.type.input.Question;
 import edu.cmu.lti.oaqa.type.kb.Concept;
 import edu.cmu.lti.oaqa.type.retrieval.Document;

@@ -1,4 +1,4 @@
-package edu.cmu.lti.f14.project.util;
+package edu.cmu.lti.f14.project.similarity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -95,17 +95,4 @@ public class CosineSimilarity extends Similarity {
     }
     return ab / (Math.sqrt(a2) * Math.sqrt(b2));
   }
-
-  public static double computeCosineSimilarity(List<Double> a, List<Double> b) {
-    if (a.size() != b.size()) {
-      throw new IllegalArgumentException("mismatch between vector dimensions");
-    }
-
-    double to_return = 0;
-    for (int i = 0; i < a.size(); i++) {
-      to_return += a.get(i) * b.get(i);
-    }
-    return to_return;
-  }
-
 }
