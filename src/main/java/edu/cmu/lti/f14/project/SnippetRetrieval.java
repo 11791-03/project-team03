@@ -8,11 +8,12 @@ import com.aliasi.sentences.SentenceModel;
 import com.aliasi.tokenizer.IndoEuropeanTokenizerFactory;
 import com.aliasi.tokenizer.Tokenizer;
 import com.aliasi.tokenizer.TokenizerFactory;
-import com.google.common.base.Joiner;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import edu.cmu.lti.f14.project.util.*;
+import edu.cmu.lti.f14.project.util.NamedEntityChunker;
+import edu.cmu.lti.f14.project.util.Similarity;
+import edu.cmu.lti.f14.project.util.Word2VecSimilarity;
 import edu.cmu.lti.oaqa.type.input.Question;
 import edu.cmu.lti.oaqa.type.kb.Concept;
 import edu.cmu.lti.oaqa.type.retrieval.Document;
@@ -77,16 +78,20 @@ public class SnippetRetrieval extends JCasAnnotator_ImplBase {
     System.out.println("RUNNING SNIPPET RETRIEVAL");
     for (FeatureStructure featureStructure : aJCas.getAnnotationIndex(Question.type)) {
       Question question = (Question) featureStructure;
-      String query = question.getPreprocessedText();
+      String preprocessedQuery = question.getPreprocessedText(),
+              originalQuery = question.getText();
 
-      List<String> nesInQuery = NamedEntityChunker.getInstance().chunk(query);
+      List<String> nesInQuery = NamedEntityChunker.getInstance().chunk(preprocessedQuery);
 
       Collection<Document> documents = JCasUtil.select(aJCas, Document.class);
       Collection<Concept> concepts = JCasUtil.select(aJCas, Concept.class);
 
       List<Sentence> sentences = new ArrayList<>();
 
-      String concatenatedConcepts = concatenateConcepts(concepts);
+      String concatenatedConcepts = concepts
+              .stream()
+              .map(Concept::getName)
+              .collect(Collectors.joining(" "));
 
       for (Document document : documents) {
         JsonObject jsonText = jsonParser.parse(document.getText()).getAsJsonObject();
@@ -113,22 +118,39 @@ public class SnippetRetrieval extends JCasAnnotator_ImplBase {
             start = sentenceBoundary.start();
             end = sentenceBoundary.end();
             originalSentence = slice.substring(start, end);
-            String normalizedSentence = Normalizer.normalize(originalSentence);
-            List<String> nesInSentence = NamedEntityChunker.getInstance().chunk(normalizedSentence);
-            simWithEntities = similarity.computeSimilarity(Joiner.on(" ").join(nesInSentence),
-                    Joiner.on(" ").join(nesInQuery));
-            simWithQuestion = similarity.computeSimilarity(normalizedSentence, query);
-            simWithConcepts = similarity
-                    .computeSimilarity(normalizedSentence, concatenatedConcepts);
+
+            // compare with named entities
+            List<String> nesInSentence = NamedEntityChunker.getInstance().chunk(originalSentence);
+            if (nesInSentence.isEmpty()) {
+              simWithEntities = 0;
+            } else {
+              simWithEntities = similarity.computeSimilarity(String.join(" ", nesInSentence),
+                      // String.join(" ", nesInQuery)); // alternative 1
+                      originalQuery); // alternative 2
+            }
+
+            // compare with the question
+            simWithQuestion = similarity.computeSimilarity(originalSentence, originalQuery);
+
+            // compare with concatenated concepts
+            if (concatenatedConcepts.isEmpty()) {
+              simWithConcepts = 0;
+            } else {
+              simWithConcepts = similarity
+                      .computeSimilarity(originalSentence, concatenatedConcepts);
+            }
+
+            // weighted score
             score = simWithQuestionWeight * simWithQuestion + simWithConceptsWeight
                     * simWithConcepts + simWithEntityWeight * simWithEntities;
+
+            // add to collection, for future ranking
             sentences.add(new Sentence(sentenceBoundary, document, sectionNumber, originalSentence,
                     score));
           }
         }
       }
       Collections.sort(sentences);
-//      Sentence s;
       for (int i = 0; i < Math.min(TOP_K, sentences.size()); i++) {
         Sentence sentence = sentences.get(i);
         String sectionNumber = "sections." + sentence.sectionNumber;
@@ -139,13 +161,6 @@ public class SnippetRetrieval extends JCasAnnotator_ImplBase {
                 sectionNumber, sectionNumber).addToIndexes();
       }
     }
-  }
-
-  String concatenateConcepts(Collection<Concept> concepts) {
-    return concepts
-            .stream()
-            .map(Concept::getName)
-            .collect(Collectors.joining(" "));
   }
 
   private class Sentence implements Comparable<Sentence> {
