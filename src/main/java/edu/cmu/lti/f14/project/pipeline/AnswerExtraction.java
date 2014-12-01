@@ -18,8 +18,11 @@ import org.apache.uima.resource.ResourceInitializationException;
 
 import util.TypeFactory;
 
+import com.google.common.base.Joiner;
+import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 
 import edu.cmu.lti.f14.project.similarity.Similarity;
 import edu.cmu.lti.f14.project.similarity.Word2VecSimilarity;
@@ -61,22 +64,38 @@ public class AnswerExtraction extends JCasAnnotator_ImplBase {
     for (FeatureStructure featureStructure : aJCas.getAnnotationIndex(Question.type)) {
       Question question = (Question) featureStructure;
       String preprocessedQuery = question.getPreprocessedText();
+      Set<String> wordsInQuery = Sets.newHashSet(Splitter.on(" ").split(preprocessedQuery));
 
       // extract NEs
       Set<String> nes = new HashSet<>();
       for (Passage passage : JCasUtil.select(aJCas, Passage.class)) {
         String text = passage.getText();
         nes.addAll(chunker.chunk(text));
-        nes.addAll(Normalizer.retrieveImportantWords(text));
+        List<List<String>> names = Normalizer.retrieveConsecutiveNouns(text);
+        long ones = names.stream().filter(l -> l.size() == 1).count();
+        long twos = names.stream().filter(l -> l.size() == 2).count();
+        long threes = names.stream().filter(l -> l.size() == 3).count();
+        System.out.println("Ones: " + ones + " twos: " + twos + " threes: " + threes);
+        for (List<String> name : names) {
+          nes.add(Joiner.on(" ").join(name));
+        }
+      }
+      Set<String> cleanNEs = new HashSet<>();
+      for (String s : nes) {
+        Set<String> words = Sets.newHashSet(Splitter.on(" ").split(s));
+        if (!wordsInQuery.containsAll(words)) {
+          cleanNEs.add(s);
+        }
       }
       // compute TF for each NE and create an answer with the NE
       // name as text and the frequency as ranks
-      List<String> selectedNEs = selectEntitiesWithEmbeddings(Lists.newArrayList(nes),
+      List<String> selectedNEs = selectEntitiesWithEmbeddings(Lists.newArrayList(cleanNEs),
               preprocessedQuery);
       // perform error analysis after this baseline
       // use ontology to enhance the results
-      for (String ans : selectedNEs)
-        TypeFactory.createAnswer(aJCas, ans);
+      for (String ans : selectedNEs) {
+        TypeFactory.createAnswer(aJCas, ans).addToIndexes();
+      }
 
     }
   }
@@ -88,8 +107,9 @@ public class AnswerExtraction extends JCasAnnotator_ImplBase {
     }
     return Lists.newArrayList(mapping.descendingKeySet());
   }
+
   private List<String> selectEntities(JCas aJCas, List<String> nes) {
-//    UmlsService.getInstance().getSynonyms();
+    // UmlsService.getInstance().getSynonyms();
     List<NamedEntity> nesWithFreq = new ArrayList<NamedEntity>();
     for (String ne : nes) {
       int freq = 0;
