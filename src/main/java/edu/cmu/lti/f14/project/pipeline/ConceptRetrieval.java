@@ -4,20 +4,15 @@ import edu.cmu.lti.oaqa.bio.bioasq.services.GoPubMedService;
 import edu.cmu.lti.oaqa.bio.bioasq.services.OntologyServiceResponse;
 import edu.cmu.lti.oaqa.bio.bioasq.services.OntologyServiceResponse.Concept;
 import edu.cmu.lti.oaqa.bio.bioasq.services.OntologyServiceResponse.Finding;
-import edu.cmu.lti.oaqa.type.input.Question;
-import edu.cmu.lti.oaqa.type.retrieval.Document;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
-import org.apache.uima.cas.FeatureStructure;
-import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
 import util.TypeFactory;
 
-import java.io.IOException;
-import java.util.*;
+import java.util.Set;
 
 public class ConceptRetrieval extends JCasAnnotator_ImplBase {
 
@@ -45,7 +40,7 @@ public class ConceptRetrieval extends JCasAnnotator_ImplBase {
    */
   @Override
   public void process(JCas aJCas) throws AnalysisEngineProcessException {
-    System.out.println("RUNNING CONCEPT RETRIEVAL");
+   /* System.out.println("RUNNING CONCEPT RETRIEVAL");
     for (FeatureStructure featureStructure : aJCas.getAnnotationIndex(Question.type)) {
       Question question = (Question) featureStructure;
       Collection<Document> documents = JCasUtil.select(aJCas, Document.class);
@@ -94,7 +89,7 @@ public class ConceptRetrieval extends JCasAnnotator_ImplBase {
         e.printStackTrace();
         System.err.println("ERROR: " + e.getMessage());
       }
-    }
+    }*/
   }
 
   private void createConcept(JCas jcas, Concept c, double score) {

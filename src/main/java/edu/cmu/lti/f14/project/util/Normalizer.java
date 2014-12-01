@@ -1,14 +1,14 @@
 package edu.cmu.lti.f14.project.util;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
-
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 
 public class Normalizer {
 
@@ -54,7 +54,7 @@ public class Normalizer {
   }
 
   /**
-   * Retrieve nouns in a sentence.
+   * Retrieve unigram nouns in a sentence.
    *
    * @param text
    *          Original text (without normalization)
@@ -83,10 +83,10 @@ public class Normalizer {
   }
 
   /**
-   * get consecutive nouns (at most 2)
+   * Get unigram, bigram and trigram nouns.
    * 
-   * @param text
-   * @return
+   * @param text Original query text.
+   * @return A list of unigrams, bigrams and trigram nouns.
    */
   public static List<List<String>> retrieveConsecutiveNouns(String text) {
     List<List<String>> res = Lists.newArrayList();

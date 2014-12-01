@@ -1,33 +1,10 @@
 package edu.cmu.lti.f14.project.pipeline;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.uima.UimaContext;
-import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
-import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
-import org.apache.uima.cas.FeatureStructure;
-import org.apache.uima.jcas.JCas;
-import org.apache.uima.resource.ResourceInitializationException;
-import org.uimafit.util.JCasUtil;
-
-import util.TypeFactory;
-
 import com.google.common.collect.Lists;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
-
 import edu.cmu.lti.f14.project.service.UmlsService;
 import edu.cmu.lti.f14.project.similarity.CosineSimilarity;
 import edu.cmu.lti.f14.project.similarity.Similarity;
@@ -38,13 +15,26 @@ import edu.cmu.lti.oaqa.bio.bioasq.services.PubMedSearchServiceResponse;
 import edu.cmu.lti.oaqa.type.input.Question;
 import edu.cmu.lti.oaqa.type.kb.Concept;
 import edu.cmu.lti.oaqa.type.retrieval.Document;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.uima.UimaContext;
+import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
+import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
+import org.apache.uima.cas.FeatureStructure;
+import org.apache.uima.jcas.JCas;
+import org.apache.uima.resource.ResourceInitializationException;
+import util.TypeFactory;
+
+import java.io.IOException;
+import java.util.*;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * Document retrieval component in pipeline.
  *
  * @author junjiah
  */
-
 public class DocumentRetrieval extends JCasAnnotator_ImplBase {
 
   private static final String URI_PREFIX = "http://www.ncbi.nlm.nih.gov/pubmed/";
@@ -62,9 +52,8 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
   private JsonParser jsonParser = new JsonParser();
 
   /**
-   * Initialize services and resources.
+   * @{inheritDoc}
    */
-
   @Override
   public void initialize(UimaContext aContext) throws ResourceInitializationException {
     try {
@@ -79,25 +68,24 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
 
   /**
    * Input the preprocessed texts to PubMed and retrieve the documents.
+   * @param aJCas CAS structure
+   * @throws AnalysisEngineProcessException
    */
   @Override
   public void process(JCas aJCas) throws AnalysisEngineProcessException {
     System.out.println("RUNNING DOCUMENT RETRIEVAL");
     for (FeatureStructure featureStructure : aJCas.getAnnotationIndex(Question.type)) {
       Question question = (Question) featureStructure;
-      String query = question.getPreprocessedText();
-      if (query == null || query.isEmpty())
+      String preprocessedQuery = question.getPreprocessedText();
+      if (preprocessedQuery == null || preprocessedQuery.isEmpty())
         return;
 
       PubMedSearchServiceResponse.Result pubMedResult;
 
       try {
-//        pubMedResult = service
-//                .findPubMedCitations(queryExpand(question.getText(), JCasUtil.select(aJCas, Concept.class)), 0);
-////                .findPubMedCitations(query, 0);
         pubMedResult = goPubMedService
-                .findPubMedCitations(queryExpand(question.getText(), JCasUtil.select(aJCas, Concept.class)), 0);
-//                .findPubMedCitations(query, 0);
+                .findPubMedCitations(
+                        queryExpand(question.getText()), 0);
       } catch (IOException e) {
         e.printStackTrace();
         System.err.println("ERROR: Search PubMed in Document Retrieval Failed.");
@@ -110,16 +98,16 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
         String pmid = pubMedDocument.getPmid();
         String jsonText = retrieveDocumentJsonText(pubMedDocument);
         Document document = TypeFactory
-                .createDocument(aJCas, URI_PREFIX + pmid, jsonText, -1, query,
+                .createDocument(aJCas, URI_PREFIX + pmid, jsonText, -1, preprocessedQuery,
                         retrieveDocumentJsonText(pubMedDocument), pmid);
         double score = similarity.computeSimilarity(Normalizer.normalize(
-                pubMedDocument.getDocumentAbstract()), query);
+                pubMedDocument.getDocumentAbstract()), preprocessedQuery);
         documentScores.put(document, score);
       }
 
       // sort document by its score
       List<Map.Entry<Document, Double>> scoreList = new ArrayList<>(documentScores.entrySet());
-      Collections.sort(scoreList, (e1, e2) -> e1.getValue().compareTo(e2.getValue()));
+      Collections.sort(scoreList, (e1, e2) -> e2.getValue().compareTo(e1.getValue()));
       scoreList
               .stream()
               .map(Map.Entry::getKey)
@@ -128,6 +116,9 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
 
   }
 
+  /**
+   * @{inheritDoc}
+   */
   @Override
   public void collectionProcessComplete() throws AnalysisEngineProcessException {
     try {
@@ -138,7 +129,12 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
     super.collectionProcessComplete();
   }
 
-  private String retrieveDocumentJsonText(PubMedSearchServiceResponse.Document pubMedDocument) {
+  /**
+   *
+   * @param pubMedDocument
+   * @return
+   */
+  public String retrieveDocumentJsonText(PubMedSearchServiceResponse.Document pubMedDocument) {
     // retrieve the document from the seb server
     String pmid = pubMedDocument.getPmid();
     String fullTextString = null;
@@ -174,10 +170,11 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
   }
 
   /**
-   * Query formulation using simple query operators
+   * Query formulation using simple query operators,
+   * with named entities, concept string and bigrams
    *
    * @param preprocessedQuery Original query string
-   * @return expanded query string
+   * @return Formulated query string
    */
   private String queryFormulate(String preprocessedQuery, Collection<Concept> concepts) {
     NamedEntityChunker chunker = NamedEntityChunker.getInstance();
@@ -207,9 +204,14 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
             conceptsString, bigramsString);
   }
 
-  private String queryExpand(String originalQuery, Collection<Concept> concepts) {
+  /**
+   * Expand original query by concatenating nouns with corresponding synonyms on UMLS.
+   * @param query Query text
+   * @return Expanded query text
+   */
+  public String queryExpand(String query) {
     UmlsService umlsService = UmlsService.getInstance();
-    List<String> nouns = Normalizer.retrieveImportantWords(originalQuery);
+    List<String> nouns = Normalizer.retrieveImportantWords(query);
     return nouns
             .stream()
             .map(s1 -> umlsService
@@ -229,7 +231,7 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
    * @param N Number of consecutive words in a gram
    * @return A list of N-Grams
    */
-  private List<String> buildGrams(String s, int N) {
+  public List<String> buildGrams(String s, int N) {
     List<String> ngrams = Lists.newArrayList();
     String grams[] = s.split(" ");
     for (int n = 0; n <= N - 1; ++n) {

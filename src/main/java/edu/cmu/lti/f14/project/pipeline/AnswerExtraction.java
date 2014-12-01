@@ -1,13 +1,12 @@
 package edu.cmu.lti.f14.project.pipeline;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeMap;
-
-import org.apache.commons.lang.StringUtils;
+import com.google.common.collect.Lists;
+import edu.cmu.lti.f14.project.similarity.Similarity;
+import edu.cmu.lti.f14.project.similarity.Word2VecSimilarity;
+import edu.cmu.lti.f14.project.util.NamedEntityChunker;
+import edu.cmu.lti.f14.project.util.Normalizer;
+import edu.cmu.lti.oaqa.type.input.Question;
+import edu.cmu.lti.oaqa.type.retrieval.Passage;
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
@@ -15,37 +14,29 @@ import org.apache.uima.cas.FeatureStructure;
 import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
-
 import util.TypeFactory;
 
-import com.google.common.base.Joiner;
-import com.google.common.base.Splitter;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
+import java.util.*;
+import java.util.function.Function;
 
-import edu.cmu.lti.f14.project.similarity.Similarity;
-import edu.cmu.lti.f14.project.similarity.Word2VecSimilarity;
-import edu.cmu.lti.f14.project.util.NamedEntityChunker;
-import edu.cmu.lti.f14.project.util.Normalizer;
-import edu.cmu.lti.oaqa.type.input.Question;
-import edu.cmu.lti.oaqa.type.retrieval.Passage;
+import static java.util.stream.Collectors.*;
 
 /**
- * Answer extraction part.
+ * Answer extraction analysis engine.
  *
- * @author junjiah
  */
-
 public class AnswerExtraction extends JCasAnnotator_ImplBase {
+  private static final int TOK_K = 100;
+
   private static Class similarityClass = Word2VecSimilarity.class;
 
-  NamedEntityChunker chunker;
+  private NamedEntityChunker chunker;
 
   private Similarity similarity;
 
-  private static int TOK_K = 100;
-
+  /**
+   * @{inheritDoc}
+   */
   @Override
   public void initialize(UimaContext aContext) throws ResourceInitializationException {
     super.initialize(aContext);
@@ -59,97 +50,69 @@ public class AnswerExtraction extends JCasAnnotator_ImplBase {
   }
 
   /**
-   * Extract NEs and nouns to answer candidates.
+   * For every question, retrieve its snippets, recognize candidate answers
+   * and sort them by their similarities with the question text.
+   *
+   * @param aJCas CAS structure
+   * @throws AnalysisEngineProcessException
    */
   @Override
   public void process(JCas aJCas) throws AnalysisEngineProcessException {
     for (FeatureStructure featureStructure : aJCas.getAnnotationIndex(Question.type)) {
       Question question = (Question) featureStructure;
-      String preprocessedQuery = question.getPreprocessedText();
-      Set<String> wordsInQuery = Sets.newHashSet(Splitter.on(" ").split(preprocessedQuery));
+      String query = question.getText(); // use original question
+      Set<String> wordsInQuery = Arrays.asList(query.split(" "))
+              .stream()
+              .collect(toSet());
 
-      // extract NEs
-      Set<String> nes = new HashSet<>();
+      Set<String> candidates = new HashSet<>();
       for (Passage passage : JCasUtil.select(aJCas, Passage.class)) {
         String text = passage.getText();
-        nes.addAll(chunker.chunk(text));
-        List<List<String>> names = Normalizer.retrieveConsecutiveNouns(text);
-        long ones = names.stream().filter(l -> l.size() == 1).count();
-        long twos = names.stream().filter(l -> l.size() == 2).count();
-        long threes = names.stream().filter(l -> l.size() == 3).count();
+        candidates.addAll(chunker.chunk(text));
+        // TODO: consective nouns are not good
+        List<List<String>> nouns = Normalizer.retrieveConsecutiveNouns(text);
+        // TODO: debugging information, to-be deleted
+        long ones = nouns.stream().filter(l -> l.size() == 1).count();
+        long twos = nouns.stream().filter(l -> l.size() == 2).count();
+        long threes = nouns.stream().filter(l -> l.size() == 3).count();
         System.out.println("Ones: " + ones + " twos: " + twos + " threes: " + threes);
-        for (List<String> name : names) {
-          nes.add(Joiner.on(" ").join(name));
-        }
+
+        // add to candidates
+        nouns
+                .stream()
+                .filter(nameList -> !wordsInQuery.containsAll(nameList))
+                .map(nameList -> String.join(" ", nameList))
+                .forEach(candidates::add);
+
       }
-      Set<String> cleanNEs = new HashSet<>();
-      for (String s : nes) {
-        Set<String> words = Sets.newHashSet(Splitter.on(" ").split(s));
-        if (!wordsInQuery.containsAll(words)) {
-          cleanNEs.add(s);
-        }
-      }
-      // compute TF for each NE and create an answer with the NE
-      // name as text and the frequency as ranks
-      List<String> selectedNEs = selectEntitiesWithEmbeddings(Lists.newArrayList(cleanNEs),
-              preprocessedQuery);
+
+      List<String> sortedCandidates = selectEntitiesWithEmbeddings(Lists.newArrayList(candidates),
+              query);
       // perform error analysis after this baseline
-      // use ontology to enhance the results
-      for (String ans : selectedNEs) {
-        TypeFactory.createAnswer(aJCas, ans).addToIndexes();
-      }
-
+      sortedCandidates
+              .forEach(c -> TypeFactory.createAnswer(aJCas, c).addToIndexes());
     }
   }
 
-  private List<String> selectEntitiesWithEmbeddings(List<String> nes, String query) {
-    TreeMap<String, Double> mapping = Maps.newTreeMap();
-    for (String ne : nes) {
-      mapping.put(ne, similarity.computeSimilarity(query, ne));
-    }
-    for(Double d : mapping.descendingMap().values())
-      System.out.println(d);
-    List<String> l = Lists.newArrayList(mapping.descendingKeySet());
-    return l.subList(0, Math.min(l.size(), TOK_K));
-  }
-
-  private List<String> selectEntities(JCas aJCas, List<String> nes) {
-    // UmlsService.getInstance().getSynonyms();
-    List<NamedEntity> nesWithFreq = new ArrayList<NamedEntity>();
-    for (String ne : nes) {
-      int freq = 0;
-      for (Passage passage : JCasUtil.select(aJCas, Passage.class)) {
-        freq += StringUtils.countMatches(passage.getText(), ne);
-      }
-      nesWithFreq.add(new NamedEntity(ne, freq));
-    }
-    Collections.sort(nesWithFreq);
-    List<String> res = new ArrayList<>();
-    for (int i = 0; i < Math.min(nesWithFreq.size(), 5); i++) { // TODO how to decide the number !!!
-      res.add(nesWithFreq.get(i).ne);
-    }
-    return res;
-  }
-
-  @Override
-  public void collectionProcessComplete() throws AnalysisEngineProcessException {
-
-    super.collectionProcessComplete();
-  }
-
-  private class NamedEntity implements Comparable<NamedEntity> {
-    String ne;
-
-    int freq;
-
-    public NamedEntity(String n, int f) {
-      this.ne = n;
-      this.freq = f;
-    }
-
-    @Override
-    public int compareTo(NamedEntity o) {
-      return this.freq > o.freq ? 1 : -1;
-    }
+  /**
+   * Select candidate answers by the order of their similarities with the query.
+   *
+   * @param candidates A list of noun candidate answers
+   * @param query      The query text contained in the question
+   * @return Sorted candidates by the word2vec similarity with the query
+   */
+  public List<String> selectEntitiesWithEmbeddings(List<String> candidates, String query) {
+    Map<String, Double> candidateScoreMap = candidates
+            .stream()
+            .collect(toMap(Function.identity(),
+                    candidate -> similarity.computeSimilarity(query, candidate)));
+    List<Map.Entry<String, Double>> candidateScoreList = new ArrayList<>(
+            candidateScoreMap.entrySet());
+    Collections.sort(candidateScoreList, (e1, e2) -> e2.getValue().compareTo(e1.getValue()));
+    return candidateScoreList
+            .stream()
+            .map(Map.Entry::getKey)
+            .limit(TOK_K)
+            .collect(toList());
   }
 }
