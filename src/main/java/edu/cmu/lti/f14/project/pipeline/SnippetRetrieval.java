@@ -13,10 +13,11 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import edu.cmu.lti.f14.project.similarity.Similarity;
 import edu.cmu.lti.f14.project.similarity.Word2VecSimilarity;
-import edu.cmu.lti.f14.project.util.NamedEntityChunker;
+import edu.cmu.lti.f14.project.util.GenetagChunker;
 import edu.cmu.lti.oaqa.type.input.Question;
 import edu.cmu.lti.oaqa.type.retrieval.ConceptSearchResult;
 import edu.cmu.lti.oaqa.type.retrieval.Document;
+import edu.cmu.lti.oaqa.type.retrieval.Passage;
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
@@ -81,7 +82,7 @@ public class SnippetRetrieval extends JCasAnnotator_ImplBase {
       String preprocessedQuery = question.getPreprocessedText(),
               originalQuery = question.getText();
 
-      List<String> nesInQuery = NamedEntityChunker.getInstance().chunk(preprocessedQuery);
+      List<String> nesInQuery = GenetagChunker.getInstance().chunk(preprocessedQuery);
 
       Collection<Document> documents = JCasUtil.select(aJCas, Document.class);
       Collection<ConceptSearchResult> concepts = JCasUtil.select(aJCas, ConceptSearchResult.class);
@@ -124,7 +125,7 @@ public class SnippetRetrieval extends JCasAnnotator_ImplBase {
 
             // compare with named entities
             /*
-            List<String> nesInSentence = NamedEntityChunker.getInstance().chunk(originalSentence);
+            List<String> nesInSentence = GenetagChunker.getInstance().chunk(originalSentence);
             if (nesInSentence.isEmpty()) {
               simWithEntities = 0;
             } else {
@@ -162,10 +163,13 @@ public class SnippetRetrieval extends JCasAnnotator_ImplBase {
       for (int i = 0; i < Math.min(TOP_K, sentences.size()); i++) {
         Sentence sentence = sentences.get(i);
         String sectionNumber = "sections." + sentence.sectionNumber;
-        TypeFactory.createPassage(aJCas, sentence.referencedDocument.getUri(), sentence.text,
-                sentence.referencedDocument.getDocId(), sentence.boundary.start(),
-                sentence.boundary.end(),
-                sectionNumber, sectionNumber).addToIndexes();
+        Passage passage = TypeFactory
+                .createPassage(aJCas, sentence.referencedDocument.getUri(), sentence.text,
+                        sentence.referencedDocument.getDocId(), sentence.boundary.start(),
+                        sentence.boundary.end(),
+                        sectionNumber, sectionNumber);
+        passage.setRank(i+1); // rank always > 1
+        passage.addToIndexes();
       }
     }
   }

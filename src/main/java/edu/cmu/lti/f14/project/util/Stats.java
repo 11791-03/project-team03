@@ -21,14 +21,10 @@ public class Stats {
       System.out.println(" GOLDEN ARE ");
       for (String s : golden) {
         System.out.println(s);
-        // System.out.println("NEs in the golden: "
-        // + Joiner.on(" ").join(NamedEntityChunker.getInstance().chunk(s)));
       }
       System.out.println(" RETRIEVED ARE ");
       for (String s : results) {
         System.out.println(s);
-        // System.out.println("NEs in the retrieved: "
-        // + Joiner.on(" ").join(NamedEntityChunker.getInstance().chunk(s)));
       }
     }
     Set<String> intersection = null;

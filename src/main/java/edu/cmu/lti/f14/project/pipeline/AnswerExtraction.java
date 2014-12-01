@@ -1,9 +1,9 @@
 package edu.cmu.lti.f14.project.pipeline;
 
-import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import edu.cmu.lti.f14.project.similarity.Similarity;
 import edu.cmu.lti.f14.project.similarity.Word2VecSimilarity;
-import edu.cmu.lti.f14.project.util.NamedEntityChunker;
+import edu.cmu.lti.f14.project.util.AbnerChunker;
 import edu.cmu.lti.f14.project.util.Normalizer;
 import edu.cmu.lti.oaqa.type.input.Question;
 import edu.cmu.lti.oaqa.type.retrieval.Passage;
@@ -17,7 +17,6 @@ import org.apache.uima.resource.ResourceInitializationException;
 import util.TypeFactory;
 
 import java.util.*;
-import java.util.function.Function;
 
 import static java.util.stream.Collectors.*;
 
@@ -30,8 +29,6 @@ public class AnswerExtraction extends JCasAnnotator_ImplBase {
 
   private static Class similarityClass = Word2VecSimilarity.class;
 
-  private NamedEntityChunker chunker;
-
   private Similarity similarity;
 
   /**
@@ -40,7 +37,6 @@ public class AnswerExtraction extends JCasAnnotator_ImplBase {
   @Override
   public void initialize(UimaContext aContext) throws ResourceInitializationException {
     super.initialize(aContext);
-    chunker = NamedEntityChunker.getInstance();
     try {
       similarity = (Similarity) similarityClass.getConstructors()[0].newInstance();
     } catch (Exception e) {
@@ -58,36 +54,33 @@ public class AnswerExtraction extends JCasAnnotator_ImplBase {
    */
   @Override
   public void process(JCas aJCas) throws AnalysisEngineProcessException {
+    System.out.println("RUNNING ANSWER EXTRACTION");
     for (FeatureStructure featureStructure : aJCas.getAnnotationIndex(Question.type)) {
       Question question = (Question) featureStructure;
-      String query = question.getText(); // use original question
+      String query = question.getPreprocessedText();
       Set<String> wordsInQuery = Arrays.asList(query.split(" "))
               .stream()
               .collect(toSet());
 
-      Set<String> candidates = new HashSet<>();
+      Map<String, Integer> candidateRank = Maps.newHashMap();
       for (Passage passage : JCasUtil.select(aJCas, Passage.class)) {
         String text = passage.getText();
-        candidates.addAll(chunker.chunk(text));
-        // TODO: consective nouns are not good
+        int rank = passage.getRank();
         List<List<String>> nouns = Normalizer.retrieveConsecutiveNouns(text);
-        // TODO: debugging information, to-be deleted
-        long ones = nouns.stream().filter(l -> l.size() == 1).count();
-        long twos = nouns.stream().filter(l -> l.size() == 2).count();
-        long threes = nouns.stream().filter(l -> l.size() == 3).count();
-        System.out.println("Ones: " + ones + " twos: " + twos + " threes: " + threes);
-
         // add to candidates
         nouns
                 .stream()
                 .filter(nameList -> !wordsInQuery.containsAll(nameList))
                 .map(nameList -> String.join(" ", nameList))
-                .forEach(candidates::add);
+                .forEach(noun -> candidateRank.put(noun, rank));
 
+        AbnerChunker.getInstance().chunk(text)
+                .stream()
+                .filter(n -> !wordsInQuery.contains(n))
+                .forEach(n -> candidateRank.put(n, rank));
       }
 
-      List<String> sortedCandidates = selectEntitiesWithEmbeddings(Lists.newArrayList(candidates),
-              query);
+      List<String> sortedCandidates = selectEntitiesWithEmbeddings(candidateRank, query);
       // perform error analysis after this baseline
       sortedCandidates
               .forEach(c -> TypeFactory.createAnswer(aJCas, c).addToIndexes());
@@ -97,22 +90,35 @@ public class AnswerExtraction extends JCasAnnotator_ImplBase {
   /**
    * Select candidate answers by the order of their similarities with the query.
    *
-   * @param candidates A list of noun candidate answers
+   * @param candidateRank A list of noun candidate answers
    * @param query      The query text contained in the question
    * @return Sorted candidates by the word2vec similarity with the query
    */
-  public List<String> selectEntitiesWithEmbeddings(List<String> candidates, String query) {
-    Map<String, Double> candidateScoreMap = candidates
+  public List<String> selectEntitiesWithEmbeddings(Map<String, Integer> candidateRank, String query) {
+    Map<String, Double> candidateScoreMap = candidateRank
+            .entrySet()
             .stream()
-            .collect(toMap(Function.identity(),
-                    candidate -> similarity.computeSimilarity(query, candidate)));
+            .collect(toMap(Map.Entry::getKey,
+                    entry -> discountedScore(entry.getKey(), query, entry.getValue())));
     List<Map.Entry<String, Double>> candidateScoreList = new ArrayList<>(
             candidateScoreMap.entrySet());
     Collections.sort(candidateScoreList, (e1, e2) -> e2.getValue().compareTo(e1.getValue()));
+
+    //TODO: debug information
+    candidateScoreList
+            .stream()
+            .limit(50)
+            .forEach(i -> System.out.println(i.getKey() + "\t" + i.getValue()));
+
     return candidateScoreList
             .stream()
             .map(Map.Entry::getKey)
             .limit(TOK_K)
             .collect(toList());
+  }
+
+  public double discountedScore(String candidate, String query, int rank) {
+    double similarityValue = similarity.computeSimilarity(query, candidate);
+    return (Math.pow(2, similarityValue) - 1) / (Math.log(rank + 1) / Math.log(2));
   }
 }

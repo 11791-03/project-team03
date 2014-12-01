@@ -54,6 +54,11 @@
     </build>
     <dependencies>
         <dependency>
+            <groupId>abner</groupId>
+            <artifactId>abner</artifactId>
+            <version>1.5</version>
+        </dependency>
+        <dependency>
             <groupId>org.apache.uima</groupId>
             <artifactId>uimaj-core</artifactId>
             <version>2.4.0</version>

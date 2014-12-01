@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import edu.cmu.lti.f14.project.util.GenetagChunker;
 import json.gson.TestListQuestion;
 import json.gson.TestQuestion;
 import json.gson.TestSet;
@@ -23,7 +24,6 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import edu.cmu.lti.f14.project.util.NamedEntityChunker;
 import edu.cmu.lti.f14.project.util.Stats;
 import edu.cmu.lti.oaqa.type.answer.Answer;
 import edu.cmu.lti.oaqa.type.input.Question;
@@ -80,7 +80,7 @@ public class FinalAnswerEvaluator extends JCasAnnotator_ImplBase {
       System.out.println("Query: " + q.getPreprocessedText());
       System.out.println("NEs in the query: "
               + Joiner.on(" ")
-                      .join(NamedEntityChunker.getInstance().chunk(q.getPreprocessedText())));
+                      .join(GenetagChunker.getInstance().chunk(q.getPreprocessedText())));
 
     }
 
