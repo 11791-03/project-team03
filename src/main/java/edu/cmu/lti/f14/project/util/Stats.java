@@ -36,8 +36,9 @@ public class Stats {
       Set<String> matchedGolden = Sets.newHashSet();
       intersection = Sets.newLinkedHashSet();
       for (String r : results) {
-        if (goldenSet.contains(r)) {
+        if (goldenSet.contains(r) && !matchedGolden.contains(r)) {
           intersection.add(r);
+          matchedGolden.add(r);
         } else {
           for (String g : goldenSet) {
             if (matchedGolden.contains(g)) {
