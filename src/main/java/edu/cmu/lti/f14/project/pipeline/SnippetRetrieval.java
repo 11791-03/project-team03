@@ -47,7 +47,7 @@ import gov.nih.nlm.uts.webservice.content.GetConcept;
  */
 public class SnippetRetrieval extends JCasAnnotator_ImplBase {
 
-  private static final int TOP_K = 50;
+  private static final int TOP_K = 100;
 
   private static final TokenizerFactory TOKENIZER_FACTORY = IndoEuropeanTokenizerFactory.INSTANCE;
 
@@ -58,9 +58,9 @@ public class SnippetRetrieval extends JCasAnnotator_ImplBase {
 
   private static final double simWithQuestionWeight = 1;
 
-  private static final double simWithConceptsWeight = 1;
+  private static final double simWithConceptsWeight = 0;
 
-  private static final double simWithEntitiesWeight = 1;
+  private static final double simWithEntitiesWeight = 0;
 
   private static Class similarityClass = Word2VecSimilarity.class;
 
@@ -101,7 +101,7 @@ public class SnippetRetrieval extends JCasAnnotator_ImplBase {
       Set<String> conceptNames = Sets.newHashSet();
       for(ConceptSearchResult c:concepts) {
         conceptNames.add(c.getConcept().getName());
-        System.out.println("> " + c.getConcept().getName());
+//        System.out.println("> " + c.getConcept().getName());
       }
 //      String concatenatedConcepts = Joiner.on(" ").join(conceptNames);
       List<String> cl = new ArrayList<String>(conceptNames);
@@ -136,29 +136,29 @@ public class SnippetRetrieval extends JCasAnnotator_ImplBase {
             originalSentence = slice.substring(start, end);
 
             // compare with named entities
-            List<String> nesInSentence = NamedEntityChunker.getInstance().chunk(originalSentence);
-            if (nesInSentence.isEmpty()) {
-              simWithEntities = 0;
-            } else {
-              simWithEntities = similarity.computeSimilarity(String.join(" ", nesInSentence),
-                      // String.join(" ", nesInQuery)); // alternative 1
-                      originalQuery); // alternative 2
-            }
+//            List<String> nesInSentence = NamedEntityChunker.getInstance().chunk(originalSentence);
+//            if (nesInSentence.isEmpty()) {
+//              simWithEntities = 0;
+//            } else {
+//              simWithEntities = similarity.computeSimilarity(String.join(" ", nesInSentence),
+//                      // String.join(" ", nesInQuery)); // alternative 1
+//                      originalQuery); // alternative 2
+//            }
 
             // compare with the question
             simWithQuestion = similarity.computeSimilarity(originalSentence, originalQuery);
 
             // compare with concatenated concepts
-            if (concatenatedConcepts.isEmpty()) {
-              simWithConcepts = 0;
-            } else {
-              simWithConcepts = similarity
-                      .computeSimilarity(originalSentence, concatenatedConcepts);
-            }
+//            if (concatenatedConcepts.isEmpty()) {
+//              simWithConcepts = 0;
+//            } else {
+//              simWithConcepts = similarity
+//                      .computeSimilarity(originalSentence, concatenatedConcepts);
+//            }
 
             // weighted score
-            score = simWithQuestionWeight * simWithQuestion + simWithConceptsWeight
-                    * simWithConcepts + simWithEntitiesWeight * simWithEntities;
+            score = simWithQuestionWeight * simWithQuestion;
+//            + simWithConceptsWeight * simWithConcepts + simWithEntitiesWeight * simWithEntities;
 //            sentences.add(new Sentence(sentenceBoundary, d, i, st, score));
 //                    * simWithConcepts + simWithEntityWeight * simWithEntities;
             // add to collection, for future ranking

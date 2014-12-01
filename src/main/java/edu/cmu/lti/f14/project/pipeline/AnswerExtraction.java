@@ -44,6 +44,8 @@ public class AnswerExtraction extends JCasAnnotator_ImplBase {
 
   private Similarity similarity;
 
+  private static int TOK_K = 100;
+
   @Override
   public void initialize(UimaContext aContext) throws ResourceInitializationException {
     super.initialize(aContext);
@@ -105,7 +107,10 @@ public class AnswerExtraction extends JCasAnnotator_ImplBase {
     for (String ne : nes) {
       mapping.put(ne, similarity.computeSimilarity(query, ne));
     }
-    return Lists.newArrayList(mapping.descendingKeySet());
+    for(Double d : mapping.descendingMap().values())
+      System.out.println(d);
+    List<String> l = Lists.newArrayList(mapping.descendingKeySet());
+    return l.subList(0, Math.min(l.size(), TOK_K));
   }
 
   private List<String> selectEntities(JCas aJCas, List<String> nes) {

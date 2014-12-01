@@ -1,17 +1,14 @@
 package edu.cmu.lti.f14.project.evaluator;
 
-import com.google.common.base.Joiner;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import edu.cmu.lti.f14.project.util.NamedEntityChunker;
-import edu.cmu.lti.f14.project.util.Stats;
-import edu.cmu.lti.oaqa.type.input.Question;
-import edu.cmu.lti.oaqa.type.kb.Triple;
-import edu.cmu.lti.oaqa.type.retrieval.ConceptSearchResult;
-import edu.cmu.lti.oaqa.type.retrieval.Document;
-import edu.cmu.lti.oaqa.type.retrieval.Passage;
+import static java.util.stream.Collectors.toList;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+
 import json.gson.TestQuestion;
 import json.gson.TestSet;
+
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
@@ -21,11 +18,15 @@ import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.tcas.Annotation;
 import org.apache.uima.resource.ResourceInitializationException;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
-import static java.util.stream.Collectors.toList;
+import edu.cmu.lti.f14.project.util.Stats;
+import edu.cmu.lti.oaqa.type.input.Question;
+import edu.cmu.lti.oaqa.type.kb.Triple;
+import edu.cmu.lti.oaqa.type.retrieval.ConceptSearchResult;
+import edu.cmu.lti.oaqa.type.retrieval.Document;
+import edu.cmu.lti.oaqa.type.retrieval.Passage;
 
 /**
  * Evaluator for intermediate results - Document, Concept and Triple
@@ -113,12 +114,12 @@ public class InformationRetrievalEvaluator extends JCasAnnotator_ImplBase {
               .map(ConceptSearchResult::getUri).map(i -> i).collect(toList()));
       conceptStats.add(conceptStat);
     }
-    if (goldenTriples != null) {
-      Stats tripStat = new Stats("triples", goldenTriples.stream().map(Object::toString)
-              .collect(toList()), triples.stream().map(t -> new json.gson.Triple(t).toString())
-              .collect(toList()));
-      tripStats.add(tripStat);
-    }
+//    if (goldenTriples != null) {
+//      Stats tripStat = new Stats("triples", goldenTriples.stream().map(Object::toString)
+//              .collect(toList()), triples.stream().map(t -> new json.gson.Triple(t).toString())
+//              .collect(toList()));
+//      tripStats.add(tripStat);
+//    }
     if (goldenSnippets != null) {
       Stats snippetStat = new Stats("snippets", goldenSnippets.stream().map(Object::toString)
               .collect(toList()), snippets.stream().map(t -> new json.gson.Snippet(t).toString())
@@ -132,7 +133,7 @@ public class InformationRetrievalEvaluator extends JCasAnnotator_ImplBase {
     super.collectionProcessComplete();
     Stats.printStats(docStats, "Document", EPSILON);
     Stats.printStats(conceptStats, "Concept", EPSILON);
-    Stats.printStats(tripStats, "Triple", EPSILON);
+//    Stats.printStats(tripStats, "Triple", EPSILON);
     Stats.printStats(snippetStats, "Snippet", EPSILON);
   }
 }
