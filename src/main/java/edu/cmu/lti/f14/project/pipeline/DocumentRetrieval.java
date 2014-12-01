@@ -1,6 +1,5 @@
 package edu.cmu.lti.f14.project.pipeline;
 
-import com.google.common.collect.Lists;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -36,7 +35,7 @@ import static java.util.stream.Collectors.toList;
  */
 public class DocumentRetrieval extends JCasAnnotator_ImplBase {
 
-  private static final String URI_PREFIX = "http://www.ncbi.nlm.nih.gov/pubmed/";
+  private static final String PUBMED_URI_PREFIX = "http://www.ncbi.nlm.nih.gov/pubmed/";
 
   private static final String FULLTEXT_URI_PREFIX = "http://metal.lti.cs.cmu.edu:30002/pmc/";
 
@@ -51,7 +50,7 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
   private JsonParser jsonParser = new JsonParser();
 
   /**
-   * @{inheritDoc}
+   * @inheritDoc
    */
   @Override
   public void initialize(UimaContext aContext) throws ResourceInitializationException {
@@ -104,7 +103,7 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
         String pmid = pubMedDocument.getPmid();
         String jsonText = retrieveDocumentJsonText(pubMedDocument);
         Document document = TypeFactory
-                .createDocument(aJCas, URI_PREFIX + pmid, jsonText, -1, preprocessedQuery,
+                .createDocument(aJCas, PUBMED_URI_PREFIX + pmid, jsonText, -1, preprocessedQuery,
                         retrieveDocumentJsonText(pubMedDocument), pmid);
         String documentAbstract = pubMedDocument.getDocumentAbstract();
         if (documentAbstract == null || documentAbstract.isEmpty()) {
@@ -127,7 +126,7 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
   }
 
   /**
-   * @{inheritDoc}
+   * @inheritDoc
    */
   @Override
   public void collectionProcessComplete() throws AnalysisEngineProcessException {
@@ -140,8 +139,10 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
   }
 
   /**
-   * @param pubMedDocument
-   * @return
+   * Formulating the document as a json file containing section information and texts.
+   *
+   * @param pubMedDocument Retrieved PubMed document
+   * @return A json string containing document title, text and section
    */
   public String retrieveDocumentJsonText(PubMedSearchServiceResponse.Document pubMedDocument) {
     // retrieve the document from the seb server
@@ -149,6 +150,9 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
     String fullTextString = null;
 
     /*
+          !!!!!!!!! Getting full text is very slow!     !!!!!!!!!
+          !!!!!!!!! So we give up and didn't do it here !!!!!!!!!
+
     // try to get full text
     HttpGet httpGet = new HttpGet(FULLTEXT_URI_PREFIX + pmid);
     try (CloseableHttpResponse response = httpClient.execute(httpGet)) {
@@ -214,30 +218,5 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
                     .collect(Collectors.joining(" OR ")))
             .map(s2 -> '(' + s2 + ')')
             .collect(Collectors.joining(" AND "));
-  }
-
-  /**
-   * Build NGrams from Unigram string.
-   *
-   * @param s Original text
-   * @param N Number of consecutive words in a gram
-   * @return A list of N-Grams
-   */
-  public List<String> buildGrams(String s, int N) {
-    List<String> ngrams = Lists.newArrayList();
-    String grams[] = s.split(" ");
-    for (int n = 0; n <= N - 1; ++n) {
-      for (int i = 0; i < grams.length - n; ++i) {
-        StringBuilder gramBuilder = new StringBuilder(grams[i]);
-        for (int j = i; j < i + n; ++j) {
-          gramBuilder.append(" ").append(grams[j + 1]);
-        }
-        String gram = gramBuilder.toString();
-        if (gram.isEmpty() || gram.charAt(0) == ' ')
-          continue;
-        ngrams.add(gram);
-      }
-    }
-    return ngrams;
   }
 }

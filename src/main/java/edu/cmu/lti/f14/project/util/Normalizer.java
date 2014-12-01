@@ -10,6 +10,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
 
+/**
+ * A utility class mostly for text processing.
+ */
 public class Normalizer {
 
   private static Set<String> stopwords = Sets.newHashSet();
@@ -86,7 +89,7 @@ public class Normalizer {
    * Get unigram and bigram nouns.
    * 
    * @param text Original query text.
-   * @return A list of unigrams, bigrams and trigram nouns.
+   * @return A list of unigrams and bigrams nouns.
    */
   public static List<List<String>> retrieveNGrams(String text) {
     List<List<String>> res = Lists.newArrayList();
@@ -115,13 +118,6 @@ public class Normalizer {
           toAdd2.add(prevWords.get(prevTags.size() - 1));
           toAdd2.add(token.substring(0, splitIndex - 1));
           res.add(toAdd2);
-          /*if (prevTags.size() > 1 && prevTags.get(prevTags.size() - 2).startsWith("NN")) {
-            List<String> toAdd3 = Lists.newArrayList();
-            toAdd3.add(prevWords.get(prevTags.size() - 2));
-            toAdd3.add(prevWords.get(prevTags.size() - 1));
-            toAdd3.add(token.substring(0, splitIndex - 1));
-            res.add(toAdd3);
-          }*/
         }
       }
       prevTags.add(tag);
@@ -131,7 +127,7 @@ public class Normalizer {
   }
 
   /**
-   * Do tokenization.
+   * Do tokenization on the input text string.
    *
    * @param text
    *          Original text

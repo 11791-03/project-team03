@@ -9,6 +9,8 @@ import static java.util.stream.Collectors.toList;
 
 /**
  * Utility class using ABNER to do named entity chunking.
+ *
+ * @author junjiah
  */
 public class AbnerChunker {
   private static AbnerChunker abnerChunker = null;
@@ -21,6 +23,7 @@ public class AbnerChunker {
 
   /**
    * Get the singleton chunker.
+   *
    * @return The singleton chunker
    */
   public static AbnerChunker getInstance() {
@@ -32,6 +35,7 @@ public class AbnerChunker {
 
   /**
    * Recognize named entities in the sentence.
+   *
    * @param toChunk The sentence to be chunked
    * @return List of recognized named entities
    */

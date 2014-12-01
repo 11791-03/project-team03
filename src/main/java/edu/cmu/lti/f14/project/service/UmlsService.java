@@ -15,6 +15,11 @@ import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
+/**
+ * Wrapper class for UMLS metathesaurus service.
+ *
+ * @author junjiah
+ */
 public class UmlsService {
 
   private static final String UMLS_RELEASE = "2014AB";
@@ -31,6 +36,9 @@ public class UmlsService {
 
   private static UmlsService umlsService = null;
 
+  /**
+   * Singleton service instance.
+   */
   private UmlsService() {
     try {
       String pw;
@@ -45,12 +53,23 @@ public class UmlsService {
     }
   }
 
+  /**
+   * Return the singleton service instance.
+   *
+   * @return
+   */
   public static UmlsService getInstance() {
     if (umlsService == null)
       umlsService = new UmlsService();
     return umlsService;
   }
 
+  /**
+   * Retrieve the synonyms from UMLS metathesaurus service.
+   *
+   * @param searchWord Strings to be searched on UMLS
+   * @return Unique synonyms on UMLS for the searched word
+   */
   public List<String> getSynonyms(String searchWord) {
     try {
       String singleUseTicket = securityService.getProxyTicket(ticketGrantingTicket, SERVICE_NAME);

@@ -18,6 +18,8 @@ import static java.util.stream.Collectors.toList;
 
 /**
  * Call our word2vec server to retrieve vectors or similarities.
+ *
+ * @author junjiah
  */
 public class Word2VecService {
   /**
@@ -60,6 +62,7 @@ public class Word2VecService {
 
   /**
    * Retrieve the word(s) vector.
+   *
    * @param words If only one then retrieve its vector, otherwise retrieve the mean
    *              average of all vectors
    * @return Word vector for requsted word(s). Null if doesn't exist.
@@ -109,7 +112,8 @@ public class Word2VecService {
                       URLEncoder.encode(words2.toLowerCase(), "UTF-8")));
     } catch (UnsupportedEncodingException ignored) {
     }
-    String similarityString = "";
+
+    String similarityString;
     try (CloseableHttpResponse response = httpClient.execute(httpGet)) {
       HttpEntity entity = response.getEntity();
       final InputStreamReader reader = new InputStreamReader(entity.getContent());

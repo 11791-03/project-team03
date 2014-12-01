@@ -1,19 +1,17 @@
 package edu.cmu.lti.f14.project.similarity;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class CosineSimilarity extends Similarity {
 
   public static void main(String[] args) {
     System.out.println(new CosineSimilarity().computeSimilarity("A B C D", "C D E F ")); // should
-                                                                                         // be 0.5
+    // be 0.5
   }
 
+  /**
+   * @inheritDoc
+   */
   @Override
   public double computeSimilarity(String s1, String s2) {
     Map<String, Integer> m1 = tokenize(s1);
@@ -32,7 +30,7 @@ public class CosineSimilarity extends Similarity {
   /**
    * This function is used in computing the cosine similarities. It computes the union of two tokens
    * list.
-   * 
+   *
    * @param map
    * @param map2
    * @return
@@ -49,12 +47,13 @@ public class CosineSimilarity extends Similarity {
   /**
    * This method create the vector as a {@link HashMap} by taking an existing vector and a union of
    * tokens.
-   * 
+   *
    * @param token
    * @param tokensUnion
    * @return
    */
-  private Map<String, Integer> getVector(Map<String, Integer> token, ArrayList<String> tokensUnion) {
+  private Map<String, Integer> getVector(Map<String, Integer> token,
+          ArrayList<String> tokensUnion) {
     Map<String, Integer> vector = new HashMap<String, Integer>();
 
     boolean found;
@@ -73,10 +72,9 @@ public class CosineSimilarity extends Similarity {
   }
 
   /**
-   * 
    * This method computes the cosine similarity between two vectors. Each vector is represented as a
    * {@link Map}
-   * 
+   *
    * @return cosine_similarity
    */
   private double computeCosineSimilarity(Map<String, Integer> queryVector,

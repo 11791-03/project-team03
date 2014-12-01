@@ -28,7 +28,7 @@ public class QuestionPreprocessing extends JCasAnnotator_ImplBase {
   }
 
   /**
-   * Simply add tokenized text to the CAS.
+   * @inheritDoc
    */
   @Override
   public void process(JCas aJCas) throws AnalysisEngineProcessException {

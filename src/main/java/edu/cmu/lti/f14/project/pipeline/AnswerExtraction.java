@@ -22,7 +22,6 @@ import static java.util.stream.Collectors.*;
 
 /**
  * Answer extraction analysis engine.
- *
  */
 public class AnswerExtraction extends JCasAnnotator_ImplBase {
   private static final int TOK_K = 100;
@@ -32,7 +31,7 @@ public class AnswerExtraction extends JCasAnnotator_ImplBase {
   private Similarity similarity;
 
   /**
-   * @{inheritDoc}
+   * @inheritDoc
    */
   @Override
   public void initialize(UimaContext aContext) throws ResourceInitializationException {
@@ -67,13 +66,13 @@ public class AnswerExtraction extends JCasAnnotator_ImplBase {
         String text = passage.getText();
         int rank = passage.getRank();
         List<List<String>> nouns = Normalizer.retrieveNGrams(text);
-        // add to candidates
+        // add n-grams to candidates
         nouns
                 .stream()
                 .filter(nameList -> !wordsInQuery.containsAll(nameList))
                 .map(nameList -> String.join(" ", nameList))
                 .forEach(noun -> candidateRank.put(noun, rank));
-
+        // add NEs to candidates
         AbnerChunker.getInstance().chunk(text)
                 .stream()
                 .filter(n -> !wordsInQuery.contains(n))
@@ -81,20 +80,21 @@ public class AnswerExtraction extends JCasAnnotator_ImplBase {
       }
 
       List<String> sortedCandidates = selectEntitiesWithEmbeddings(candidateRank, query);
-      // perform error analysis after this baseline
       sortedCandidates
               .forEach(c -> TypeFactory.createAnswer(aJCas, c).addToIndexes());
     }
   }
 
   /**
-   * Select candidate answers by the order of their similarities with the query.
+   * Select candidate answers by the order of their scores calculated
+   * based on similarity and corresponding snippet rank.
    *
    * @param candidateRank A list of noun candidate answers
-   * @param query      The query text contained in the question
+   * @param query         The query text contained in the question
    * @return Sorted candidates by the word2vec similarity with the query
    */
-  public List<String> selectEntitiesWithEmbeddings(Map<String, Integer> candidateRank, String query) {
+  public List<String> selectEntitiesWithEmbeddings(Map<String, Integer> candidateRank,
+          String query) {
     Map<String, Double> candidateScoreMap = candidateRank
             .entrySet()
             .stream()
@@ -111,8 +111,16 @@ public class AnswerExtraction extends JCasAnnotator_ImplBase {
             .collect(toList());
   }
 
-  public double discountedScore(String candidate, String query, int rank) {
-    double similarityValue = similarity.computeSimilarity(query, candidate);
+  /**
+   * Calculated score for answer candidate discounted on the corresponding snippet rank.
+   *
+   * @param candidate Candidate answer, usually are nouns or named entities
+   * @param toCompare The string to compare, usually is the original query
+   * @param rank      Corresponding rank for candidate answer
+   * @return A discounted score based on candidate's similarity and rank of source snippet
+   */
+  public double discountedScore(String candidate, String toCompare, int rank) {
+    double similarityValue = similarity.computeSimilarity(toCompare, candidate);
     return (Math.pow(2, similarityValue) - 1) / (Math.log(rank + 1) / Math.log(2));
   }
 }

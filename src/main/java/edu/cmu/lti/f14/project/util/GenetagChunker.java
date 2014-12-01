@@ -10,6 +10,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * Named entity chunker based on genetag corpus, provided by LingPipe.
+ */
 public class GenetagChunker {
   final static String modelPath = "/ne-en-bio-genetag.HmmChunker";
 
@@ -26,6 +29,11 @@ public class GenetagChunker {
     }
   }
 
+  /**
+   * Get the singleton chunker.
+   *
+   * @return The singleton chunker
+   */
   public static GenetagChunker getInstance() {
     if (genetagChunker == null) {
       genetagChunker = new GenetagChunker();
@@ -33,6 +41,12 @@ public class GenetagChunker {
     return genetagChunker;
   }
 
+  /**
+   * Recognize named entities in the sentence.
+   *
+   * @param toChunk The sentence to be chunked
+   * @return List of recognized named entities
+   */
   public List<String> chunk(String toChunk) {
     if (ch == null)
       return null;
@@ -43,5 +57,4 @@ public class GenetagChunker {
             .map(c -> toChunk.substring(c.start(), c.end()))
             .collect(Collectors.toList());
   }
-
 }
