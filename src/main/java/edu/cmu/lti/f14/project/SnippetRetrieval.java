@@ -39,7 +39,7 @@ import java.util.stream.Collectors;
  */
 public class SnippetRetrieval extends JCasAnnotator_ImplBase {
 
-  private static final int TOP_K = 5;
+  private static final int TOP_K = 20;
 
   private static final TokenizerFactory TOKENIZER_FACTORY = IndoEuropeanTokenizerFactory.INSTANCE;
 

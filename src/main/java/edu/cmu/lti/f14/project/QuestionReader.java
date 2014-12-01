@@ -1,9 +1,12 @@
 package edu.cmu.lti.f14.project;
 
 import com.google.common.collect.Lists;
+
 import json.JsonCollectionReaderHelper;
+import json.gson.QuestionType;
 import json.gson.TestQuestion;
 import json.gson.TestSet;
+
 import org.apache.uima.cas.CAS;
 import org.apache.uima.cas.CASException;
 import org.apache.uima.collection.CollectionException;
@@ -74,7 +77,9 @@ public class QuestionReader extends CollectionReader_ImplBase {
               .flatMap(
                       path -> TestSet.load(
                               getClass().getResourceAsStream(path))
-                              .stream()).collect(toList());
+                              .stream())
+                              .filter(input -> input.getType().equals(QuestionType.list))
+                              .collect(toList());
 
       // trim question texts
       questions.stream()
