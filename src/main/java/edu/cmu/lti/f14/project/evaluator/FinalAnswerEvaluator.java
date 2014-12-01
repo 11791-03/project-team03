@@ -1,13 +1,15 @@
 package edu.cmu.lti.f14.project.evaluator;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import edu.cmu.lti.f14.project.util.Stats;
-import edu.cmu.lti.oaqa.type.answer.Answer;
-import edu.cmu.lti.oaqa.type.input.Question;
+import static java.util.stream.Collectors.toList;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+
 import json.gson.TestListQuestion;
 import json.gson.TestQuestion;
 import json.gson.TestSet;
+
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
@@ -17,17 +19,19 @@ import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.tcas.Annotation;
 import org.apache.uima.resource.ResourceInitializationException;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
-import static java.util.stream.Collectors.toList;
+import edu.cmu.lti.f14.project.util.Stats;
+import edu.cmu.lti.oaqa.type.answer.Answer;
+import edu.cmu.lti.oaqa.type.input.Question;
 
 /**
- * Evaluator for intermediate results - Document, Concept and Triple
+ * Evaluator for the final answer
  */
 public class FinalAnswerEvaluator extends JCasAnnotator_ImplBase {
 
+  // constant for GMAP
   private static final double EPSILON = 0.01;
 
   private Map<String, json.gson.Question> goldenStandards;
@@ -35,7 +39,7 @@ public class FinalAnswerEvaluator extends JCasAnnotator_ImplBase {
   private List<Stats> ansStats = Lists.newArrayList();
 
   /**
-   * Initialize the golden results.
+   * initialization of the AE loads questions from the configuration
    */
   @Override
   public void initialize(UimaContext aContext) throws ResourceInitializationException {
@@ -60,7 +64,7 @@ public class FinalAnswerEvaluator extends JCasAnnotator_ImplBase {
   }
 
   /**
-   *
+   * processes each question and outputs exact answers
    */
   @Override
   public void process(JCas aJCas) throws AnalysisEngineProcessException {
@@ -80,10 +84,13 @@ public class FinalAnswerEvaluator extends JCasAnnotator_ImplBase {
       return;
     }
 
+    // select answers associated with this question
     Collection<Answer> answers = JCasUtil.select(aJCas, Answer.class);
-    List<List<String>> goldenAnswers2 = goldenResult.getExactAnswer();
+
+    // we don't care from which answer the exact answer comes from
+    List<List<String>> nestedAnswers = goldenResult.getExactAnswer();
     List<String> goldenAnswers = Lists.newArrayList();
-    for (List<String> ls : goldenAnswers2) {
+    for (List<String> ls : nestedAnswers) {
       goldenAnswers.add(ls.get(0));
     }
 
@@ -92,8 +99,11 @@ public class FinalAnswerEvaluator extends JCasAnnotator_ImplBase {
       System.out.println("\t" + ans);
     }
 
+    // directly evaluate the answers against the ground truth
     Stats ansStat = new Stats("answers", goldenAnswers, answers.stream().map(Answer::getText)
             .collect(toList()), true);
+
+    // add this question
     ansStats.add(ansStat);
 
     System.out.println("answers:");
@@ -104,6 +114,9 @@ public class FinalAnswerEvaluator extends JCasAnnotator_ImplBase {
 
   }
 
+  /**
+   * when processing is complete, print stats.
+   */
   @Override
   public void collectionProcessComplete() throws AnalysisEngineProcessException {
     super.collectionProcessComplete();
