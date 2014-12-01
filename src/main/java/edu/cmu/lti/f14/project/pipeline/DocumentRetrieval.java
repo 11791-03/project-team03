@@ -8,12 +8,10 @@ import com.google.gson.JsonPrimitive;
 import edu.cmu.lti.f14.project.service.UmlsService;
 import edu.cmu.lti.f14.project.similarity.CosineSimilarity;
 import edu.cmu.lti.f14.project.similarity.Similarity;
-import edu.cmu.lti.f14.project.util.GenetagChunker;
 import edu.cmu.lti.f14.project.util.Normalizer;
 import edu.cmu.lti.oaqa.bio.bioasq.services.GoPubMedService;
 import edu.cmu.lti.oaqa.bio.bioasq.services.PubMedSearchServiceResponse;
 import edu.cmu.lti.oaqa.type.input.Question;
-import edu.cmu.lti.oaqa.type.kb.Concept;
 import edu.cmu.lti.oaqa.type.retrieval.Document;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -27,8 +25,9 @@ import util.TypeFactory;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * Document retrieval component in pipeline.
@@ -77,16 +76,22 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
     System.out.println("RUNNING DOCUMENT RETRIEVAL");
     for (FeatureStructure featureStructure : aJCas.getAnnotationIndex(Question.type)) {
       Question question = (Question) featureStructure;
-      String preprocessedQuery = question.getPreprocessedText();
+      String preprocessedQuery = question.getPreprocessedText(),
+              originalQuery = question.getText();
       if (preprocessedQuery == null || preprocessedQuery.isEmpty())
         return;
 
-      PubMedSearchServiceResponse.Result pubMedResult;
+      List<PubMedSearchServiceResponse.Document> pubMedDocuments;
 
       try {
-        pubMedResult = goPubMedService
+        pubMedDocuments = goPubMedService
                 .findPubMedCitations(
-                        queryExpand(question.getText()), 0);
+                        queryExpand(originalQuery), 0).getDocuments();
+        if (pubMedDocuments.isEmpty()) {
+          // re-formulate the query and search again
+          pubMedDocuments = goPubMedService.findPubMedCitations(queryFormulate(originalQuery), 0)
+                  .getDocuments();
+        }
       } catch (IOException e) {
         e.printStackTrace();
         System.err.println("ERROR: Search PubMed in Document Retrieval Failed.");
@@ -95,14 +100,18 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
 
       // compare similarity between text and query
       Map<Document, Double> documentScores = new HashMap<>();
-      for (PubMedSearchServiceResponse.Document pubMedDocument : pubMedResult.getDocuments()) {
+      for (PubMedSearchServiceResponse.Document pubMedDocument : pubMedDocuments) {
         String pmid = pubMedDocument.getPmid();
         String jsonText = retrieveDocumentJsonText(pubMedDocument);
         Document document = TypeFactory
                 .createDocument(aJCas, URI_PREFIX + pmid, jsonText, -1, preprocessedQuery,
                         retrieveDocumentJsonText(pubMedDocument), pmid);
+        String documentAbstract = pubMedDocument.getDocumentAbstract();
+        if (documentAbstract == null || documentAbstract.isEmpty()) {
+          continue;
+        }
         double score = similarity.computeSimilarity(Normalizer.normalize(
-                pubMedDocument.getDocumentAbstract()), preprocessedQuery);
+                documentAbstract), preprocessedQuery);
         documentScores.put(document, score);
       }
 
@@ -113,8 +122,8 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
               .stream()
               .map(Map.Entry::getKey)
               .forEach(Document::addToIndexes);
+      System.out.println("Retrieved Document: " + scoreList.size());
     }
-
   }
 
   /**
@@ -170,38 +179,17 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
   }
 
   /**
-   * Query formulation using simple query operators,
-   * with named entities, concept string and bigrams
+   * Query formulation simply use n-gram nouns.
    *
-   * @param preprocessedQuery Original query string
+   * @param query Original query string
    * @return Formulated query string
    */
-  private String queryFormulate(String preprocessedQuery, Collection<Concept> concepts) {
-    GenetagChunker chunker = GenetagChunker.getInstance();
-    String namedEntities = chunker
-            .chunk(preprocessedQuery)
+  private String queryFormulate(String query) {
+    String grams = Normalizer.retrieveNGrams(query)
             .stream()
-            .map(s -> "\"" + s + "\"")
-            .limit(5)
-            .collect(Collectors.joining(" AND "));
-
-    String conceptsString = concepts
-            .stream()
-            .map(Concept::getName)
-            .map(s -> s.replace("_", " "))
-            .filter(s -> !s.isEmpty() && Pattern.matches("\\p{Punct}", s))
-            .limit(5)
-            .map(s -> "\"" + s + "\"")
-            .collect(Collectors.joining(" AND "));
-
-    List<String> bigrams = buildGrams(preprocessedQuery, 2);
-    String bigramsString = bigrams
-            .stream()
-            .map(s -> "\"" + s + "\"")
-            .collect(Collectors.joining(" AND "));
-
-    return String.format("(\"%s\") OR (%s) OR (%s) OR (%s)", preprocessedQuery, namedEntities,
-            conceptsString, bigramsString);
+            .map(gramList -> '"' + String.join(" ", gramList) + '"')
+            .collect(Collectors.joining(" OR "));
+    return grams;
   }
 
   /**
@@ -212,8 +200,11 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
    */
   public String queryExpand(String query) {
     UmlsService umlsService = UmlsService.getInstance();
-    List<String> nouns = Normalizer.retrieveImportantWords(query);
-    return nouns
+    List<String> grams = Normalizer.retrieveNGrams(query)
+            .stream()
+            .map(gramList -> String.join(" ", gramList))
+            .collect(toList());
+    return grams
             .stream()
             .map(s1 -> umlsService
                     .getSynonyms(s1)

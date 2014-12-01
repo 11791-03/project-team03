@@ -60,7 +60,7 @@ public class Normalizer {
    *          Original text (without normalization)
    * @return A list of nouns
    */
-  public static List<String> retrieveImportantWords(String text) {
+  public static List<String> retrieveUnigram(String text) {
     List<String> res = Lists.newArrayList();
     String temp = posTagger.doPOSTagging(text);
     StringTokenizer tokenizer = new StringTokenizer(temp);
@@ -88,7 +88,7 @@ public class Normalizer {
    * @param text Original query text.
    * @return A list of unigrams, bigrams and trigram nouns.
    */
-  public static List<List<String>> retrieveConsecutiveNouns(String text) {
+  public static List<List<String>> retrieveNGrams(String text) {
     List<List<String>> res = Lists.newArrayList();
     String temp = posTagger.doPOSTagging(text);
     StringTokenizer tokenizer = new StringTokenizer(temp);

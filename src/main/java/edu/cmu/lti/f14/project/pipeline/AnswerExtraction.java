@@ -66,7 +66,7 @@ public class AnswerExtraction extends JCasAnnotator_ImplBase {
       for (Passage passage : JCasUtil.select(aJCas, Passage.class)) {
         String text = passage.getText();
         int rank = passage.getRank();
-        List<List<String>> nouns = Normalizer.retrieveConsecutiveNouns(text);
+        List<List<String>> nouns = Normalizer.retrieveNGrams(text);
         // add to candidates
         nouns
                 .stream()
@@ -103,12 +103,6 @@ public class AnswerExtraction extends JCasAnnotator_ImplBase {
     List<Map.Entry<String, Double>> candidateScoreList = new ArrayList<>(
             candidateScoreMap.entrySet());
     Collections.sort(candidateScoreList, (e1, e2) -> e2.getValue().compareTo(e1.getValue()));
-
-    //TODO: debug information
-    candidateScoreList
-            .stream()
-            .limit(50)
-            .forEach(i -> System.out.println(i.getKey() + "\t" + i.getValue()));
 
     return candidateScoreList
             .stream()
