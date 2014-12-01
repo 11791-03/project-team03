@@ -8,7 +8,7 @@ import com.google.gson.JsonPrimitive;
 import edu.cmu.lti.f14.project.service.UmlsService;
 import edu.cmu.lti.f14.project.similarity.CosineSimilarity;
 import edu.cmu.lti.f14.project.similarity.Similarity;
-import edu.cmu.lti.f14.project.util.NamedEntityChunker;
+import edu.cmu.lti.f14.project.util.GenetagChunker;
 import edu.cmu.lti.f14.project.util.Normalizer;
 import edu.cmu.lti.oaqa.bio.bioasq.services.GoPubMedService;
 import edu.cmu.lti.oaqa.bio.bioasq.services.PubMedSearchServiceResponse;
@@ -68,6 +68,7 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
 
   /**
    * Input the preprocessed texts to PubMed and retrieve the documents.
+   *
    * @param aJCas CAS structure
    * @throws AnalysisEngineProcessException
    */
@@ -130,7 +131,6 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
   }
 
   /**
-   *
    * @param pubMedDocument
    * @return
    */
@@ -177,7 +177,7 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
    * @return Formulated query string
    */
   private String queryFormulate(String preprocessedQuery, Collection<Concept> concepts) {
-    NamedEntityChunker chunker = NamedEntityChunker.getInstance();
+    GenetagChunker chunker = GenetagChunker.getInstance();
     String namedEntities = chunker
             .chunk(preprocessedQuery)
             .stream()
@@ -206,6 +206,7 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
 
   /**
    * Expand original query by concatenating nouns with corresponding synonyms on UMLS.
+   *
    * @param query Query text
    * @return Expanded query text
    */

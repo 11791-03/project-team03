@@ -83,7 +83,7 @@ public class Normalizer {
   }
 
   /**
-   * Get unigram, bigram and trigram nouns.
+   * Get unigram and bigram nouns.
    * 
    * @param text Original query text.
    * @return A list of unigrams, bigrams and trigram nouns.
@@ -115,13 +115,13 @@ public class Normalizer {
           toAdd2.add(prevWords.get(prevTags.size() - 1));
           toAdd2.add(token.substring(0, splitIndex - 1));
           res.add(toAdd2);
-          if (prevTags.size() > 1 && prevTags.get(prevTags.size() - 2).startsWith("NN")) {
+          /*if (prevTags.size() > 1 && prevTags.get(prevTags.size() - 2).startsWith("NN")) {
             List<String> toAdd3 = Lists.newArrayList();
             toAdd3.add(prevWords.get(prevTags.size() - 2));
             toAdd3.add(prevWords.get(prevTags.size() - 1));
             toAdd3.add(token.substring(0, splitIndex - 1));
             res.add(toAdd3);
-          }
+          }*/
         }
       }
       prevTags.add(tag);
