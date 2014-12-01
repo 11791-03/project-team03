@@ -28,7 +28,6 @@
 			<fixedFlow>
 				<node>aeConceptRetrievalDescriptor</node>
 				<node>aeDocumentRetrievalDescriptor</node>
-				<node>aeTripleRetrievalDescriptor</node>
 				<node>aeSnippetRetrievalDescriptor</node>
 			</fixedFlow>
 		</flowConstraints>

@@ -1,14 +1,14 @@
 package edu.cmu.lti.f14.project.util;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
-
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
+
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 public class Normalizer {
 
@@ -38,7 +38,8 @@ public class Normalizer {
   /**
    * A simple tokenizer doing stemming and stop-word filtering.
    *
-   * @param text Original text
+   * @param text
+   *          Original text
    * @return Tokenized text
    */
   public static List<String> tokenize(String text) {
@@ -55,7 +56,8 @@ public class Normalizer {
   /**
    * Retrieve nouns in a sentence.
    *
-   * @param text Original text (without normalization)
+   * @param text
+   *          Original text (without normalization)
    * @return A list of nouns
    */
   public static List<String> retrieveImportantWords(String text) {
@@ -81,9 +83,58 @@ public class Normalizer {
   }
 
   /**
+   * get consecutive nouns (at most 2)
+   * 
+   * @param text
+   * @return
+   */
+  public static List<List<String>> retrieveConsecutiveNouns(String text) {
+    List<List<String>> res = Lists.newArrayList();
+    String temp = posTagger.doPOSTagging(text);
+    StringTokenizer tokenizer = new StringTokenizer(temp);
+
+    List<String> prevWords = Lists.newArrayList();
+    List<String> prevTags = Lists.newArrayList();
+    while (tokenizer.hasMoreElements()) {
+      String token = tokenizer.nextToken().trim();
+      int splitIndex = 0;
+      for (int i = token.length() - 1; i > 0; --i) {
+        if (token.charAt(i) == '_') {
+          splitIndex = i + 1;
+          break;
+        }
+      }
+
+      String tag = token.substring(splitIndex, token.length());
+      if (tag.startsWith("NN")) {
+        List<String> toAdd = Lists.newArrayList();
+        toAdd.add(token.substring(0, splitIndex - 1));
+        res.add(toAdd);
+        if (prevTags.size() > 0 && prevTags.get(prevTags.size() - 1).startsWith("NN")) {
+          List<String> toAdd2 = Lists.newArrayList();
+          toAdd2.add(prevWords.get(prevTags.size() - 1));
+          toAdd2.add(token.substring(0, splitIndex - 1));
+          res.add(toAdd2);
+          if (prevTags.size() > 1 && prevTags.get(prevTags.size() - 2).startsWith("NN")) {
+            List<String> toAdd3 = Lists.newArrayList();
+            toAdd3.add(prevWords.get(prevTags.size() - 2));
+            toAdd3.add(prevWords.get(prevTags.size() - 1));
+            toAdd3.add(token.substring(0, splitIndex - 1));
+            res.add(toAdd3);
+          }
+        }
+      }
+      prevTags.add(tag);
+      prevWords.add(token.substring(0, splitIndex - 1));
+    }
+    return res;
+  }
+
+  /**
    * Do tokenization.
    *
-   * @param text Original text
+   * @param text
+   *          Original text
    * @return Concatenated tokenized words
    */
   public static String normalize(String text) {

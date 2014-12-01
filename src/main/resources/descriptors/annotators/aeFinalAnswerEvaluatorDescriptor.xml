@@ -12,7 +12,7 @@
     <configurationParameterSettings/>
     <typeSystemDescription>
       <imports>
-        <import location="src/main/resources/type/OAQATypes.xml"/>
+        <import location="../../type/OAQATypes.xml"/>
       </imports>
     </typeSystemDescription>
     <typePriorities/>
