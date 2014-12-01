@@ -5,7 +5,6 @@ import java.util.Set;
 
 import lombok.Data;
 
-import com.google.common.base.Joiner;
 import com.google.common.collect.Sets;
 
 @Data
@@ -13,24 +12,51 @@ public class Stats {
   private double truePositive, falsePositive, falseNegative, ap;
 
   public Stats(String type, List<String> golden, List<String> results) {
+    this(type, golden, results, false);
+  }
+
+  public Stats(String type, List<String> golden, List<String> results, boolean partialMatch) {
     if (type == "snippets") {
-//      System.out.println("for " + type);
+      // System.out.println("for " + type);
       System.out.println(" GOLDEN ARE ");
       for (String s : golden) {
         System.out.println(s);
-//        System.out.println("NEs in the golden: "
-//                + Joiner.on(" ").join(NamedEntityChunker.getInstance().chunk(s)));
+        // System.out.println("NEs in the golden: "
+        // + Joiner.on(" ").join(NamedEntityChunker.getInstance().chunk(s)));
       }
       System.out.println(" RETRIEVED ARE ");
       for (String s : results) {
         System.out.println(s);
-//        System.out.println("NEs in the retrieved: "
-//                + Joiner.on(" ").join(NamedEntityChunker.getInstance().chunk(s)));
+        // System.out.println("NEs in the retrieved: "
+        // + Joiner.on(" ").join(NamedEntityChunker.getInstance().chunk(s)));
       }
     }
-    Set<String> intersection = Sets.newLinkedHashSet(results);
-    intersection.retainAll(golden);
+    Set<String> intersection = null;
     Set<String> goldenSet = Sets.newHashSet(golden);
+    if (!partialMatch) {
+      intersection = Sets.newLinkedHashSet(results);
+      intersection.retainAll(goldenSet);
+    } else {
+      Set<String> matchedGolden = Sets.newHashSet();
+      intersection = Sets.newLinkedHashSet();
+      for (String r : results) {
+        if (goldenSet.contains(r)) {
+          intersection.add(r);
+        } else {
+          for (String g : goldenSet) {
+            if (matchedGolden.contains(g)) {
+              continue;
+            }
+            if (r.toLowerCase().contains(g.toLowerCase())) {
+              intersection.add(r);
+              matchedGolden.add(g);
+              break;
+            }
+          }
+        }
+      }
+    }
+
     truePositive = intersection.size();
     System.out.println("INTERSECTION OF " + type + " IS: " + truePositive);
     falsePositive = results.size() - truePositive;

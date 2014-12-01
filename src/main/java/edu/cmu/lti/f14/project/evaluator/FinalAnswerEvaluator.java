@@ -102,7 +102,7 @@ public class FinalAnswerEvaluator extends JCasAnnotator_ImplBase {
     }
 
     Stats ansStat = new Stats("answers", goldenAnswers, answers.stream().map(Answer::getText)
-            .collect(toList()));
+            .collect(toList()), true);
     ansStats.add(ansStat);
 
     System.out.println("answers:");
