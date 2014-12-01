@@ -2,8 +2,6 @@ package edu.cmu.lti.f14.project.util;
 
 import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 
-;
-
 public class StanfordPosTagger {
 
   private MaxentTagger tagger;

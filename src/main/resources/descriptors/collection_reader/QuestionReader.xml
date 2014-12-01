@@ -24,7 +24,7 @@
      filesystem.-->
 <collectionReaderDescription xmlns="http://uima.apache.org/resourceSpecifier">
     <frameworkImplementation>org.apache.uima.java</frameworkImplementation>
-    <implementationName>edu.cmu.lti.f14.project.QuestionReader</implementationName>
+    <implementationName>edu.cmu.lti.f14.project.pipeline.QuestionReader</implementationName>
     <processingResourceMetaData>
         <name>Json Question Collection Reader</name>
         <description/>

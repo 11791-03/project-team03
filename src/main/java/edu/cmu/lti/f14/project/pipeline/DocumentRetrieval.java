@@ -1,4 +1,4 @@
-package edu.cmu.lti.f14.project;
+package edu.cmu.lti.f14.project.pipeline;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,11 +28,11 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 
-import edu.cmu.lti.f14.project.util.CosineSimilarity;
+import edu.cmu.lti.f14.project.service.UmlsService;
+import edu.cmu.lti.f14.project.similarity.CosineSimilarity;
+import edu.cmu.lti.f14.project.similarity.Similarity;
 import edu.cmu.lti.f14.project.util.NamedEntityChunker;
 import edu.cmu.lti.f14.project.util.Normalizer;
-import edu.cmu.lti.f14.project.util.Similarity;
-import edu.cmu.lti.f14.project.util.UmlsService;
 import edu.cmu.lti.oaqa.bio.bioasq.services.GoPubMedService;
 import edu.cmu.lti.oaqa.bio.bioasq.services.PubMedSearchServiceResponse;
 import edu.cmu.lti.oaqa.type.input.Question;
@@ -55,23 +55,23 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
 
   private static Class similarityClass = CosineSimilarity.class;
 
-  private GoPubMedService service;
+  private GoPubMedService goPubMedService;
 
   private Similarity similarity;
 
   private JsonParser jsonParser = new JsonParser();
 
   /**
-   * Initialize the PubMed service.
+   * Initialize services and resources.
    */
 
   @Override
   public void initialize(UimaContext aContext) throws ResourceInitializationException {
     try {
-      service = new GoPubMedService("project.properties");
+      goPubMedService = new GoPubMedService("project.properties");
       similarity = (Similarity) similarityClass.getConstructors()[0].newInstance();
     } catch (Exception e) {
-      System.err.println("ERROR: Initialize PubMed service error in Document Retrieval.");
+      System.err.println("ERROR: Initialize PubMed goPubMedService error in Document Retrieval.");
       System.exit(1);
     }
 
@@ -92,7 +92,10 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
       PubMedSearchServiceResponse.Result pubMedResult;
 
       try {
-        pubMedResult = service
+//        pubMedResult = service
+//                .findPubMedCitations(queryExpand(question.getText(), JCasUtil.select(aJCas, Concept.class)), 0);
+////                .findPubMedCitations(query, 0);
+        pubMedResult = goPubMedService
                 .findPubMedCitations(queryExpand(question.getText(), JCasUtil.select(aJCas, Concept.class)), 0);
 //                .findPubMedCitations(query, 0);
       } catch (IOException e) {
@@ -105,10 +108,12 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
       Map<Document, Double> documentScores = new HashMap<>();
       for (PubMedSearchServiceResponse.Document pubMedDocument : pubMedResult.getDocuments()) {
         String pmid = pubMedDocument.getPmid();
-        String text = retrieveDocumentJsonText(pubMedDocument);
-        Document document = TypeFactory.createDocument(aJCas, URI_PREFIX + pmid, text, -1, query,
-                retrieveDocumentJsonText(pubMedDocument), pmid);
-        double score = similarity.computeSimilarity(text, query);
+        String jsonText = retrieveDocumentJsonText(pubMedDocument);
+        Document document = TypeFactory
+                .createDocument(aJCas, URI_PREFIX + pmid, jsonText, -1, query,
+                        retrieveDocumentJsonText(pubMedDocument), pmid);
+        double score = similarity.computeSimilarity(Normalizer.normalize(
+                pubMedDocument.getDocumentAbstract()), query);
         documentScores.put(document, score);
       }
 
@@ -139,6 +144,7 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
     String fullTextString = null;
 
     /*
+    // try to get full text
     HttpGet httpGet = new HttpGet(FULLTEXT_URI_PREFIX + pmid);
     try (CloseableHttpResponse response = httpClient.execute(httpGet)) {
       HttpEntity entity = response.getEntity();
@@ -150,8 +156,9 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
 
     JsonObject documentJson = new JsonObject();
     JsonArray sections = new JsonArray();
-    String documentAbstract = pubMedDocument.getDocumentAbstract();
-    sections.add(new JsonPrimitive(documentAbstract == null ? "" : documentAbstract));
+    if (pubMedDocument.getDocumentAbstract() != null) {
+      sections.add(new JsonPrimitive(pubMedDocument.getDocumentAbstract()));
+    }
     documentJson.addProperty("pmid", pmid);
 
     if (fullTextString != null && !fullTextString.isEmpty()) {
@@ -203,17 +210,16 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
   private String queryExpand(String originalQuery, Collection<Concept> concepts) {
     UmlsService umlsService = UmlsService.getInstance();
     List<String> nouns = Normalizer.retrieveImportantWords(originalQuery);
-    String synonyms = nouns
+    return nouns
             .stream()
             .map(s1 -> umlsService
-                            .getSynonyms(s1)
-                            .stream()
-                            .limit(5)
-                            .map(i -> '"' + i + '"')
-                            .collect(Collectors.joining(" OR ")))
+                    .getSynonyms(s1)
+                    .stream()
+                    .limit(5)
+                    .map(i -> '"' + i + '"')
+                    .collect(Collectors.joining(" OR ")))
             .map(s2 -> '(' + s2 + ')')
             .collect(Collectors.joining(" AND "));
-    return synonyms;
   }
 
   /**

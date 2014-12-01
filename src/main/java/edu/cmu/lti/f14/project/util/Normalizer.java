@@ -53,10 +53,10 @@ public class Normalizer {
   }
 
   /**
-   * Provides POS tags for normalized text.
+   * Retrieve nouns in a sentence.
    *
-   * @param text Normalized text
-   * @return A list of POS tags
+   * @param text Original text (without normalization)
+   * @return A list of nouns
    */
   public static List<String> retrieveImportantWords(String text) {
     List<String> res = Lists.newArrayList();
@@ -80,6 +80,12 @@ public class Normalizer {
     return res;
   }
 
+  /**
+   * Do tokenization.
+   *
+   * @param text Original text
+   * @return Concatenated tokenized words
+   */
   public static String normalize(String text) {
     return String.join(" ", tokenize(text));
   }

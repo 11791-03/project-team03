@@ -2,7 +2,7 @@
 
 <analysisEngineDescription xmlns="http://uima.apache.org/resourceSpecifier">
   <frameworkImplementation>org.apache.uima.java</frameworkImplementation>
-  <primitive>true</primitive>  <annotatorImplementationName>edu.cmu.lti.f14.project.FinalAnswerEvaluator</annotatorImplementationName>
+  <primitive>true</primitive>  <annotatorImplementationName>edu.cmu.lti.f14.project.evaluator.FinalAnswerEvaluator</annotatorImplementationName>
   <analysisEngineMetaData>
     <name>aeFinalAnswerEvaluatorDescriptor</name>
     <description/>

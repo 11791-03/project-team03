@@ -1,4 +1,4 @@
-package edu.cmu.lti.f14.project.util;
+package edu.cmu.lti.f14.project.similarity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,9 +10,10 @@ import java.util.Map;
 public class CosineSimilarity extends Similarity {
 
   public static void main(String[] args) {
-    System.out.println(new CosineSimilarity().computeSimilarity("A B C D", "C D E F ")); // should be 0.5
+    System.out.println(new CosineSimilarity().computeSimilarity("A B C D", "C D E F ")); // should
+                                                                                         // be 0.5
   }
-  
+
   @Override
   public double computeSimilarity(String s1, String s2) {
     Map<String, Integer> m1 = tokenize(s1);
@@ -20,13 +21,14 @@ public class CosineSimilarity extends Similarity {
     ArrayList<String> tokensUnion = getTokensUnion(m1, m2);
     return computeCosineSimilarity(getVector(m1, tokensUnion), getVector(m2, tokensUnion));
   }
-  private Map<String, Integer> tokenize(String str)
-  {
+
+  private Map<String, Integer> tokenize(String str) {
     Map<String, Integer> res = new HashMap<>();
     List<String> tokens1 = Arrays.asList(str.split(" "));
     tokens1.stream().forEach(s -> res.put(s, Collections.frequency(tokens1, s)));
     return res;
   }
+
   /**
    * This function is used in computing the cosine similarities. It computes the union of two tokens
    * list.
@@ -37,18 +39,10 @@ public class CosineSimilarity extends Similarity {
    */
   private ArrayList<String> getTokensUnion(Map<String, Integer> map, Map<String, Integer> map2) {
     ArrayList<String> res = new ArrayList<String>();
-    for (String ts : map.keySet()) {
-      if (!res.contains(ts)) // This if is redundant because tokens should be unique in the
-                             // first place.
-      {
-        res.add(ts);
-      }
-    }
-    for (String ts : map2.keySet()) {
-      if (!res.contains(ts)) {
-        res.add(ts);
-      }
-    }
+    // This if is redundant because tokens should be unique in the
+    // first place.
+    map.keySet().stream().filter(ts -> !res.contains(ts)).forEach(res::add);
+    map2.keySet().stream().filter(ts -> !res.contains(ts)).forEach(res::add);
     return res;
   }
 
@@ -56,14 +50,14 @@ public class CosineSimilarity extends Similarity {
    * This method create the vector as a {@link HashMap} by taking an existing vector and a union of
    * tokens.
    * 
-   * @param map
+   * @param token
    * @param tokensUnion
    * @return
    */
   private Map<String, Integer> getVector(Map<String, Integer> token, ArrayList<String> tokensUnion) {
     Map<String, Integer> vector = new HashMap<String, Integer>();
 
-    boolean found = false;
+    boolean found;
     for (String s : tokensUnion) {
       found = false;
       for (String t : token.keySet()) {
@@ -90,8 +84,8 @@ public class CosineSimilarity extends Similarity {
     double ab = 0;
     double a2 = 0;
     double b2 = 0;
-    double ai = 0;
-    double bi = 0;
+    double ai;
+    double bi;
     for (String s : queryVector.keySet()) {
       ai = queryVector.get(s);
       bi = docVector.get(s);
@@ -101,5 +95,4 @@ public class CosineSimilarity extends Similarity {
     }
     return ab / (Math.sqrt(a2) * Math.sqrt(b2));
   }
-
 }
