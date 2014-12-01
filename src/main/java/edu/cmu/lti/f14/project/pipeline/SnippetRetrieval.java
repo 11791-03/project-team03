@@ -1,5 +1,23 @@
 package edu.cmu.lti.f14.project.pipeline;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.apache.uima.UimaContext;
+import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
+import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
+import org.apache.uima.cas.FeatureStructure;
+import org.apache.uima.fit.util.JCasUtil;
+import org.apache.uima.jcas.JCas;
+import org.apache.uima.resource.ResourceInitializationException;
+
+import util.TypeFactory;
+
 import com.aliasi.chunk.Chunk;
 import com.aliasi.chunk.Chunking;
 import com.aliasi.sentences.MedlineSentenceModel;
@@ -8,27 +26,19 @@ import com.aliasi.sentences.SentenceModel;
 import com.aliasi.tokenizer.IndoEuropeanTokenizerFactory;
 import com.aliasi.tokenizer.Tokenizer;
 import com.aliasi.tokenizer.TokenizerFactory;
+import com.google.common.collect.Sets;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import edu.cmu.lti.f14.project.util.NamedEntityChunker;
+
 import edu.cmu.lti.f14.project.similarity.Similarity;
 import edu.cmu.lti.f14.project.similarity.Word2VecSimilarity;
+import edu.cmu.lti.f14.project.util.NamedEntityChunker;
 import edu.cmu.lti.oaqa.type.input.Question;
 import edu.cmu.lti.oaqa.type.kb.Concept;
+import edu.cmu.lti.oaqa.type.retrieval.ConceptSearchResult;
 import edu.cmu.lti.oaqa.type.retrieval.Document;
-import org.apache.uima.UimaContext;
-import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
-import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
-import org.apache.uima.cas.FeatureStructure;
-import org.apache.uima.fit.util.JCasUtil;
-import org.apache.uima.jcas.JCas;
-import org.apache.uima.resource.ResourceInitializationException;
-import util.TypeFactory;
-
-import java.lang.reflect.InvocationTargetException;
-import java.util.*;
-import java.util.stream.Collectors;
+import gov.nih.nlm.uts.webservice.content.GetConcept;
 
 /**
  * Snippet retrieval component in pipeline.
@@ -37,7 +47,7 @@ import java.util.stream.Collectors;
  */
 public class SnippetRetrieval extends JCasAnnotator_ImplBase {
 
-  private static final int TOP_K = 20;
+  private static final int TOP_K = 50;
 
   private static final TokenizerFactory TOKENIZER_FACTORY = IndoEuropeanTokenizerFactory.INSTANCE;
 
@@ -84,15 +94,21 @@ public class SnippetRetrieval extends JCasAnnotator_ImplBase {
       List<String> nesInQuery = NamedEntityChunker.getInstance().chunk(preprocessedQuery);
 
       Collection<Document> documents = JCasUtil.select(aJCas, Document.class);
-      Collection<Concept> concepts = JCasUtil.select(aJCas, Concept.class);
+      Collection<ConceptSearchResult> concepts = JCasUtil.select(aJCas, ConceptSearchResult.class);
 
       List<Sentence> sentences = new ArrayList<>();
 
-      String concatenatedConcepts = concepts
+      Set<String> conceptNames = Sets.newHashSet();
+      for(ConceptSearchResult c:concepts) {
+        conceptNames.add(c.getConcept().getName());
+        System.out.println("> " + c.getConcept().getName());
+      }
+//      String concatenatedConcepts = Joiner.on(" ").join(conceptNames);
+      List<String> cl = new ArrayList<String>(conceptNames);
+      String concatenatedConcepts = cl
               .stream()
-              .map(Concept::getName)
-              .collect(Collectors.joining(" "));
-
+              .collect(Collectors.joining(" ")).replace("\"", "");
+      System.out.println(">> concatenated concepts: " + concatenatedConcepts);
       for (Document document : documents) {
         JsonObject jsonText = jsonParser.parse(document.getText()).getAsJsonObject();
         JsonArray sections = jsonText.getAsJsonArray("sections");
@@ -152,8 +168,8 @@ public class SnippetRetrieval extends JCasAnnotator_ImplBase {
         }
       }
       Collections.sort(sentences);
-      for (Sentence s : sentences)
-        System.out.println(s.score);
+//      for (Sentence s : sentences)
+//        System.out.println(s.score);
       Sentence s;
       for (int i = 0; i < Math.min(TOP_K, sentences.size()); i++) {
         Sentence sentence = sentences.get(i);

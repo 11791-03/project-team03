@@ -108,6 +108,8 @@ public class QuestionReader extends CollectionReader_ImplBase {
     } catch (CASException e) {
       throw new CollectionException(e);
     }
+    
+    System.out.println("\n\n PROCESSING QUESTION: " + currentIndex + "\n\n");
 
     TestQuestion testQuestion = questions.get(currentIndex++);
 

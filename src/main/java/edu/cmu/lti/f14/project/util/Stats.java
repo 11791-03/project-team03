@@ -13,8 +13,8 @@ public class Stats {
   private double truePositive, falsePositive, falseNegative, ap;
 
   public Stats(String type, List<String> golden, List<String> results) {
-    if (true) {
-      System.out.println("for " + type);
+    if (type == "snippets") {
+//      System.out.println("for " + type);
       System.out.println(" GOLDEN ARE ");
       for (String s : golden) {
         System.out.println(s);
@@ -32,7 +32,7 @@ public class Stats {
     intersection.retainAll(golden);
     Set<String> goldenSet = Sets.newHashSet(golden);
     truePositive = intersection.size();
-    System.out.println("INTERSECTION IS: " + truePositive);
+    System.out.println("INTERSECTION OF " + type + " IS: " + truePositive);
     falsePositive = results.size() - truePositive;
     falseNegative = golden.size() - truePositive;
     int trueCount = 0;

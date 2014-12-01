@@ -82,8 +82,8 @@ public class InformationRetrievalEvaluator extends JCasAnnotator_ImplBase {
       goldenResult = goldenStandards.get(questionId);
 
       System.out.println("Query: " + q.getPreprocessedText());
-      System.out.println("NEs in the query: "
-              + Joiner.on(" ").join(NamedEntityChunker.getInstance().chunk(q.getPreprocessedText())));
+//      System.out.println("NEs in the query: "
+//              + Joiner.on(" ").join(NamedEntityChunker.getInstance().chunk(q.getPreprocessedText())));
 
     }
 
