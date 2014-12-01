@@ -7,14 +7,43 @@ import lombok.Data;
 
 import com.google.common.collect.Sets;
 
+/**
+ * Statistics helper class
+ * 
+ * @author chucheng
+ *
+ */
 @Data
 public class Stats {
   private double truePositive, falsePositive, falseNegative, ap;
 
+  /**
+   * constructs a new Stats object. items must match exactly to be considered the same
+   * 
+   * @param type
+   *          indicator string of the type e.g. "document", "answer"
+   * @param golden
+   *          list of string representations of the ground truth
+   * @param results
+   *          list of string representations of the retrieved results
+   */
   public Stats(String type, List<String> golden, List<String> results) {
     this(type, golden, results, false);
   }
 
+  /**
+   * constructs a new Stats object. if partialMatch is set to true, results that contains ground
+   * truth as substrings are also considered as matches.
+   * 
+   * @param type
+   *          indicator string of the type e.g. "document", "answer"
+   * @param golden
+   *          list of string representations of the ground truth
+   * @param results
+   *          list of string representations of the retrieved results
+   * @param partialMatch
+   *          whether we use partial match or not
+   */
   public Stats(String type, List<String> golden, List<String> results, boolean partialMatch) {
     if (type == "snippets") {
       // System.out.println("for " + type);
@@ -39,11 +68,15 @@ public class Stats {
         if (goldenSet.contains(r) && !matchedGolden.contains(r)) {
           intersection.add(r);
           matchedGolden.add(r);
-        } else {
+        } else { // partial match
           for (String g : goldenSet) {
+
+            // do not match matched ground truth again
             if (matchedGolden.contains(g)) {
               continue;
             }
+
+            // compare in lower case
             if (r.toLowerCase().contains(g.toLowerCase())) {
               intersection.add(r);
               matchedGolden.add(g);
@@ -68,25 +101,65 @@ public class Stats {
     ap /= golden.size();
   }
 
+  /**
+   * computes recall from a list of Stats
+   * 
+   * @param l
+   *          list of Stats
+   * @return recall
+   */
   public static double calculateRecall(List<Stats> l) {
     return l.stream().mapToDouble(s -> s.getTruePositive()).sum()
             / l.stream().mapToDouble(s -> s.getTruePositive() + s.getFalseNegative()).sum();
   }
 
+  /**
+   * computes precision from a list of Stats
+   * 
+   * @param l
+   *          list of Stats
+   * @return precision
+   */
   public static double calculatePrecision(List<Stats> l) {
     return l.stream().mapToDouble(s -> s.getTruePositive()).sum()
             / l.stream().mapToDouble(s -> s.getTruePositive() + s.getFalsePositive()).sum();
   }
 
+  /**
+   * computes MAP from a list of Stats
+   * 
+   * @param l
+   *          list of Stats
+   * @return MAP
+   */
   public static double calculateMAP(List<Stats> l) {
     return l.stream().mapToDouble(s -> s.getAp()).average().orElse(Double.NaN);
   }
 
+  /**
+   * computes GMAP from a list of Stats
+   * 
+   * @param l
+   *          list of Stats
+   * @param EPSILON
+   *          minimum value even if AP equals 0
+   * @return
+   */
   public static double calculateGMAP(List<Stats> l, final double EPSILON) {
     return Math.exp(l.stream().mapToDouble(s -> Math.log(s.getAp() + EPSILON)).average()
             .orElse(Double.NaN));
   }
 
+  /**
+   * prints precision, recall, F1, MAP, GMAP
+   * 
+   * @param s
+   *          list of Stats
+   * @param type
+   *          type of items
+   * @param EPSILON
+   *          minimum value even if AP equals 0
+   */
   public static void printStats(List<Stats> s, String type, final double EPSILON) {
     double precision = Stats.calculatePrecision(s);
     double recall = Stats.calculateRecall(s);
