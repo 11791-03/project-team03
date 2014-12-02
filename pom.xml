@@ -176,6 +176,14 @@
     </scm>
     <repositories>
         <repository>
+            <id>oaqa</id>
+            <url>http://mu.lti.cs.cmu.edu:8081/nexus/content/groups/course</url>
+        </repository>
+        <repository>
+            <id>oaqa-public</id>
+            <url>http://mu.lti.cs.cmu.edu:8081/nexus/content/groups/public</url>
+        </repository>
+        <repository>
             <id>julman99-github</id>
             <url>https://raw.github.com/julman99/mvn-repo/master</url>
         </repository>
