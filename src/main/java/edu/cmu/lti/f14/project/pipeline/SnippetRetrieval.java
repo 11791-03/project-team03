@@ -163,6 +163,7 @@ public class SnippetRetrieval extends JCasAnnotator_ImplBase {
           }
         }
       }
+
       Collections.sort(sentences);
       for (int i = 0; i < Math.min(TOP_K, sentences.size()); i++) {
         Sentence sentence = sentences.get(i);
@@ -178,6 +179,9 @@ public class SnippetRetrieval extends JCasAnnotator_ImplBase {
     }
   }
 
+  /**
+   * Helper class to store the sentence information.
+   */
   private class Sentence implements Comparable<Sentence> {
     public Chunk boundary;
 

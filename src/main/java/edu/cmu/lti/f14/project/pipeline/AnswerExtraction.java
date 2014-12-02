@@ -1,5 +1,6 @@
 package edu.cmu.lti.f14.project.pipeline;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import edu.cmu.lti.f14.project.similarity.Similarity;
 import edu.cmu.lti.f14.project.similarity.Word2VecSimilarity;
@@ -48,8 +49,7 @@ public class AnswerExtraction extends JCasAnnotator_ImplBase {
    * For every question, retrieve its snippets, recognize candidate answers and sort them by their
    * similarities with the question text.
    *
-   * @param aJCas
-   *          CAS structure
+   * @param aJCas CAS structure
    * @throws AnalysisEngineProcessException
    */
   @Override
@@ -77,7 +77,8 @@ public class AnswerExtraction extends JCasAnnotator_ImplBase {
       List<String> sortedCandidates = selectEntitiesWithEmbeddings(candidateRank, query);
 
       for (int i = 0; i < sortedCandidates.size(); i++) {
-        TypeFactory.createAnswer(aJCas, sortedCandidates.get(i), null, i + 1).addToIndexes();
+        TypeFactory.createAnswer(aJCas, sortedCandidates.get(i), Lists.newArrayList(), i + 1)
+                .addToIndexes();
       }
     }
   }
@@ -86,13 +87,12 @@ public class AnswerExtraction extends JCasAnnotator_ImplBase {
    * Select candidate answers by the order of their scores calculated based on similarity and
    * corresponding snippet rank.
    *
-   * @param candidateRank
-   *          A list of noun candidate answers
-   * @param query
-   *          The query text contained in the question
+   * @param candidateRank A list of noun candidate answers
+   * @param query         The query text contained in the question
    * @return Sorted candidates by the word2vec similarity with the query
    */
-  public List<String> selectEntitiesWithEmbeddings(Map<String, Integer> candidateRank, String query) {
+  public List<String> selectEntitiesWithEmbeddings(Map<String, Integer> candidateRank,
+          String query) {
     Map<String, Double> candidateScoreMap = candidateRank
             .entrySet()
             .stream()
@@ -105,6 +105,8 @@ public class AnswerExtraction extends JCasAnnotator_ImplBase {
 
     int rank = 1;
     for (Map.Entry<String, Double> entry : candidateScoreList) {
+      if (rank > 200)
+        break;
       System.out.println(String.format("\t%d: %s -\t%f", rank++, entry.getKey(), entry.getValue()));
     }
 
@@ -118,12 +120,9 @@ public class AnswerExtraction extends JCasAnnotator_ImplBase {
   /**
    * Calculated score for answer candidate discounted on the corresponding snippet rank.
    *
-   * @param candidate
-   *          Candidate answer, usually are nouns or named entities
-   * @param toCompare
-   *          The string to compare, usually is the original query
-   * @param rank
-   *          Corresponding rank for candidate answer
+   * @param candidate Candidate answer, usually are nouns or named entities
+   * @param toCompare The string to compare, usually is the original query
+   * @param rank      Corresponding rank for candidate answer
    * @return A discounted score based on candidate's similarity and rank of source snippet
    */
   public double discountedScore(String candidate, String toCompare, int rank) {
