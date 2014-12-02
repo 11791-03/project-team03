@@ -35,6 +35,8 @@ import static java.util.stream.Collectors.toList;
  */
 public class DocumentRetrieval extends JCasAnnotator_ImplBase {
 
+  private static final int TOP_K = 100;
+
   private static final String PUBMED_URI_PREFIX = "http://www.ncbi.nlm.nih.gov/pubmed/";
 
   private static final String FULLTEXT_URI_PREFIX = "http://metal.lti.cs.cmu.edu:30002/pmc/";
@@ -85,10 +87,10 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
       try {
         pubMedDocuments = goPubMedService
                 .findPubMedCitations(
-                        queryExpand(originalQuery), 0).getDocuments();
+                        queryExpand(originalQuery), 0, TOP_K).getDocuments();
         if (pubMedDocuments.isEmpty()) {
           // re-formulate the query and search again
-          pubMedDocuments = goPubMedService.findPubMedCitations(queryFormulate(originalQuery), 0)
+          pubMedDocuments = goPubMedService.findPubMedCitations(queryFormulate(originalQuery), 0, TOP_K)
                   .getDocuments();
         }
       } catch (IOException e) {

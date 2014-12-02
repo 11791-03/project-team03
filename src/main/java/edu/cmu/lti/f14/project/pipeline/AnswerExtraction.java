@@ -1,16 +1,12 @@
 package edu.cmu.lti.f14.project.pipeline;
 
-import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toMap;
-import static java.util.stream.Collectors.toSet;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+import com.google.common.collect.Maps;
+import edu.cmu.lti.f14.project.similarity.Similarity;
+import edu.cmu.lti.f14.project.similarity.Word2VecSimilarity;
+import edu.cmu.lti.f14.project.util.AbnerChunker;
+import edu.cmu.lti.f14.project.util.Normalizer;
+import edu.cmu.lti.oaqa.type.input.Question;
+import edu.cmu.lti.oaqa.type.retrieval.Passage;
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
@@ -18,17 +14,11 @@ import org.apache.uima.cas.FeatureStructure;
 import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
-
 import util.TypeFactory;
 
-import com.google.common.collect.Maps;
+import java.util.*;
 
-import edu.cmu.lti.f14.project.similarity.Similarity;
-import edu.cmu.lti.f14.project.similarity.Word2VecSimilarity;
-import edu.cmu.lti.f14.project.util.AbnerChunker;
-import edu.cmu.lti.f14.project.util.Normalizer;
-import edu.cmu.lti.oaqa.type.input.Question;
-import edu.cmu.lti.oaqa.type.retrieval.Passage;
+import static java.util.stream.Collectors.*;
 
 /**
  * Answer extraction analysis engine.
@@ -113,7 +103,16 @@ public class AnswerExtraction extends JCasAnnotator_ImplBase {
             candidateScoreMap.entrySet());
     Collections.sort(candidateScoreList, (e1, e2) -> e2.getValue().compareTo(e1.getValue()));
 
-    return candidateScoreList.stream().map(Map.Entry::getKey).limit(TOK_K).collect(toList());
+    int rank = 1;
+    for (Map.Entry<String, Double> entry : candidateScoreList) {
+      System.out.println(String.format("\t%d: %s -\t%f", rank++, entry.getKey(), entry.getValue()));
+    }
+
+    return candidateScoreList
+            .stream()
+            .map(Map.Entry::getKey)
+            .limit(TOK_K)
+            .collect(toList());
   }
 
   /**
