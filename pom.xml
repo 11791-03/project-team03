@@ -14,7 +14,6 @@
 				<version>2.2</version>
 			</extension>
 		</extensions>
-
 		<pluginManagement>
 			<plugins>
 				<plugin>
@@ -192,6 +191,23 @@
 		<connection>scm:git:git@github.com:11791-03/project-team03.git</connection>
 		<developerConnection>scm:git:git@github.com:11791-03/project-team03.git
         </developerConnection>
+<<<<<<< HEAD
+        <tag>project-team03-0.1.0</tag>
+    </scm>
+    <repositories>
+        <repository>
+            <id>oaqa</id>
+            <url>http://mu.lti.cs.cmu.edu:8081/nexus/content/groups/course</url>
+        </repository>
+        <repository>
+            <id>oaqa-public</id>
+            <url>http://mu.lti.cs.cmu.edu:8081/nexus/content/groups/public</url>
+        </repository>
+        <repository>
+            <id>julman99-github</id>
+            <url>https://raw.github.com/julman99/mvn-repo/master</url>
+        </repository>
+=======
 		<tag>project-team03-0.1.0</tag>
 	</scm>
 	<repositories>
@@ -207,6 +223,7 @@
 			<id>julman99-github</id>
 			<url>https://raw.github.com/julman99/mvn-repo/master</url>
 		</repository>
+>>>>>>> 6a44874bf4261df74a00e644660d4ff198697dbc
 
 		<repository>
 			<id>oaqa2</id>
