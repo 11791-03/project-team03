@@ -48,9 +48,9 @@ public class SnippetRetrieval extends JCasAnnotator_ImplBase {
   private static final SentenceChunker SENTENCE_CHUNKER = new SentenceChunker(TOKENIZER_FACTORY,
           SENTENCE_MODEL);
 
-  private static final double simWithQuestionWeight = 1;
+  private static final double simWithQuestionWeight = 0;
 
-  private static final double simWithConceptsWeight = 0;
+  private static final double simWithConceptsWeight = 1;
 
   private static final double simWithEntitiesWeight = 0;
 
