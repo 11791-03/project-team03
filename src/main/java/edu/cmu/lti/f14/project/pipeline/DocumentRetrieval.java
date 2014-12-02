@@ -35,7 +35,7 @@ import static java.util.stream.Collectors.toList;
  */
 public class DocumentRetrieval extends JCasAnnotator_ImplBase {
 
-  private static final int TOP_K = 100;
+  private static final int TOP_K = 150;
 
   private static final String PUBMED_URI_PREFIX = "http://www.ncbi.nlm.nih.gov/pubmed/";
 

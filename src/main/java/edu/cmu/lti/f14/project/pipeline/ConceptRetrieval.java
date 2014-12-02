@@ -5,6 +5,7 @@ import edu.cmu.lti.oaqa.bio.bioasq.services.OntologyServiceResponse;
 import edu.cmu.lti.oaqa.bio.bioasq.services.OntologyServiceResponse.Concept;
 import edu.cmu.lti.oaqa.bio.bioasq.services.OntologyServiceResponse.Finding;
 import edu.cmu.lti.oaqa.type.input.Question;
+import edu.cmu.lti.oaqa.type.retrieval.ConceptSearchResult;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
@@ -86,8 +87,9 @@ public class ConceptRetrieval extends JCasAnnotator_ImplBase {
           scoredConcepts.add(new ScoredConcept(finding));
         }
         Collections.sort(scoredConcepts);
+        int rank = 1;
         for (ScoredConcept c : scoredConcepts) {
-          createConcept(aJCas, c.finding.getConcept(), c.score);
+          createConcept(aJCas, c.finding.getConcept(), c.score, rank++);
         }
       } catch (IOException e) {
         e.printStackTrace();
@@ -96,12 +98,14 @@ public class ConceptRetrieval extends JCasAnnotator_ImplBase {
     }
   }
 
-  private void createConcept(JCas jcas, Concept c, double score) {
+  private void createConcept(JCas jcas, Concept c, double score, int rank) {
     if (score > 0.15) {
       conceptsSoFar.add(c.getLabel().toLowerCase());
       String uri = c.getUri().replace("2014", "2012");
-      TypeFactory.createConceptSearchResult(jcas,
-              TypeFactory.createConcept(jcas, c.getLabel(), uri), uri).addToIndexes();
+      ConceptSearchResult conceptSearchResult = TypeFactory.createConceptSearchResult(jcas,
+              TypeFactory.createConcept(jcas, c.getLabel(), uri), uri);
+      conceptSearchResult.setRank(rank);
+      conceptSearchResult.addToIndexes();
     }
   }
 
