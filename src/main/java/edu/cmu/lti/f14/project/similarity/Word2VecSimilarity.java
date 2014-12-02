@@ -26,7 +26,8 @@ public class Word2VecSimilarity extends Similarity {
     try {
       return service.getSimilarity(s1, s2);
     } catch (NonReadableChannelException e) {
-      System.out.println("ERROR: server not running.");
+      System.out.println(
+              "ERROR: server not running. Please contact Mohammad Gowayyed (gowayyed@cs.cmu.edu) to make sure it is running! You need to run it from inside CMU network. We apologize for this!");
       System.exit(1);
       return 0;
     }
