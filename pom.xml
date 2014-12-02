@@ -179,8 +179,8 @@
 	</dependencies>
 
 	<scm>
-		<connection>scm:git:git@github.com:oaqa/DEIIS-project-archetype.git</connection>
-		<developerConnection>scm:git:git@github.com:oaqa/DEIIS-project-archetype.git
+		<connection>scm:git:git@github.com:11791-03/project-team03.git</connection>
+		<developerConnection>scm:git:git@github.com:11791-03/project-team03.git
         </developerConnection>
 		<tag>project-team03-0.1.0</tag>
 	</scm>
