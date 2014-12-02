@@ -119,10 +119,13 @@ public class DocumentRetrieval extends JCasAnnotator_ImplBase {
       // sort document by its score
       List<Map.Entry<Document, Double>> scoreList = new ArrayList<>(documentScores.entrySet());
       Collections.sort(scoreList, (e1, e2) -> e2.getValue().compareTo(e1.getValue()));
-      scoreList
-              .stream()
-              .map(Map.Entry::getKey)
-              .forEach(Document::addToIndexes);
+      int rank = 1;
+      for (Map.Entry<Document, Double> entry : scoreList) {
+        Document d = entry.getKey();
+        d.setRank(rank++);
+        d.addToIndexes();
+      }
+
       System.out.println("Retrieved Document: " + scoreList.size());
     }
   }
