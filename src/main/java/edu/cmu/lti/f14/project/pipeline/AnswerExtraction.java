@@ -1,12 +1,16 @@
 package edu.cmu.lti.f14.project.pipeline;
 
-import com.google.common.collect.Maps;
-import edu.cmu.lti.f14.project.similarity.Similarity;
-import edu.cmu.lti.f14.project.similarity.Word2VecSimilarity;
-import edu.cmu.lti.f14.project.util.AbnerChunker;
-import edu.cmu.lti.f14.project.util.Normalizer;
-import edu.cmu.lti.oaqa.type.input.Question;
-import edu.cmu.lti.oaqa.type.retrieval.Passage;
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
+import static java.util.stream.Collectors.toSet;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
@@ -14,11 +18,17 @@ import org.apache.uima.cas.FeatureStructure;
 import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
+
 import util.TypeFactory;
 
-import java.util.*;
+import com.google.common.collect.Maps;
 
-import static java.util.stream.Collectors.*;
+import edu.cmu.lti.f14.project.similarity.Similarity;
+import edu.cmu.lti.f14.project.similarity.Word2VecSimilarity;
+import edu.cmu.lti.f14.project.util.AbnerChunker;
+import edu.cmu.lti.f14.project.util.Normalizer;
+import edu.cmu.lti.oaqa.type.input.Question;
+import edu.cmu.lti.oaqa.type.retrieval.Passage;
 
 /**
  * Answer extraction analysis engine.
@@ -45,10 +55,11 @@ public class AnswerExtraction extends JCasAnnotator_ImplBase {
   }
 
   /**
-   * For every question, retrieve its snippets, recognize candidate answers
-   * and sort them by their similarities with the question text.
+   * For every question, retrieve its snippets, recognize candidate answers and sort them by their
+   * similarities with the question text.
    *
-   * @param aJCas CAS structure
+   * @param aJCas
+   *          CAS structure
    * @throws AnalysisEngineProcessException
    */
   @Override
@@ -57,9 +68,7 @@ public class AnswerExtraction extends JCasAnnotator_ImplBase {
     for (FeatureStructure featureStructure : aJCas.getAnnotationIndex(Question.type)) {
       Question question = (Question) featureStructure;
       String query = question.getPreprocessedText();
-      Set<String> wordsInQuery = Arrays.asList(query.split(" "))
-              .stream()
-              .collect(toSet());
+      Set<String> wordsInQuery = Arrays.asList(query.split(" ")).stream().collect(toSet());
 
       Map<String, Integer> candidateRank = Maps.newHashMap();
       for (Passage passage : JCasUtil.select(aJCas, Passage.class)) {
@@ -67,56 +76,55 @@ public class AnswerExtraction extends JCasAnnotator_ImplBase {
         int rank = passage.getRank();
         List<List<String>> nouns = Normalizer.retrieveNGrams(text);
         // add n-grams to candidates
-        nouns
-                .stream()
-                .filter(nameList -> !wordsInQuery.containsAll(nameList))
+        nouns.stream().filter(nameList -> !wordsInQuery.containsAll(nameList))
                 .map(nameList -> String.join(" ", nameList))
                 .forEach(noun -> candidateRank.put(noun, rank));
         // add NEs to candidates
-        AbnerChunker.getInstance().chunk(text)
-                .stream()
-                .filter(n -> !wordsInQuery.contains(n))
+        AbnerChunker.getInstance().chunk(text).stream().filter(n -> !wordsInQuery.contains(n))
                 .forEach(n -> candidateRank.put(n, rank));
       }
 
       List<String> sortedCandidates = selectEntitiesWithEmbeddings(candidateRank, query);
-      sortedCandidates
-              .forEach(c -> TypeFactory.createAnswer(aJCas, c).addToIndexes());
+
+      for (int i = 0; i < sortedCandidates.size(); i++) {
+        TypeFactory.createAnswer(aJCas, sortedCandidates.get(i), null, i + 1).addToIndexes();
+      }
     }
   }
 
   /**
-   * Select candidate answers by the order of their scores calculated
-   * based on similarity and corresponding snippet rank.
+   * Select candidate answers by the order of their scores calculated based on similarity and
+   * corresponding snippet rank.
    *
-   * @param candidateRank A list of noun candidate answers
-   * @param query         The query text contained in the question
+   * @param candidateRank
+   *          A list of noun candidate answers
+   * @param query
+   *          The query text contained in the question
    * @return Sorted candidates by the word2vec similarity with the query
    */
-  public List<String> selectEntitiesWithEmbeddings(Map<String, Integer> candidateRank,
-          String query) {
+  public List<String> selectEntitiesWithEmbeddings(Map<String, Integer> candidateRank, String query) {
     Map<String, Double> candidateScoreMap = candidateRank
             .entrySet()
             .stream()
-            .collect(toMap(Map.Entry::getKey,
-                    entry -> discountedScore(entry.getKey(), query, entry.getValue())));
+            .collect(
+                    toMap(Map.Entry::getKey,
+                            entry -> discountedScore(entry.getKey(), query, entry.getValue())));
     List<Map.Entry<String, Double>> candidateScoreList = new ArrayList<>(
             candidateScoreMap.entrySet());
     Collections.sort(candidateScoreList, (e1, e2) -> e2.getValue().compareTo(e1.getValue()));
 
-    return candidateScoreList
-            .stream()
-            .map(Map.Entry::getKey)
-            .limit(TOK_K)
-            .collect(toList());
+    return candidateScoreList.stream().map(Map.Entry::getKey).limit(TOK_K).collect(toList());
   }
 
   /**
    * Calculated score for answer candidate discounted on the corresponding snippet rank.
    *
-   * @param candidate Candidate answer, usually are nouns or named entities
-   * @param toCompare The string to compare, usually is the original query
-   * @param rank      Corresponding rank for candidate answer
+   * @param candidate
+   *          Candidate answer, usually are nouns or named entities
+   * @param toCompare
+   *          The string to compare, usually is the original query
+   * @param rank
+   *          Corresponding rank for candidate answer
    * @return A discounted score based on candidate's similarity and rank of source snippet
    */
   public double discountedScore(String candidate, String toCompare, int rank) {
