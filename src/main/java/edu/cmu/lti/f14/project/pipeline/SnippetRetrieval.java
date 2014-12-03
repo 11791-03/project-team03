@@ -94,6 +94,8 @@ public class SnippetRetrieval extends JCasAnnotator_ImplBase {
                 .distinct()
                 .collect(Collectors.joining(" "))
                 .replace("\"", "");
+        if (concatenatedConcepts.length() > 300)
+          concatenatedConcepts = concatenatedConcepts.substring(0, 300);
       }
 
       // build NEs in the query
